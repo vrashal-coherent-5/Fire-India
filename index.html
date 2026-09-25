@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fire & Drone Ecosystem Intelligence Hub | Coherent Market Insights</title>
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#163a5f; --navy-2:#0e2742; --navy-3:#0a1c31;
+    --ink:#0f1f33; --muted:#5b6b7f; --line:#e3e9f1; --bg:#f4f7fb;
+    --fire-1:#ff7a18; --fire-2:#e0263a; --fire-soft:#fff1ea;
+    --drone-1:#16b3c7; --drone-2:#3b5bdb; --drone-soft:#e9f6fb;
+    --accent-1:var(--fire-1); --accent-2:var(--fire-2); --accent-soft:var(--fire-soft);
+    --radius:16px;
+  }
+  body.drone{ --accent-1:var(--drone-1); --accent-2:var(--drone-2); --accent-soft:var(--drone-soft); }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+
+  /* ---------- Header ---------- */
+  header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);backdrop-filter:saturate(180%) blur(12px);border-bottom:1px solid var(--line)}
+  .bar{max-width:1320px;margin:0 auto;padding:14px 32px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+  .brand img{height:44px;display:block}
+  .bar-right{display:flex;align-items:center;gap:18px;font-size:13px;color:var(--muted);font-weight:500}
+  .pill{display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border:1px solid var(--line);border-radius:999px;background:#fff}
+  .dot{width:8px;height:8px;border-radius:50%;background:#22c55e;box-shadow:0 0 0 4px rgba(34,197,94,.15)}
+
+  /* ---------- Hero ---------- */
+  .hero{position:relative;overflow:hidden;color:#fff;background:radial-gradient(1200px 500px at 85% -10%,rgba(22,179,199,.35),transparent 60%),radial-gradient(900px 500px at 5% 110%,rgba(255,122,24,.28),transparent 60%),linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 55%,var(--navy-3) 100%)}
+  .hero::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:44px 44px;mask-image:linear-gradient(180deg,#000 20%,transparent 95%)}
+  .hero-inner{position:relative;max-width:1320px;margin:0 auto;padding:64px 32px 110px;display:grid;grid-template-columns:1.35fr 1fr;gap:48px;align-items:center}
+  .eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:#bfe9f0;padding:7px 14px;border:1px solid rgba(255,255,255,.18);border-radius:999px;background:rgba(255,255,255,.06)}
+  .hero h1{font-size:clamp(32px,4.2vw,52px);line-height:1.08;font-weight:800;letter-spacing:-.02em;margin:20px 0 18px}
+  .hero h1 .grad{background:linear-gradient(90deg,#ffb36b,#ff6b6b 40%,#6ee7f5 75%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero p{font-size:17px;line-height:1.65;color:#c9d6e6;max-width:620px}
+  .stats{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+  .stat{padding:22px;border-radius:var(--radius);background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);backdrop-filter:blur(6px)}
+  .stat b{display:block;font-size:34px;font-weight:800;letter-spacing:-.02em}
+  .stat span{font-size:13px;color:#b6c5d8;font-weight:500}
+
+  /* ---------- Main ---------- */
+  main{max-width:1320px;margin:-64px auto 0;padding:0 32px 72px;position:relative}
+  .panel{background:#fff;border:1px solid var(--line);border-radius:20px;box-shadow:0 20px 50px -20px rgba(15,31,51,.25);padding:10px}
+  .tabs{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .tab{all:unset;cursor:pointer;display:flex;align-items:center;gap:16px;padding:18px 22px;border-radius:14px;transition:.25s;border:1px solid transparent}
+  .tab:hover{background:#f7f9fc}
+  .tab .ti{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;background:#eef2f7;color:var(--muted);transition:.25s;flex:none}
+  .tab .ti svg{width:26px;height:26px}
+  .tab h3{font-size:17px;font-weight:700;color:var(--ink)}
+  .tab small{font-size:13px;color:var(--muted)}
+  .tab .count{margin-left:auto;font-size:13px;font-weight:700;padding:6px 12px;border-radius:999px;background:#eef2f7;color:var(--muted)}
+  .tab[aria-selected="true"]{background:linear-gradient(135deg,var(--t1),var(--t2));box-shadow:0 12px 28px -12px var(--t2)}
+  .tab[aria-selected="true"] h3,.tab[aria-selected="true"] small{color:#fff}
+  .tab[aria-selected="true"] small{opacity:.85}
+  .tab[aria-selected="true"] .ti,.tab[aria-selected="true"] .count{background:rgba(255,255,255,.2);color:#fff}
+  .tab.fire{--t1:var(--fire-1);--t2:var(--fire-2)}
+  .tab.drone{--t1:var(--drone-1);--t2:var(--drone-2)}
+
+  .toolbar{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin:44px 0 24px;flex-wrap:wrap}
+  .toolbar h2{font-size:26px;font-weight:800;letter-spacing:-.01em}
+  .toolbar p{color:var(--muted);font-size:14px;margin-top:6px}
+  .search{position:relative;width:min(360px,100%)}
+  .search svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:18px;height:18px;color:var(--muted)}
+  .search input{width:100%;padding:13px 16px 13px 42px;border:1px solid var(--line);border-radius:12px;font:inherit;font-size:14px;background:#fff;outline:none;transition:.2s}
+  .search input:focus{border-color:var(--accent-1);box-shadow:0 0 0 4px color-mix(in srgb,var(--accent-1) 18%,transparent)}
+
+  /* ---------- Tiles ---------- */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px}
+  @media (min-width:1280px){ .grid{grid-template-columns:repeat(5,1fr)} }
+  .tile{position:relative;display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:22px;overflow:hidden;transition:transform .25s,box-shadow .25s,border-color .25s;animation:rise .45s both}
+  .tile::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:linear-gradient(90deg,var(--accent-1),var(--accent-2));transform:scaleX(0);transform-origin:left;transition:transform .35s}
+  .tile::after{content:"";position:absolute;right:-60px;top:-60px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,var(--accent-soft),transparent 70%);opacity:0;transition:.35s}
+  .tile:hover{transform:translateY(-5px);box-shadow:0 22px 40px -18px rgba(15,31,51,.28);border-color:transparent}
+  .tile:hover::before{transform:scaleX(1)}
+  .tile:hover::after{opacity:1}
+  .tile:focus-visible{outline:3px solid var(--accent-1);outline-offset:2px}
+  .tile-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;position:relative;z-index:1}
+  .ico{width:48px;height:48px;border-radius:13px;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent-2);transition:.3s}
+  .ico svg{width:24px;height:24px}
+  .tile:hover .ico{background:linear-gradient(135deg,var(--accent-1),var(--accent-2));color:#fff;transform:rotate(-6deg) scale(1.05)}
+  .num{font-size:12px;font-weight:700;color:#a3b0c0;letter-spacing:.08em}
+  .tile h4{font-size:16.5px;font-weight:700;line-height:1.3;position:relative;z-index:1}
+  .tile .sub{font-size:13px;color:var(--muted);margin-top:4px;position:relative;z-index:1}
+  .meta{display:flex;gap:8px;margin:16px 0 18px;flex-wrap:wrap;position:relative;z-index:1}
+  .chip{font-size:11.5px;font-weight:600;color:#475569;background:#f1f5f9;padding:5px 9px;border-radius:7px}
+  .cta{margin-top:auto;display:flex;align-items:center;justify-content:space-between;padding-top:14px;border-top:1px dashed var(--line);font-size:13.5px;font-weight:600;color:var(--accent-2);position:relative;z-index:1}
+  .cta svg{width:18px;height:18px;transition:transform .25s}
+  .tile:hover .cta svg{transform:translateX(4px)}
+  .empty{display:none;text-align:center;padding:60px 20px;color:var(--muted);background:#fff;border:1px dashed var(--line);border-radius:var(--radius)}
+  @keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+
+  footer{background:#0b1a2e;color:#e6edf5}
+  .f-wrap{max-width:1320px;margin:0 auto;padding:56px 32px 40px;display:grid;grid-template-columns:1.7fr .9fr 1fr 1fr 1.25fr;gap:40px}
+  .f-h{font-size:14px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#c6e33b;margin-bottom:22px}
+  .f-h::after{content:"";display:block;width:34px;height:2px;background:#c6e33b;margin-top:12px;opacity:.8}
+  .f-h.plain{color:#e6edf5}.f-h.plain::after{display:none}
+  .f-mail{display:inline-block;font-size:16px;font-weight:700;color:#c6e33b;margin-bottom:26px}
+  .f-mail:hover{text-decoration:underline}
+  .f-addr{font-size:14.5px;line-height:1.75;color:#cbd6e3;margin-bottom:26px}
+  .f-links{list-style:none;display:grid;gap:16px}
+  .f-links a{font-size:15px;color:#e6edf5;transition:color .2s}
+  .f-links a:hover{color:#c6e33b}
+  .f-social{display:flex;gap:12px;margin-bottom:34px}
+  .f-social a{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.04);transition:.2s}
+  .f-social a:hover{background:#c6e33b;color:#0b1a2e;border-color:#c6e33b}
+  .f-social svg{width:18px;height:18px;fill:currentColor}
+  .f-pay{display:flex;align-items:center;gap:10px;background:#fff;border-radius:6px;padding:10px 12px;width:max-content;max-width:100%;flex-wrap:wrap}
+  .f-pay span{font-weight:800;font-size:15px;line-height:1}
+  .visa{color:#1a1f71;font-style:italic;font-size:18px!important}
+  .disc{color:#231f20;letter-spacing:-.02em}.disc i{font-style:normal;color:#f58220}
+  .mc{position:relative;width:40px;height:24px}
+  .mc::before,.mc::after{content:"";position:absolute;top:0;width:24px;height:24px;border-radius:50%}
+  .mc::before{left:0;background:#eb001b}.mc::after{right:0;background:#f79e1b;mix-blend-mode:multiply}
+  .amex{background:#2e77bc;color:#fff;font-size:9px!important;padding:5px 6px;border-radius:3px;letter-spacing:.04em;text-align:center}
+  .f-bottom{border-top:1px solid rgba(255,255,255,.1)}
+  .f-bottom div{max-width:1320px;margin:0 auto;padding:20px 32px;font-size:13px;color:#8fa1b6;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  @media (max-width:1100px){ .f-wrap{grid-template-columns:1fr 1fr 1fr} .f-first{grid-column:1/-1} }
+  @media (max-width:640px){ .f-wrap{grid-template-columns:1fr;padding:44px 20px 32px} .f-bottom div{padding:18px 20px} }
+
+  @media (max-width:900px){
+    .hero-inner{grid-template-columns:1fr;padding:44px 20px 100px}
+    .bar{padding:12px 20px} main{padding:0 20px 56px}
+    .tabs{grid-template-columns:1fr}
+    .bar-right .hide-sm{display:none}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="bar">
+    <a class="brand" href="#" aria-label="Coherent Market Insights"><img src="logo.png" alt="Coherent Market Insights"></a>
+    <div class="bar-right">
+      <span class="hide-sm">Industry Intelligence Dashboards</span>
+      <span class="pill"><span class="dot"></span>All dashboards live</span>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div>
+      <span class="eyebrow">Ecosystem Intelligence Hub</span>
+      <h1>Fire &amp; Drone <span class="grad">Ecosystem Industry Analysis</span></h1>
+      <p>One gateway to 50 interactive market dashboards &mdash; customer landscapes, distributor networks, competitive quadrants and survey insights across the fire safety and drone value chains.</p>
+    </div>
+    <div class="stats">
+      <div class="stat"><b id="sDash">50</b><span>Interactive dashboards</span></div>
+      <div class="stat"><b>2</b><span>Industry ecosystems</span></div>
+      <div class="stat"><b id="sCust">&ndash;</b><span>Customer profiles mapped</span></div>
+      <div class="stat"><b id="sDist">&ndash;</b><span>Distributors profiled</span></div>
+    </div>
+  </div>
+</section>
+
+<main>
+  <div class="panel">
+    <div class="tabs" role="tablist">
+      <button class="tab fire" role="tab" data-tab="fire" aria-selected="true">
+        <span class="ti" data-icon="flame"></span>
+        <span><h3>Fire Ecosystem Industry Analysis</h3><small>Detection, suppression, protection &amp; response</small></span>
+        <span class="count" id="cFire">25</span>
+      </button>
+      <button class="tab drone" role="tab" data-tab="drone" aria-selected="false">
+        <span class="ti" data-icon="drone"></span>
+        <span><h3>Drone Ecosystem Industry Analysis</h3><small>Platforms, components, software &amp; services</small></span>
+        <span class="count" id="cDrone">25</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <div>
+      <h2 id="secTitle">Fire Ecosystem Industry Analysis</h2>
+      <p id="secSub">Select a market to open its interactive dashboard.</p>
+    </div>
+    <label class="search">
+      <span data-icon="search"></span>
+      <input id="q" type="search" placeholder="Search markets..." autocomplete="off">
+    </label>
+  </div>
+
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="empty">No markets match your search.</div>
+</main>
+
+<footer>
+  <div class="f-wrap">
+    <div class="f-first">
+      <div class="f-h">For Business Enquiry</div>
+      <a class="f-mail" href="mailto:sales@coherentmarketinsights.com">sales@coherentmarketinsights.com</a>
+      <div class="f-h">U.S. Office</div>
+      <p class="f-addr">Coherent Market Insights Pvt Ltd, 533 Airport Boulevard, Suite 400, Burlingame, CA 94010, United States.</p>
+      <div class="f-h">UK Office</div>
+      <p class="f-addr">Coherent Market Insights Pvt Ltd, Office 15811, 182-184 High Street North, East Ham, London E6 2JA, United Kingdom.</p>
+      <div class="f-h">India Office (Headquarters)</div>
+      <p class="f-addr" style="margin-bottom:0">Coherent Market Insights Pvt Ltd, 401, 4th Floor, Bremen Business Center, Aundh, Pune, Maharashtra 411007, India.</p>
+    </div>
+    <div>
+      <div class="f-h">Menu</div>
+      <ul class="f-links">
+        <li><a href="https://www.coherentmarketinsights.com/about-us" target="_blank" rel="noopener">About Us</a></li>
+        <li><a href="https://www.coherentmarketinsights.com/industries" target="_blank" rel="noopener">Industries</a></li>
+        <li><a href="https://www.coherentmarketinsights.com/services" target="_blank" rel="noopener">Services</a></li>
+        <li><a href="https://www.coherentmarketinsights.com/contact-us" target="_blank" rel="noopener">Contact Us</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="f-h">Reader Club</div>
+      <ul class="f-links">
+        <li><a href="https://www.coherentmarketinsights.com/latest-insights" target="_blank" rel="noopener">Latest Insights</a></li>
+        <li><a href="https://www.coherentmarketinsights.com/press-release" target="_blank" rel="noopener">Press Release</a></li>
+        <li><a href="https://www.coherentmarketinsights.com/infographics" target="_blank" rel="noopener">Infographics</a></li>
+        <li><a href="https://www.coherentmarketinsights.com/blog" target="_blank" rel="noopener">Blogs</a></li>
+        <li><a href="https://www.coherentmarketinsights.com/guest-post" target="_blank" rel="noopener">Guest Post Placement</a></li>
+        <li><a href="https://www.coherentmarketinsights.com/news" target="_blank" rel="noopener">News</a></li>
+        <li><a href="https://www.coherentmarketinsights.com/careers" target="_blank" rel="noopener">Careers</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="f-h">Help</div>
+      <ul class="f-links">
+        <li><a href="https://www.coherentmarketinsights.com/become-reseller" target="_blank" rel="noopener">Become Reseller</a></li>
+        <li><a href="https://www.coherentmarketinsights.com/how-to-order" target="_blank" rel="noopener">How To Order?</a></li>
+        <li><a href="https://www.coherentmarketinsights.com/terms-and-conditions" target="_blank" rel="noopener">Terms and Conditions</a></li>
+        <li><a href="https://www.coherentmarketinsights.com/privacy-policy" target="_blank" rel="noopener">Privacy Policy</a></li>
+        <li><a href="https://www.coherentmarketinsights.com/disclaimer" target="_blank" rel="noopener">Disclaimer</a></li>
+        <li><a href="https://www.coherentmarketinsights.com/sitemap" target="_blank" rel="noopener">Sitemap</a></li>
+        <li><a href="https://www.coherentmarketinsights.com/feeds" target="_blank" rel="noopener">Feeds</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="f-h plain">Connect With Us</div>
+      <div class="f-social">
+        <a href="https://www.linkedin.com/company/coherent-market-insights" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.75h4V21H3zM9.5 9.75h3.8v1.54h.06c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.77 2.65 4.77 6.1V21h-4v-5.02c0-1.2-.02-2.74-1.67-2.74-1.67 0-1.93 1.3-1.93 2.65V21h-4z"/></svg></a>
+        <a href="https://x.com/CoherentMI" target="_blank" rel="noopener" aria-label="X"><svg viewBox="0 0 24 24"><path d="M17.75 3h3.07l-6.7 7.66L22 21h-6.17l-4.83-6.32L5.47 21H2.4l7.17-8.2L2 3h6.33l4.37 5.78zm-1.08 16.18h1.7L7.4 4.73H5.58z"/></svg></a>
+        <a href="https://www.facebook.com/CoherentMarketInsights" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.1 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a>
+        <a href="https://www.pinterest.com/coherentmarketinsights/" target="_blank" rel="noopener" aria-label="Pinterest"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-3.64 19.31c-.09-.79-.17-2 .03-2.87l1.17-4.97s-.3-.6-.3-1.48c0-1.39.8-2.42 1.8-2.42.85 0 1.26.64 1.26 1.4 0 .85-.54 2.13-.82 3.31-.24.99.5 1.8 1.47 1.8 1.77 0 3.13-1.87 3.13-4.56 0-2.38-1.71-4.05-4.16-4.05-2.83 0-4.5 2.13-4.5 4.33 0 .86.33 1.78.74 2.28.08.1.09.19.07.29l-.28 1.13c-.04.18-.15.22-.33.13-1.25-.58-2.03-2.4-2.03-3.87 0-3.15 2.29-6.04 6.6-6.04 3.46 0 6.16 2.47 6.16 5.77 0 3.44-2.17 6.22-5.18 6.22-1.01 0-1.97-.53-2.29-1.15l-.62 2.38c-.23.87-.84 1.96-1.25 2.62A10 10 0 1 0 12 2z"/></svg></a>
+      </div>
+      <div class="f-h plain">Secure Payment By</div>
+      <div class="f-pay" aria-label="Visa, Discover, Mastercard, American Express">
+        <span class="visa">VISA</span>
+        <span class="disc">DISC<i>&#9679;</i>VER</span>
+        <span class="mc"></span>
+        <span class="amex">AMERICAN<br>EXPRESS</span>
+      </div>
+    </div>
+  </div>
+  <div class="f-bottom">
+    <div>
+      <span>&copy; <span id="yr"></span> Coherent Market Insights Pvt Ltd. All rights reserved.</span>
+      <span>Fire &amp; Drone Ecosystem Intelligence Hub</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+const B = 'https://mainbuilder.vercel.app/shared/';
+// [name, slug, icon, customers, distributors]
+const DATA = {
+  fire: [
+    ['Battery Fire Safety','battery-fire-safety-industry-analysis--5c5554e08fd56ca5e0f53fcb','battery',151,406],
+    ['Critical Infrastructure Fire Safety','critical-infrastructure-fire-safety-industry-analysis--4363fea5254c96601438c964','building',158,302],
+    ['Disaster Response','disaster-response-industry-analysis--7401cc97dcaac538fceabbd8','alert',189,265],
+    ['Electrical Fire Safety','electrical-fire-safety-industry-analysis--880ff6af70d7225cb4cdefd2','zap',170,342],
+    ['Emergency Communications','emergency-communications-industry-analysis--2fe8bf8f72cf0896dbd27931','radio',221,251],
+    ['Fire AI & Robotics','fire-ai-robotics-industry-analysis--fbbe54c36994bdd98559b60a','bot',67,254],
+    ['Fire Detection','fire-detection-industry-analysis--838ac4df67fd28a3b0220497','bell',169,276],
+    ['Fire Doors','fire-doors-industry-analysis--8d4e25ca9f72f33ae2d34118','door',103,252],
+    ['Fire Drones & GIS','fire-drones-gis-industry-analysis--83085f668d9ad8def2b3ff0b','map',103,232],
+    ['Fire Prevention','fire-prevention-industry-analysis--275958c68bf24c853e97526a','shield',232,278],
+    ['Fire Protection','fire-protection-industry-analysis--9b8793de7b99cfb4b0ddb754','shieldCheck',183,253],
+    ['Fire Pumps','fire-pumps-industry-analysis--bcb4a53a9ed56b700e042546','gauge',178,265],
+    ['Fire Safety Testing','fire-safety-testing-industry-analysis--cee58afdbf7a274842fb92d8','flask',169,284],
+    ['Fire Safety Training','fire-safety-training-industry-analysis--8c5c4c2b50eb5478d7215fdf','cap',220,307],
+    ['Fire Suppression','fire-suppression-industry-analysis--f198d984ab817383192497da','extinguisher',187,253],
+    ['Fire Vehicles','fire-vehicles-industry-analysis--dfe0dca378538c941a579b39','truck',210,233],
+    ['Firefighting Equipment','firefighting-equipment-industry-analysis--2c7282c554e431ba271018ab','wrench',295,258],
+    ['Gas & Flame Detection','gas-flame-detection-industry-analysis--e129c07b28ea36e763fd1a38','flame',215,263],
+    ['Industrial Fire Safety','industrial-fire-safety-industry-analysis--a180cc086a444afb48bc552e','factory',182,258],
+    ['Life Safety','life-safety-industry-analysis--17410ddd30de45f0a31fdab8','pulse',203,278],
+    ['Passive Fire Protection','passive-fire-protection-industry-analysis--7410559951d9fc2cd38ec5ce','layers',164,248],
+    ['Rescue Equipment','rescue-equipment-industry-analysis--63be66c6a73530ffdf737bd6','buoy',195,275],
+    ['Smart Fire Safety','smart-fire-safety-industry-analysis--269e327068ad045b72f3e89f','wifi',139,258],
+    ['Smoke Control Systems','smoke-control-systems-industry-analysis--d1d54383cdbceed4f98e4655','wind',182,292],
+    ['Sprinkler Systems','sprinkler-systems-industry-analysis--6ab734759041a0a01bbdb311','droplet',173,266]
+  ],
+  drone: [
+    ['Anti-Drone Systems','anti-drone-systems-industry-analysis--794643a37c1b8b8941e1fe20','target',155,159],
+    ['Commercial Drones','commercial-drones-industry-analysis--caa29fde63afe414f3e02797','drone',199,352],
+    ['Defense Drones','defense-drones-industry-analysis--1005dac62aa4a5908103614c','shield',183,253],
+    ['Drone AI','drone-ai-industry-analysis--0045a0e8008d3035b54fc2d7','bot',207,406],
+    ['Drone Analytics','drone-analytics-industry-analysis--71f14906d069058a1b674cb2','chart',207,276],
+    ['Drone Batteries','drone-batteries-industry-analysis--089808417bab32e3babd59e6','battery',155,254],
+    ['Drone Charging','drone-charging-industry-analysis--5216a5d851768ebd0b6f0b49','plug',88,330],
+    ['Drone Cloud Platforms','drone-cloud-platforms-industry-analysis--bf67d756b95acbff667557b6','cloud',91,185],
+    ['Drone Communications','drone-communications-industry-analysis--f76f5bf292564532d3d7b7bd','radio',121,269],
+    ['Drone Components','drone-components-industry-analysis--70794012835421e92a77d65b','cpu',134,257],
+    ['Drone Composites','drone-composites-industry-analysis--0011de38a3eac1cedbf6734d','layers',116,254],
+    ['Drone Cybersecurity','drone-cybersecurity-industry-analysis--fa2ab84532d5245e3e9a35c2','lock',104,262],
+    ['Drone Imaging','drone-imaging-industry-analysis--161c420ca349a076f7c9818a','camera',237,355],
+    ['Drone Inspection','drone-inspection-industry-analysis--dfa781d2493b6f7127239915','search',164,102],
+    ['Drone LiDAR','drone-lidar-industry-analysis--5f49d5b5a8503699e994f8ef','scan',210,233],
+    ['Drone Mapping','drone-mapping-industry-analysis--f016a05eb1fc88198a547e68','map',242,270],
+    ['Drone Navigation','drone-navigation-industry-analysis--39d287dbfbba2f1f876cf208','compass',224,299],
+    ['Drone Propulsion','drone-propulsion-industry-analysis--cd695bdb740a552359a401a0','fan',105,259],
+    ['Drone Robotics','drone-robotics-industry-analysis--15b04c703a468a93f33083bd','wrench',237,318],
+    ['Drone Sensors','drone-sensors-industry-analysis--05e97971de692dabc534ea37','sensor',232,411],
+    ['Drone Software','drone-software-industry-analysis--aee48e8ac7f8d723ce6000b9','code',221,208],
+    ['Drone Surveillance','drone-surveillance-industry-analysis--3d27e979b3b291a868fad634','eye',214,103],
+    ['Drone Testing','drone-testing-industry-analysis--8240120e5ba386d44a564691','flask',196,59],
+    ['Drone Training','drone-training-industry-analysis--361d2434245d6d31a89c9b1b','cap',146,175],
+    ['UAV Systems','uav-systems-industry-analysis--255b49318d003f2180fb3b52','plane',236,280]
+  ]
+};
+
+const P = {
+  flame:'<path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.07-2.14-.22-4.05 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.15.43-2.29 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>',
+  drone:'<circle cx="5" cy="5" r="3"/><circle cx="19" cy="5" r="3"/><circle cx="5" cy="19" r="3"/><circle cx="19" cy="19" r="3"/><path d="M7.5 7.5 10 10M16.5 7.5 14 10M7.5 16.5 10 14M16.5 16.5 14 14"/><rect x="9.5" y="9.5" width="5" height="5" rx="1"/>',
+  search:'<circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/>',
+  battery:'<rect x="2" y="7" width="17" height="10" rx="2"/><path d="M22 11v2M6 10v4M10 10v4"/>',
+  building:'<path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18ZM6 12H4a2 2 0 0 0-2 2v8M18 9h2a2 2 0 0 1 2 2v11M10 6h4M10 10h4M10 14h4M10 18h4"/>',
+  alert:'<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3ZM12 9v4M12 17h.01"/>',
+  zap:'<path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/>',
+  radio:'<path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5M19.1 4.9C23 8.8 23 15.1 19.1 19"/><circle cx="12" cy="12" r="2"/>',
+  bot:'<rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4M8 16h.01M16 16h.01"/>',
+  bell:'<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.94 1.94 0 0 0 3.4 0"/>',
+  door:'<path d="M18 20V6a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v14M2 20h20M14 12v.01"/>',
+  map:'<path d="M9 3 3 6v15l6-3 6 3 6-3V3l-6 3-6-3zM9 3v15M15 6v15"/>',
+  shield:'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',
+  shieldCheck:'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/>',
+  gauge:'<path d="m12 14 4-4M3.34 19a10 10 0 1 1 17.32 0"/>',
+  flask:'<path d="M9 3h6M10 3v6L4 20a1 1 0 0 0 1 1.5h14A1 1 0 0 0 20 20L14 9V3M7 15h10"/>',
+  cap:'<path d="M22 10 12 5 2 10l10 5 10-5zM6 12v5c3 3 9 3 12 0v-5"/>',
+  extinguisher:'<path d="M15 6.5V3a1 1 0 0 0-1-1h-2a1 1 0 0 0-1 1v3.5M9 18h8M18 7h-4M13 6.5A4 4 0 0 0 9 10.5V21a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V10.5a4 4 0 0 0-4-4ZM18 7l2-2M7 5c-1 0-2 .5-2 2v3"/>',
+  truck:'<path d="M10 17h4V5H2v12h3M20 17h2v-3.34a4 4 0 0 0-1.17-2.83L19 9h-5v8h1"/><circle cx="7.5" cy="17.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/>',
+  wrench:'<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>',
+  factory:'<path d="M2 20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8l-7 5V8l-7 5V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2ZM17 18h1M12 18h1M7 18h1"/>',
+  pulse:'<path d="M22 12h-4l-3 9L9 3l-3 9H2"/>',
+  layers:'<path d="m12 2 10 5-10 5L2 7l10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>',
+  buoy:'<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><path d="m4.93 4.93 4.24 4.24M14.83 14.83l4.24 4.24M14.83 9.17l4.24-4.24M4.93 19.07l4.24-4.24"/>',
+  wifi:'<path d="M5 12.55a11 11 0 0 1 14.08 0M1.42 9a16 16 0 0 1 21.16 0M8.53 16.11a6 6 0 0 1 6.95 0M12 20h.01"/>',
+  wind:'<path d="M17.7 7.7a2.5 2.5 0 1 1 1.8 4.3H2M9.6 4.6A2 2 0 1 1 11 8H2M12.6 19.4A2 2 0 1 0 14 16H2"/>',
+  droplet:'<path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5S5 13 5 15a7 7 0 0 0 7 7z"/>',
+  target:'<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',
+  chart:'<path d="M3 3v18h18M7 15l4-4 3 3 6-6"/>',
+  plug:'<path d="M12 22v-5M9 8V2M15 8V2M18 8v5a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V8Z"/>',
+  cloud:'<path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/>',
+  cpu:'<rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 14h3M1 9h3M1 14h3"/>',
+  lock:'<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
+  camera:'<path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/>',
+  scan:'<path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2M7 12h10"/>',
+  compass:'<circle cx="12" cy="12" r="10"/><path d="m16.24 7.76-2.12 6.36-6.36 2.12 2.12-6.36 6.36-2.12z"/>',
+  fan:'<path d="M10.83 11.17C8 9 8.4 3.5 12 2c3.4 1.5 3.6 5.5 1.17 9.17M13.17 12.83C16 15 15.6 20.5 12 22c-3.4-1.5-3.6-5.5-1.17-9.17M12.83 10.83C15 8 20.5 8.4 22 12c-1.5 3.4-5.5 3.6-9.17 1.17M11.17 13.17C9 16 3.5 15.6 2 12c1.5-3.4 5.5-3.6 9.17-1.17"/>',
+  sensor:'<circle cx="12" cy="12" r="2"/><path d="M16.24 7.76a6 6 0 0 1 0 8.49M7.76 16.24a6 6 0 0 1 0-8.49M19.07 4.93a10 10 0 0 1 0 14.14M4.93 19.07a10 10 0 0 1 0-14.14"/>',
+  code:'<path d="m16 18 6-6-6-6M8 6l-6 6 6 6"/>',
+  eye:'<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>',
+  plane:'<path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/>',
+  arrow:'<path d="M5 12h14M13 6l6 6-6 6"/>'
+};
+const svg = n => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${P[n]}</svg>`;
+document.querySelectorAll('[data-icon]').forEach(el => el.innerHTML = svg(el.dataset.icon));
+
+const META = {
+  fire:{title:'Fire Ecosystem Industry Analysis',sub:'25 markets spanning detection, suppression, protection, training and emergency response.'},
+  drone:{title:'Drone Ecosystem Industry Analysis',sub:'25 markets spanning platforms, components, software, services and counter-UAS.'}
+};
+const fmt = n => n.toLocaleString('en-IN');
+const all = [...DATA.fire, ...DATA.drone];
+document.getElementById('sCust').textContent = fmt(all.reduce((s,d)=>s+d[3],0)) + '+';
+document.getElementById('sDist').textContent = fmt(all.reduce((s,d)=>s+d[4],0)) + '+';
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+const grid = document.getElementById('grid'), q = document.getElementById('q'), empty = document.getElementById('empty');
+let current = 'fire';
+
+function render(){
+  const term = q.value.trim().toLowerCase();
+  const items = DATA[current].map((d,i)=>[...d,i]).filter(d => d[0].toLowerCase().includes(term));
+  grid.innerHTML = items.map(([name,slug,icon,cust,dist,i],k) => `
+    <a class="tile" href="${B}${slug}" target="_blank" rel="noopener" style="animation-delay:${k*25}ms" title="Open ${name} Industry Analysis">
+      <div class="tile-top"><span class="ico">${svg(icon)}</span><span class="num">${String(i+1).padStart(2,'0')}</span></div>
+      <h4>${name}</h4>
+      <div class="sub">Industry Analysis</div>
+      <div class="meta"><span class="chip">${cust} Customers</span><span class="chip">${dist} Distributors</span></div>
+      <div class="cta"><span>Open dashboard</span>${svg('arrow')}</div>
+    </a>`).join('');
+  empty.style.display = items.length ? 'none' : 'block';
+}
+
+function setTab(t){
+  current = t;
+  document.body.classList.toggle('drone', t === 'drone');
+  document.querySelectorAll('.tab').forEach(b => b.setAttribute('aria-selected', b.dataset.tab === t));
+  document.getElementById('secTitle').textContent = META[t].title;
+  document.getElementById('secSub').textContent = META[t].sub;
+  history.replaceState(null,'','#'+t);
+  render();
+}
+
+document.querySelectorAll('.tab').forEach(b => b.addEventListener('click', () => setTab(b.dataset.tab)));
+q.addEventListener('input', render);
+const fromHash = () => setTab(location.hash === '#drone' ? 'drone' : 'fire');
+window.addEventListener('hashchange', fromHash);
+fromHash();
+</script>
+</body>
+</html>
