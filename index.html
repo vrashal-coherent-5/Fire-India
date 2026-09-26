@@ -37,7 +37,6 @@
   .hero-inner{position:relative;max-width:1320px;margin:0 auto;padding:64px 32px 110px;display:grid;grid-template-columns:1.35fr 1fr;gap:48px;align-items:center}
   .eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:#bfe9f0;padding:7px 14px;border:1px solid rgba(255,255,255,.18);border-radius:999px;background:rgba(255,255,255,.06)}
   .hero h1{font-size:clamp(32px,4.2vw,52px);line-height:1.08;font-weight:800;letter-spacing:-.02em;margin:20px 0 18px}
-  .hero h1 .grad{background:linear-gradient(90deg,#ffb36b,#ff6b6b 40%,#6ee7f5 75%);-webkit-background-clip:text;background-clip:text;color:transparent}
   .hero p{font-size:17px;line-height:1.65;color:#c9d6e6;max-width:620px}
   .stats{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
   .stat{padding:22px;border-radius:var(--radius);background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);backdrop-filter:blur(6px)}
@@ -86,14 +85,31 @@
   .tile:hover .ico{background:linear-gradient(135deg,var(--accent-1),var(--accent-2));color:#fff;transform:rotate(-6deg) scale(1.05)}
   .num{font-size:12px;font-weight:700;color:#a3b0c0;letter-spacing:.08em}
   .tile h4{font-size:16.5px;font-weight:700;line-height:1.3;position:relative;z-index:1}
-  .tile .sub{font-size:13px;color:var(--muted);margin-top:4px;position:relative;z-index:1}
-  .meta{display:flex;gap:8px;margin:16px 0 18px;flex-wrap:wrap;position:relative;z-index:1}
-  .chip{font-size:11.5px;font-weight:600;color:#475569;background:#f1f5f9;padding:5px 9px;border-radius:7px}
+  .tile .sub{font-size:13px;color:var(--muted);margin:4px 0 22px;position:relative;z-index:1}
   .cta{margin-top:auto;display:flex;align-items:center;justify-content:space-between;padding-top:14px;border-top:1px dashed var(--line);font-size:13.5px;font-weight:600;color:var(--accent-2);position:relative;z-index:1}
   .cta svg{width:18px;height:18px;transition:transform .25s}
   .tile:hover .cta svg{transform:translateX(4px)}
   .empty{display:none;text-align:center;padding:60px 20px;color:var(--muted);background:#fff;border:1px dashed var(--line);border-radius:var(--radius)}
   @keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+
+  .creds{position:relative;background:linear-gradient(180deg,#f7fafd,#eef4f9);border-top:1px solid var(--line)}
+  .creds::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:linear-gradient(90deg,#163a5f,#1f6fb2 55%,#9bc53d)}
+  .creds-in{max-width:1320px;margin:0 auto;padding:64px 32px;display:grid;grid-template-columns:1fr 1.9fr;gap:56px;align-items:center}
+  .creds-tag{display:inline-flex;align-items:center;gap:10px;padding:9px 18px;border-radius:999px;background:#f3f9e3;border:1px solid #d8ea9f;color:#2f5a12;font-size:12.5px;font-weight:700;letter-spacing:.22em;text-transform:uppercase}
+  .creds h2{font-size:clamp(28px,3vw,38px);font-weight:800;letter-spacing:-.02em;margin:22px 0 16px;line-height:1.15}
+  .creds h2 a{color:var(--ink);transition:color .2s}
+  .creds h2 a:hover{color:#1f6fb2}
+  .creds h2 em{font-style:italic;color:#163a5f;background:linear-gradient(transparent 72%,#d9f06b 72%)}
+  .creds p{font-size:16px;line-height:1.7;color:var(--muted);max-width:460px}
+  .creds-more{display:inline-flex;align-items:center;gap:8px;margin-top:22px;font-size:14px;font-weight:600;color:#1f6fb2}
+  .creds-more svg{width:16px;height:16px;transition:transform .2s}
+  .creds-more:hover svg{transform:translateX(4px)}
+  .badges{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .badge{height:150px;display:grid;place-items:center;background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px;transition:transform .25s,box-shadow .25s}
+  .badge:hover{transform:translateY(-4px);box-shadow:0 18px 34px -18px rgba(15,31,51,.3)}
+  .badge img{max-width:100%;max-height:100px;object-fit:contain}
+  @media (max-width:1000px){ .creds-in{grid-template-columns:1fr;gap:36px;padding:52px 20px} }
+  @media (max-width:560px){ .badges{grid-template-columns:repeat(2,1fr)} .badge{height:120px} }
 
   footer{background:#0b1a2e;color:#e6edf5}
   .f-wrap{max-width:1320px;margin:0 auto;padding:56px 32px 40px;display:grid;grid-template-columns:1.7fr .9fr 1fr 1fr 1.25fr;gap:40px}
@@ -137,8 +153,8 @@
   <div class="bar">
     <a class="brand" href="#" aria-label="Coherent Market Insights"><img src="logo.png" alt="Coherent Market Insights"></a>
     <div class="bar-right">
-      <span class="hide-sm">Industry Intelligence Dashboards</span>
-      <span class="pill"><span class="dot"></span>All dashboards live</span>
+      <span class="hide-sm">Industry Intelligence Reports</span>
+      <span class="pill"><span class="dot"></span>All reports live</span>
     </div>
   </div>
 </header>
@@ -147,14 +163,14 @@
   <div class="hero-inner">
     <div>
       <span class="eyebrow">Ecosystem Intelligence Hub</span>
-      <h1>Fire &amp; Drone <span class="grad">Ecosystem Industry Analysis</span></h1>
-      <p>One gateway to 50 interactive market dashboards &mdash; customer landscapes, distributor networks, competitive quadrants and survey insights across the fire safety and drone value chains.</p>
+      <h1>Fire &amp; Drone Ecosystem Industry Analysis</h1>
+      <p>One gateway to 50 interactive market reports &mdash; customer landscapes, distributor networks, competitive quadrants and survey insights across the fire safety and drone value chains.</p>
     </div>
     <div class="stats">
-      <div class="stat"><b id="sDash">50</b><span>Interactive dashboards</span></div>
+      <div class="stat"><b id="sDash">50</b><span>Interactive reports</span></div>
       <div class="stat"><b>2</b><span>Industry ecosystems</span></div>
-      <div class="stat"><b id="sCust">&ndash;</b><span>Customer profiles mapped</span></div>
-      <div class="stat"><b id="sDist">&ndash;</b><span>Distributors profiled</span></div>
+      <div class="stat"><b>16,000+</b><span>Customer profiles mapped</span></div>
+      <div class="stat"><b>26,000+</b><span>Distributors profiled</span></div>
     </div>
   </div>
 </section>
@@ -178,7 +194,7 @@
   <div class="toolbar">
     <div>
       <h2 id="secTitle">Fire Ecosystem Industry Analysis</h2>
-      <p id="secSub">Select a market to open its interactive dashboard.</p>
+      <p id="secSub">Select a market to open its interactive report.</p>
     </div>
     <label class="search">
       <span data-icon="search"></span>
@@ -189,6 +205,25 @@
   <div class="grid" id="grid"></div>
   <div class="empty" id="empty">No markets match your search.</div>
 </main>
+
+<section class="creds">
+  <div class="creds-in">
+    <div>
+      <span class="creds-tag">&#9733; Trusted &amp; Certified</span>
+      <h2><a href="https://www.coherentmarketinsights.com/credibility-certifications" target="_blank" rel="noopener"><em>Credibility</em> and Certifications</a></h2>
+      <p>Trusted Insights, Certified Excellence! Coherent Market Insights is a certified data advisory and business consulting firm recognized by global institutes.</p>
+      <a class="creds-more" href="https://www.coherentmarketinsights.com/credibility-certifications" target="_blank" rel="noopener">View all certifications <span data-icon="arrow"></span></a>
+    </div>
+    <div class="badges">
+      <a class="badge" href="https://www.coherentmarketinsights.com/credibility-certifications" target="_blank" rel="noopener"><img src="certs/duns-registered.webp" alt="Dun &amp; Bradstreet D-U-N-S Registered"></a>
+      <a class="badge" href="https://www.coherentmarketinsights.com/credibility-certifications" target="_blank" rel="noopener"><img src="certs/esomar2026.avif" alt="ESOMAR Individual 2026"></a>
+      <a class="badge" href="https://www.coherentmarketinsights.com/credibility-certifications" target="_blank" rel="noopener"><img src="certs/iso-9001-updated.webp" alt="ISO 9001:2015 Certified"></a>
+      <a class="badge" href="https://www.coherentmarketinsights.com/credibility-certifications" target="_blank" rel="noopener"><img src="certs/iso-27001-updated.webp" alt="ISO 27001:2022 Certified"></a>
+      <a class="badge" href="https://www.coherentmarketinsights.com/credibility-certifications" target="_blank" rel="noopener"><img src="certs/clutupdatednew.webp" alt="Clutch 4.5 rating"></a>
+      <a class="badge" href="https://www.coherentmarketinsights.com/credibility-certifications" target="_blank" rel="noopener"><img src="certs/Trustpilot-27.webp" alt="Trustpilot TrustScore 4.5"></a>
+    </div>
+  </div>
+</section>
 
 <footer>
   <div class="f-wrap">
@@ -371,10 +406,6 @@ const META = {
   fire:{title:'Fire Ecosystem Industry Analysis',sub:'25 markets spanning detection, suppression, protection, training and emergency response.'},
   drone:{title:'Drone Ecosystem Industry Analysis',sub:'25 markets spanning platforms, components, software, services and counter-UAS.'}
 };
-const fmt = n => n.toLocaleString('en-IN');
-const all = [...DATA.fire, ...DATA.drone];
-document.getElementById('sCust').textContent = fmt(all.reduce((s,d)=>s+d[3],0)) + '+';
-document.getElementById('sDist').textContent = fmt(all.reduce((s,d)=>s+d[4],0)) + '+';
 document.getElementById('yr').textContent = new Date().getFullYear();
 
 const grid = document.getElementById('grid'), q = document.getElementById('q'), empty = document.getElementById('empty');
@@ -383,13 +414,12 @@ let current = 'fire';
 function render(){
   const term = q.value.trim().toLowerCase();
   const items = DATA[current].map((d,i)=>[...d,i]).filter(d => d[0].toLowerCase().includes(term));
-  grid.innerHTML = items.map(([name,slug,icon,cust,dist,i],k) => `
+  grid.innerHTML = items.map(([name,slug,icon,,,i],k) => `
     <a class="tile" href="${B}${slug}" target="_blank" rel="noopener" style="animation-delay:${k*25}ms" title="Open ${name} Industry Analysis">
       <div class="tile-top"><span class="ico">${svg(icon)}</span><span class="num">${String(i+1).padStart(2,'0')}</span></div>
       <h4>${name}</h4>
       <div class="sub">Industry Analysis</div>
-      <div class="meta"><span class="chip">${cust} Customers</span><span class="chip">${dist} Distributors</span></div>
-      <div class="cta"><span>Open dashboard</span>${svg('arrow')}</div>
+      <div class="cta"><span>Open report</span>${svg('arrow')}</div>
     </a>`).join('');
   empty.style.display = items.length ? 'none' : 'block';
 }
