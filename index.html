@@ -12,7 +12,7 @@
   :root{
     --navy:#163a5f; --navy-2:#0e2742; --navy-3:#0a1c31;
     --ink:#0f1f33; --muted:#5b6b7f; --line:#e3e9f1; --bg:#f4f7fb;
-    --fire-1:#ff7a18; --fire-2:#e0263a; --fire-soft:#fff1ea;
+    --fire-1:#6cc04a; --fire-2:#138a52; --fire-soft:#eaf7ec;
     --drone-1:#16b3c7; --drone-2:#3b5bdb; --drone-soft:#e9f6fb;
     --accent-1:var(--fire-1); --accent-2:var(--fire-2); --accent-soft:var(--fire-soft);
     --radius:16px;
@@ -32,7 +32,7 @@
   .dot{width:8px;height:8px;border-radius:50%;background:#22c55e;box-shadow:0 0 0 4px rgba(34,197,94,.15)}
 
   /* ---------- Hero ---------- */
-  .hero{position:relative;overflow:hidden;color:#fff;background:radial-gradient(1200px 500px at 85% -10%,rgba(22,179,199,.35),transparent 60%),radial-gradient(900px 500px at 5% 110%,rgba(255,122,24,.28),transparent 60%),linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 55%,var(--navy-3) 100%)}
+  .hero{position:relative;overflow:hidden;color:#fff;background:radial-gradient(1200px 500px at 85% -10%,rgba(22,179,199,.35),transparent 60%),radial-gradient(900px 500px at 5% 110%,rgba(108,192,74,.26),transparent 60%),linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 55%,var(--navy-3) 100%)}
   .hero::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:44px 44px;mask-image:linear-gradient(180deg,#000 20%,transparent 95%)}
   .hero-inner{position:relative;max-width:1320px;margin:0 auto;padding:64px 32px 110px;display:grid;grid-template-columns:1.35fr 1fr;gap:48px;align-items:center}
   .eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:#bfe9f0;padding:7px 14px;border:1px solid rgba(255,255,255,.18);border-radius:999px;background:rgba(255,255,255,.06)}
@@ -92,8 +92,24 @@
   .empty{display:none;text-align:center;padding:60px 20px;color:var(--muted);background:#fff;border:1px dashed var(--line);border-radius:var(--radius)}
   @keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
 
+  .why{position:relative;background:radial-gradient(900px 300px at 50% 0,#f1f8ea,transparent 70%),#fafcfb}
+  .why::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:linear-gradient(90deg,#163a5f,#1f6fb2 55%,#9bc53d)}
+  .why-in{max-width:1320px;margin:0 auto;padding:68px 32px 64px}
+  .why h2{display:flex;align-items:center;justify-content:center;gap:28px;font-size:clamp(22px,2.4vw,30px);font-weight:800;letter-spacing:.08em;color:#163a5f;text-align:center;margin-bottom:52px}
+  .why h2::before,.why h2::after{content:"";width:90px;height:2px;background:#cfd8e3;flex:none}
+  .why-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:32px}
+  .why-item{text-align:center;padding:8px 12px}
+  .why-ico{width:64px;height:64px;margin:0 auto 22px;color:#8dc63f;transition:transform .3s}
+  .why-item:hover .why-ico{transform:translateY(-4px) scale(1.05)}
+  .why-ico svg{width:100%;height:100%}
+  .why-item b{display:block;font-size:clamp(32px,3vw,42px);font-weight:800;color:#163a5f;letter-spacing:-.01em;line-height:1.1}
+  .why-item h3{font-size:18px;font-weight:700;color:#0f2a4a;margin:10px 0 12px}
+  .why-item p{font-size:15px;line-height:1.65;color:var(--muted);max-width:320px;margin:0 auto}
+  @media (max-width:1000px){ .why-grid{grid-template-columns:repeat(2,1fr);row-gap:44px} .why-in{padding:52px 20px} }
+  @media (max-width:560px){ .why-grid{grid-template-columns:1fr} .why h2::before,.why h2::after{width:30px} .why h2{gap:14px} }
+
   .creds{position:relative;background:linear-gradient(180deg,#f7fafd,#eef4f9);border-top:1px solid var(--line)}
-  .creds::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:linear-gradient(90deg,#163a5f,#1f6fb2 55%,#9bc53d)}
+  .creds.awards{background:#fff}
   .creds-in{max-width:1320px;margin:0 auto;padding:64px 32px;display:grid;grid-template-columns:1fr 1.9fr;gap:56px;align-items:center}
   .creds-tag{display:inline-flex;align-items:center;gap:10px;padding:9px 18px;border-radius:999px;background:#f3f9e3;border:1px solid #d8ea9f;color:#2f5a12;font-size:12.5px;font-weight:700;letter-spacing:.22em;text-transform:uppercase}
   .creds h2{font-size:clamp(28px,3vw,38px);font-weight:800;letter-spacing:-.02em;margin:22px 0 16px;line-height:1.15}
@@ -206,6 +222,38 @@
   <div class="empty" id="empty">No markets match your search.</div>
 </main>
 
+<section class="why">
+  <div class="why-in">
+    <h2>WHY COHERENT MARKET INSIGHTS?</h2>
+    <div class="why-grid">
+      <div class="why-item">
+        <div class="why-ico"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M40 30V10a3 3 0 0 0-3-3H12a3 3 0 0 0-3 3v42a3 3 0 0 0 3 3h20"/><path d="M16 18h16M16 26h16M16 34h10"/><circle cx="46" cy="46" r="11"/><path d="m41 46 4 4 7-8"/></svg></div>
+        <b>85&ndash;92%</b>
+        <h3>Forecast Accuracy</h3>
+        <p>Validated against actual market outcomes across sectors and geographies</p>
+      </div>
+      <div class="why-item">
+        <div class="why-ico"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="32" cy="22" r="10"/><path d="M32 16v6l4 3"/><path d="M14 54c1-9 8-16 18-16s17 7 18 16"/><path d="M8 34c2-6 6-10 11-12"/><path d="M50 42l6 4-4 6"/><path d="M56 46c-3 1-6 0-8-2"/></svg></div>
+        <b>73%</b>
+        <h3>Annual Client Renewal</h3>
+        <p>Three out of four enterprise clients renew their subscription each year</p>
+      </div>
+      <div class="why-item">
+        <div class="why-ico"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="32" cy="34" r="24"/><path d="M32 20v14l10 8"/><path d="M10 12l8 6M12 22l6-4"/></svg></div>
+        <b>24 Hours</b>
+        <h3>Average Response Time</h3>
+        <p>From research request to expert consultation, 24 hours or less</p>
+      </div>
+      <div class="why-item">
+        <div class="why-ico"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="30" cy="34" r="24"/><circle cx="30" cy="34" r="14"/><circle cx="30" cy="34" r="4" fill="currentColor" opacity=".35"/><path d="M30 34 52 12M46 10h8v8"/></svg></div>
+        <b>1,200+</b>
+        <h3>Niche Market Segments</h3>
+        <p>The go-to research partner for complex, hard-to-find market insights</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="creds">
   <div class="creds-in">
     <div>
@@ -221,6 +269,25 @@
       <a class="badge" href="https://www.coherentmarketinsights.com/credibility-certifications" target="_blank" rel="noopener"><img src="certs/iso-27001-updated.webp" alt="ISO 27001:2022 Certified"></a>
       <a class="badge" href="https://www.coherentmarketinsights.com/credibility-certifications" target="_blank" rel="noopener"><img src="certs/clutupdatednew.webp" alt="Clutch 4.5 rating"></a>
       <a class="badge" href="https://www.coherentmarketinsights.com/credibility-certifications" target="_blank" rel="noopener"><img src="certs/Trustpilot-27.webp" alt="Trustpilot TrustScore 4.5"></a>
+    </div>
+  </div>
+</section>
+
+<section class="creds awards">
+  <div class="creds-in">
+    <div>
+      <span class="creds-tag">&#9733; Recognized &amp; Awarded</span>
+      <h2><a href="https://www.coherentmarketinsights.com/accolades" target="_blank" rel="noopener"><em>Awards</em> and Accolades</a></h2>
+      <p>Recognized Excellence! Coherent Market Insights' accolades reflect our innovation, growth, and impact across the market research and consulting industry.</p>
+      <a class="creds-more" href="https://www.coherentmarketinsights.com/accolades" target="_blank" rel="noopener">View all accolades <span data-icon="arrow"></span></a>
+    </div>
+    <div class="badges">
+      <a class="badge" href="https://www.coherentmarketinsights.com/accolades" target="_blank" rel="noopener"><img src="awards/best-msme-award01.webp" alt="India 5000 Best MSME Awards"></a>
+      <a class="badge" href="https://www.coherentmarketinsights.com/accolades" target="_blank" rel="noopener"><img src="awards/wealth-and-finance.webp" alt="Wealth &amp; Finance Management Consulting Awards 2026"></a>
+      <a class="badge" href="https://www.coherentmarketinsights.com/accolades" target="_blank" rel="noopener"><img src="awards/siliconreviewUpdated.webp" alt="The Silicon Review"></a>
+      <a class="badge" href="https://www.coherentmarketinsights.com/accolades" target="_blank" rel="noopener"><img src="awards/ceotodayUpdated.webp" alt="CEO Today"></a>
+      <a class="badge" href="https://www.coherentmarketinsights.com/accolades" target="_blank" rel="noopener"><img src="awards/BEST-STARTUPUpdated.webp" alt="Best Startup"></a>
+      <a class="badge" href="https://www.coherentmarketinsights.com/accolades" target="_blank" rel="noopener"><img src="awards/best500Updated.webp" alt="Best 5000 MSME in India 2024"></a>
     </div>
   </div>
 </section>
