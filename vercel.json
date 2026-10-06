@@ -1,5 +1,7 @@
 {
   "rewrites": [
+    { "source": "/fire/:slug", "destination": "https://mainbuilder.vercel.app/shared/:slug" },
+    { "source": "/drone/:slug", "destination": "https://mainbuilder.vercel.app/shared/:slug" },
     { "source": "/shared/:path*", "destination": "https://mainbuilder.vercel.app/shared/:path*" },
     { "source": "/_next/:path*", "destination": "https://mainbuilder.vercel.app/_next/:path*" },
     { "source": "/api/:path*", "destination": "https://mainbuilder.vercel.app/api/:path*" },
