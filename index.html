@@ -179,7 +179,7 @@
   <div class="hero-inner">
     <div>
       <span class="eyebrow">Ecosystem Intelligence Hub</span>
-      <h1>Fire &amp; Drone Ecosystem Industry Analysis</h1>
+      <h1 id="heroTitle">Fire Ecosystem Industry Analysis</h1>
       <p>One gateway to 50 interactive market reports &mdash; customer landscapes, distributor networks, competitive quadrants and survey insights across the fire safety and drone value chains.</p>
     </div>
     <div class="stats">
@@ -496,6 +496,7 @@ function setTab(t){
   document.body.classList.toggle('drone', t === 'drone');
   document.querySelectorAll('.tab').forEach(b => b.setAttribute('aria-selected', b.dataset.tab === t));
   document.getElementById('secTitle').textContent = META[t].title;
+  document.getElementById('heroTitle').textContent = META[t].title;
   document.getElementById('secSub').textContent = META[t].sub;
   history.replaceState(null,'','#'+t);
   render();
