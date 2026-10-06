@@ -364,7 +364,6 @@
 </footer>
 
 <script>
-const B = '/shared/';
 // [name, slug, icon, customers, distributors]
 const DATA = {
   fire: [
@@ -483,7 +482,7 @@ function render(){
   const term = q.value.trim().toLowerCase();
   const items = DATA[current].map((d,i)=>[...d,i]).filter(d => d[0].toLowerCase().includes(term));
   grid.innerHTML = items.map(([name,slug,icon,,,i],k) => `
-    <a class="tile" href="${B}${slug}" target="_blank" rel="noopener" style="animation-delay:${k*25}ms" title="Open ${name} Industry Analysis">
+    <a class="tile" href="/${current}/${slug}" target="_blank" rel="noopener" style="animation-delay:${k*25}ms" title="Open ${name} Industry Analysis">
       <div class="tile-top"><span class="ico">${svg(icon)}</span><span class="num">${String(i+1).padStart(2,'0')}</span></div>
       <h4>${name}</h4>
       <div class="sub">Industry Analysis</div>
