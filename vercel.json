@@ -1,0 +1,11 @@
+{
+  "rewrites": [
+    { "source": "/shared/:path*", "destination": "https://mainbuilder.vercel.app/shared/:path*" },
+    { "source": "/_next/:path*", "destination": "https://mainbuilder.vercel.app/_next/:path*" },
+    { "source": "/api/:path*", "destination": "https://mainbuilder.vercel.app/api/:path*" },
+    { "source": "/accolades/:path*", "destination": "https://mainbuilder.vercel.app/accolades/:path*" },
+    { "source": "/certifications/:path*", "destination": "https://mainbuilder.vercel.app/certifications/:path*" },
+    { "source": "/mi-logo.png", "destination": "https://mainbuilder.vercel.app/mi-logo.png" },
+    { "source": "/wmr-logo.png", "destination": "https://mainbuilder.vercel.app/wmr-logo.png" }
+  ]
+}
