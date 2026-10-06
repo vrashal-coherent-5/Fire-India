@@ -46,7 +46,8 @@
   /* ---------- Main ---------- */
   main{max-width:1320px;margin:-64px auto 0;padding:0 32px 72px;position:relative}
   .panel{background:#fff;border:1px solid var(--line);border-radius:20px;box-shadow:0 20px 50px -20px rgba(15,31,51,.25);padding:10px}
-  .tabs{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .tabs{display:grid;grid-template-columns:1fr;gap:10px}
+  .tab[aria-selected="false"]{display:none}
   .tab{all:unset;cursor:pointer;display:flex;align-items:center;gap:16px;padding:18px 22px;border-radius:14px;transition:.25s;border:1px solid transparent}
   .tab:hover{background:#f7f9fc}
   .tab .ti{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;background:#eef2f7;color:var(--muted);transition:.25s;flex:none}
