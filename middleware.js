@@ -129,6 +129,55 @@ async function handleAuth(req, url) {
   return redirect('/');
 }
 
+// ---------- contact lookup (SalesQL) ----------
+// The report tables call this for cells that are gated in the preview. The API key
+// stays server-side and only logged-in users can spend credits.
+const json = (obj, status = 200) =>
+  new Response(JSON.stringify(obj), { status, headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' } });
+
+const domainOf = v => {
+  if (!v) return '';
+  const s = String(v).trim().toLowerCase();
+  if (s.includes('@')) return s.split('@').pop();
+  return s.replace(/^https?:\/\//, '').replace(/^www\./, '').split(/[/?#\s]/)[0];
+};
+
+async function handleEnrich(req) {
+  if (req.method !== 'POST') return json({ error: 'Method not allowed' }, 405);
+  let body;
+  try { body = await req.json(); } catch { return json({ error: 'Bad request' }, 400); }
+  const person = String(body.person || '').trim();
+  const company = String(body.company || '').trim();
+  const domain = domainOf(body.domain);
+  const linkedin = String(body.linkedin || '').trim();
+
+  const q = new URLSearchParams();
+  if (/linkedin\.com\/(in|sales)\//i.test(linkedin)) q.set('linkedin_url', linkedin);
+  else if (person && domain) { q.set('full_name', person); q.set('organization_domain', domain); }
+  else if (person && company) { q.set('full_name', person); q.set('organization_name', company); }
+  // SalesQL can only look up a named person; without one there is nobody to find.
+  else return json({ found: false });
+
+  const res = await fetch(`https://api-public.salesql.com/v1/persons/enrich?${q}`, {
+    headers: { Authorization: `Bearer ${process.env.SALESQL_API_KEY}` },
+  });
+  if (res.status === 404) return json({ found: false });
+  if (!res.ok) return json({ error: 'Lookup unavailable' }, 502);
+
+  const p = await res.json();
+  const emails = (p.emails || []).filter(e => e.email && !/invalid/i.test(e.status || ''));
+  const email = (emails.find(e => /work/i.test(e.type || '')) || emails[0] || {}).email || '';
+  const phone = ((p.phones || []).find(x => x.phone) || {}).phone || '';
+  return json({
+    found: !!(email || phone || p.linkedin_url),
+    name: p.full_name || '',
+    title: p.title || '',
+    email,
+    phone,
+    linkedin: p.linkedin_url || '',
+  });
+}
+
 // ---------- gate ----------
 export default async function middleware(req) {
   const url = new URL(req.url);
@@ -150,6 +199,10 @@ export default async function middleware(req) {
   }
 
   if (parts[0] === 'api') {
+    if (parts[1] === 'enrich') {
+      for (const e of ECOS) if (await session(req, e)) return handleEnrich(req);
+      return json({ error: 'Unauthorized' }, 401);
+    }
     // Report data: only for the session of the report's own ecosystem.
     if (parts[1] === 'dashboards') {
       const eco = ecoOfId(parts[2]);
