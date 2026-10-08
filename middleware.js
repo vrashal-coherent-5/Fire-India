@@ -22,7 +22,7 @@ const idOfSlug = slug => (slug.match(/--([0-9a-f]{24})$/) || [])[1];
 // ---------- helpers ----------
 const next = () => new Response(null, { headers: { 'x-middleware-next': '1' } });
 const redirect = (url, cookies = []) => {
-  const h = new Headers({ Location: url });
+  const h = new Headers({ Location: url, 'Cache-Control': 'no-store' });
   cookies.forEach(c => h.append('Set-Cookie', c));
   return new Response(null, { status: 302, headers: h });
 };
@@ -115,7 +115,9 @@ async function handleAuth(req, url) {
       return page(403, 'No access', `Your account (${claims.email || claims.sub}) does not have access to the ${name} Ecosystem reports. Please contact Coherent Market Insights for access.`, [clearTx]);
     }
     const sess = await seal({ sub: claims.sub, email: claims.email, eco: tx.eco, exp: Date.now() + SESSION_HOURS * 3600e3 });
-    return redirect(tx.returnTo, [clearTx, cookie(`cv_${tx.eco}`, sess, SESSION_HOURS * 3600)]);
+    // Only one Set-Cookie here: some edge proxies merge several into one header and the
+    // browser would then keep just the first. The login cookie expires on its own (10 min).
+    return redirect(tx.returnTo, [cookie(`cv_${tx.eco}`, sess, SESSION_HOURS * 3600)]);
   }
 
   if (url.pathname === '/auth/logout') {
