@@ -183,11 +183,6 @@ export default async function middleware(req) {
   const url = new URL(req.url);
   const parts = url.pathname.split('/').filter(Boolean);
 
-  // The bare domain has no ecosystem of its own; send visitors to the vault's page on the main site.
-  if (parts.length === 0 || url.pathname === '/index.html') {
-    return redirect('https://www.coherentmarketinsights.com/coherent-insights-vault');
-  }
-
   if (parts[0] === 'auth') return handleAuth(req, url);
 
   // Old public links: send them to their ecosystem path so they go through the gate.
