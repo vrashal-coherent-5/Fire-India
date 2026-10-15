@@ -189,7 +189,7 @@
     <div>
       <span class="eyebrow">Ecosystem Intelligence Hub</span>
       <h1 id="heroTitle">Fire Ecosystem Industry Analysis</h1>
-      <p>One gateway to 50 interactive market reports &mdash; customer landscapes, distributor networks, competitive quadrants and survey insights across the fire safety and drone value chains.</p>
+      <p>One gateway to 59 interactive market reports &mdash; customer landscapes, distributor networks, competitive quadrants and survey insights across the fire safety and drone value chains.</p>
     </div>
     <div class="stats">
       <div class="stat"><b id="sDash">25</b><span>Interactive reports</span></div>
@@ -211,7 +211,7 @@
       <button class="tab drone" role="tab" data-tab="drone" aria-selected="false">
         <span class="ti" data-icon="drone"></span>
         <span><h3>Drone Ecosystem Industry Analysis</h3><small>Platforms, components, software &amp; services</small></span>
-        <span class="count" id="cDrone">25</span>
+        <span class="count" id="cDrone">34</span>
       </button>
     </div>
   </div>
@@ -426,7 +426,16 @@ const DATA = {
     ['Drone Surveillance','drone-surveillance-industry-analysis--3d27e979b3b291a868fad634','eye',214,103],
     ['Drone Testing','drone-testing-industry-analysis--8240120e5ba386d44a564691','flask',196,59],
     ['Drone Training','drone-training-industry-analysis--361d2434245d6d31a89c9b1b','cap',146,175],
-    ['UAV Systems','uav-systems-industry-analysis--255b49318d003f2180fb3b52','plane',236,280]
+    ['UAV Systems','uav-systems-industry-analysis--255b49318d003f2180fb3b52','plane',236,280],
+    ['Global Drone Surveying & LiDAR Mapping Market','global-drone-surveying-lidar-mapping-market--f27540157319f4b0ca368471','scan',498,160],
+    ['Global Commercial Drone Services Market','global-commercial-drone-services-market--02d7219c369037c106e08582','drone',460,206],
+    ['Global Geospatial Analytics / GIS Market','global-geospatial-analytics-gis-market--aa98673701ccd68ec0f0b16a','map',310,141],
+    ['Global AI in Geospatial Imaging & Remote Sensing Market','global-ai-in-geospatial-imaging-remote-sensing-market--8c3584d9c260d0c196092946','bot',119,94],
+    ['Global Drone-Based Infrastructure Inspection Market','global-drone-based-infrastructure-inspection-market--09df29b8201c5c48ac56d166','building',0,218],
+    ['Global Telecom Tower Inspection & Maintenance Market','global-telecom-tower-inspection-maintenance-market--887ac2c49d03c9fc8bbc5613','radio',0,216],
+    ['Global Power Line, Utility Asset & Vegetation Management Drone Market','global-power-line-utility-asset-vegetation-management-drone---85125963c67d3d424bed8c4e','zap',0,201],
+    ['Global Precision Agriculture & Agricultural Drone Market','global-precision-agriculture-agricultural-drone-market--8012a01314a05c377fdca506','droplet',0,170],
+    ['Global Digital Twin Market — Infrastructure, Utilities & Smart Cities','global-digital-twin-market-infrastructure-utilities-smart-ci--6949ac5ae81304e76a8caeb4','layers',0,195]
   ]
 };
 
@@ -479,7 +488,7 @@ document.querySelectorAll('[data-icon]').forEach(el => el.innerHTML = svg(el.dat
 
 const META = {
   fire:{title:'Fire Ecosystem Industry Analysis',sub:'25 markets spanning detection, suppression, protection, training and emergency response.'},
-  drone:{title:'Drone Ecosystem Industry Analysis',sub:'25 markets spanning platforms, components, software, services and counter-UAS.'}
+  drone:{title:'Drone Ecosystem Industry Analysis',sub:'34 markets spanning platforms, components, software, services, geospatial analytics and counter-UAS.'}
 };
 document.getElementById('yr').textContent = new Date().getFullYear();
 
