@@ -112,7 +112,7 @@ async function handleAuth(req, url) {
     const claims = fromB64url(id_token.split('.')[1]);
     const roles = claims[ROLES_CLAIM] || [];
     if (!roles.includes(ROLE[tx.eco])) {
-      const name = { fire: 'Fire', drone: 'Drone', adhesive: 'Adhesives, Sealants & Foams' }[tx.eco];
+      const name = { fire: 'Fire', drone: 'Drone', adhesive: 'Adhesives and Bonding' }[tx.eco];
       return page(403, 'No access', `Your account (${claims.email || claims.sub}) does not have access to the ${name} Ecosystem reports. Please contact Coherent Market Insights for access.`, [clearTx]);
     }
     const sess = await seal({ sub: claims.sub, email: claims.email, eco: tx.eco, exp: Date.now() + SESSION_HOURS * 3600e3 });
