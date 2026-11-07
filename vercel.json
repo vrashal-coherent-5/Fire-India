@@ -9,11 +9,19 @@
       "destination": "/index.html"
     },
     {
+      "source": "/adhesive",
+      "destination": "/index.html"
+    },
+    {
       "source": "/fire/:slug",
       "destination": "https://mainbuilder.vercel.app/shared/:slug"
     },
     {
       "source": "/drone/:slug",
+      "destination": "https://mainbuilder.vercel.app/shared/:slug"
+    },
+    {
+      "source": "/adhesive/:slug",
       "destination": "https://mainbuilder.vercel.app/shared/:slug"
     },
     {

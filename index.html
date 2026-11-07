@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Fire & Drone Ecosystem Intelligence Hub | Coherent Market Insights</title>
+<title>Fire, Drone & Adhesive Ecosystem Intelligence Hub | Coherent Market Insights</title>
 <link rel="icon" type="image/png" href="/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,10 +14,12 @@
     --ink:#0f1f33; --muted:#5b6b7f; --line:#e3e9f1; --bg:#f4f7fb;
     --fire-1:#52b69a; --fire-2:#2a8a6f; --fire-soft:#e8f5f1;
     --drone-1:#16b3c7; --drone-2:#3b5bdb; --drone-soft:#e9f6fb;
+    --adhesive-1:#e2a32c; --adhesive-2:#bf6a1e; --adhesive-soft:#fdf4e4;
     --accent-1:var(--fire-1); --accent-2:var(--fire-2); --accent-soft:var(--fire-soft);
     --radius:16px;
   }
   body.drone{ --accent-1:var(--drone-1); --accent-2:var(--drone-2); --accent-soft:var(--drone-soft); }
+  body.adhesive{ --accent-1:var(--adhesive-1); --accent-2:var(--adhesive-2); --accent-soft:var(--adhesive-soft); }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
   body{font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
@@ -32,7 +34,7 @@
   .logout{color:var(--ink);font-weight:600;transition:.2s}
   .logout:hover{border-color:var(--ink)}
   body.chooser .toolbar,body.chooser .grid,body.chooser .empty{display:none}
-  body.chooser .tabs{grid-template-columns:1fr 1fr}
+  body.chooser .tabs{grid-template-columns:repeat(3,1fr)}
   body.chooser .tab{display:flex!important;background:#fff}
   body.chooser .tab:hover{background:#f7f9fc}
   body.chooser main{padding-bottom:64px}
@@ -68,6 +70,7 @@
   .tab[aria-selected="true"] .ti,.tab[aria-selected="true"] .count{background:rgba(255,255,255,.2);color:#fff}
   .tab.fire{--t1:var(--fire-1);--t2:var(--fire-2)}
   .tab.drone{--t1:var(--drone-1);--t2:var(--drone-2)}
+  .tab.adhesive{--t1:var(--adhesive-1);--t2:var(--adhesive-2)}
 
   .toolbar{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin:44px 0 24px;flex-wrap:wrap}
   .toolbar h2{font-size:26px;font-weight:800;letter-spacing:-.01em}
@@ -166,7 +169,7 @@
   @media (max-width:900px){
     .hero-inner{grid-template-columns:1fr;padding:44px 20px 100px}
     .bar{padding:12px 20px} main{padding:0 20px 56px}
-    .tabs{grid-template-columns:1fr}
+    .tabs,body.chooser .tabs{grid-template-columns:1fr}
     .bar-right .hide-sm{display:none}
   }
 </style>
@@ -189,7 +192,7 @@
     <div>
       <span class="eyebrow">Ecosystem Intelligence Hub</span>
       <h1 id="heroTitle">Fire Ecosystem Industry Analysis</h1>
-      <p>One gateway to 59 interactive market reports &mdash; customer landscapes, distributor networks, competitive quadrants and survey insights across the fire safety and drone value chains.</p>
+      <p>One gateway to 179 interactive market reports &mdash; customer landscapes, distributor networks, competitive quadrants and survey insights across the fire safety, drone and adhesives &amp; foams value chains.</p>
     </div>
     <div class="stats">
       <div class="stat"><b id="sDash">25</b><span>Interactive reports</span></div>
@@ -212,6 +215,11 @@
         <span class="ti" data-icon="drone"></span>
         <span><h3>Drone Ecosystem Industry Analysis</h3><small>Platforms, components, software &amp; services</small></span>
         <span class="count" id="cDrone">34</span>
+      </button>
+      <button class="tab adhesive" role="tab" data-tab="adhesive" aria-selected="false">
+        <span class="ti" data-icon="droplet"></span>
+        <span><h3>Adhesives, Sealants &amp; Foams Industry Analysis</h3><small>Bonding chemistries, foams, sealants &amp; application equipment</small></span>
+        <span class="count" id="cAdhesive">120</span>
       </button>
     </div>
   </div>
@@ -436,6 +444,128 @@ const DATA = {
     ['Global Power Line, Utility Asset & Vegetation Management Drone Market','global-power-line-utility-asset-vegetation-management-drone---85125963c67d3d424bed8c4e','zap',0,201],
     ['Global Precision Agriculture & Agricultural Drone Market','global-precision-agriculture-agricultural-drone-market--8012a01314a05c377fdca506','droplet',0,170],
     ['Global Digital Twin Market — Infrastructure, Utilities & Smart Cities','global-digital-twin-market-infrastructure-utilities-smart-ci--6949ac5ae81304e76a8caeb4','layers',0,195]
+  ],
+  adhesive: [
+    ['One-Component Epoxy Adhesives','global-one-component-epoxy-adhesives-market--8b4e5f59cabe714abd99d68c','droplet'],
+    ['Two-Component Epoxy Adhesives','global-two-component-epoxy-adhesives-market--ba407a365504698f156412c6','droplet'],
+    ['Structural Acrylic Adhesives','global-structural-acrylic-adhesives-market--7afecb8d120e26e25fc34ead','droplet'],
+    ['Anaerobic Adhesives','global-anaerobic-adhesives-market--759ad4e2bb3e5b9d7a4cee7e','droplet'],
+    ['Cyanoacrylate Adhesives','global-cyanoacrylate-adhesives-market--43fa2b91bf5d813c94408eab','droplet'],
+    ['Two-Component Polyurethane Adhesives','global-two-component-polyurethane-adhesives-market--93b38e34cf66dcb632e5f220','droplet'],
+    ['Moisture-Cure One-Component Polyurethane Adhesives','global-moisture-cure-one-component-polyurethane-adhesives-ma--b2e100b3cf0f5e96c6387434','droplet'],
+    ['Reactive Polyurethane (PUR) Hot Melt Adhesives','global-reactive-polyurethane-pur-hot-melt-adhesives-market--5dcff82f96b1daefc935b242','flame'],
+    ['RTV Silicone Adhesives','global-rtv-silicone-adhesives-market--c0677265b4d58257e358ab0c','droplet'],
+    ['Heat-Cure Silicone Adhesives','global-heat-cure-silicone-adhesives-market--6f68c23990944a044bd9b471','droplet'],
+    ['Modified Silane (MS Polymer) Adhesives','global-modified-silane-ms-polymer-adhesives-market--db2267703c8783df43d42f05','droplet'],
+    ['Phenolic Adhesives','global-phenolic-adhesives-market--eb578e5c03c0ed97eb107db5','droplet'],
+    ['Urea-Formaldehyde and Melamine-Formaldehyde Adhesives','global-urea-formaldehyde-and-melamine-formaldehyde-adhesives--fa164fbf0016aca7917a001b','droplet'],
+    ['EVA Hot Melt Adhesives','global-eva-hot-melt-adhesives-market--9ee20d87e49bc746626f4300','flame'],
+    ['Polyolefin Hot Melt Adhesives','global-polyolefin-hot-melt-adhesives-market--f48a07f4f4bfd03ff641e795','flame'],
+    ['Polyamide Hot Melt Adhesives','global-polyamide-hot-melt-adhesives-market--0f68cc1980d35afbc27d35ea','flame'],
+    ['Polyester Hot Melt Adhesives','global-polyester-hot-melt-adhesives-market--388ecb5a89553ff9ae334ddf','flame'],
+    ['Styrenic Block Copolymer Hot Melt Adhesives','global-styrenic-block-copolymer-hot-melt-adhesives-market--e6f143edaaeb30d0e5bf5a57','flame'],
+    ['Hot Melt Glue Sticks','global-hot-melt-glue-sticks-market--39b41ffaa81bc21cd7187684','flame'],
+    ['Polyvinyl Acetate (PVAc) Adhesives','global-polyvinyl-acetate-pvac-adhesives-market--4bc49711c2d336db20e4176a','droplet'],
+    ['Polyvinyl Alcohol (PVOH) Adhesives','global-polyvinyl-alcohol-pvoh-adhesives-market--29b95cda0f6811170c579b76','droplet'],
+    ['Acrylic Emulsion Adhesives','global-acrylic-emulsion-adhesives-market--063d295864d2ad82beacca25','droplet'],
+    ['Vinyl Acetate Ethylene (VAE) Emulsion Adhesives','global-vinyl-acetate-ethylene-vae-emulsion-adhesives-market--7c4c628204a203bb38ff8c5e','droplet'],
+    ['Styrene-Butadiene Latex Adhesives','global-styrene-butadiene-latex-adhesives-market--534755827c04aab72f1ece1e','droplet'],
+    ['Waterborne Polyurethane Dispersion Adhesives','global-waterborne-polyurethane-dispersion-adhesives-market--d67b6c4bd265fa13e1976780','droplet'],
+    ['Polychloroprene Contact Adhesives','global-polychloroprene-contact-adhesives-market--297c83878d0649382fcea690','droplet'],
+    ['Spray Adhesives','global-spray-adhesives-market--15a6201bbbcbefb8fd8d6746','spray'],
+    ['Starch and Dextrin-Based Adhesives','global-starch-and-dextrin-based-adhesives-market--182781e84c93868e734dcdce','leaf'],
+    ['Protein-Based Adhesives','global-protein-based-adhesives-market--115c18383a50f279f0edbb05','leaf'],
+    ['Bio-Based Adhesives','global-bio-based-adhesives-market--0febe55cd8ac152e21950788','leaf'],
+    ['UV-Curable Adhesives','global-uv-curable-adhesives-market--c95eb94e31e61d327cd1d652','sun'],
+    ['Dual-Cure Adhesives','global-dual-cure-adhesives-market--07df906b842e5713e726baad','sun'],
+    ['Debondable and Reversible Adhesives','global-debondable-and-reversible-adhesives-market--18e435533344a54b51f33b73','scan'],
+    ['Polyimide High-Temperature Adhesives','global-polyimide-high-temperature-adhesives-market--4c4ed84d333261ba68731377','flame'],
+    ['Acrylic Pressure-Sensitive Adhesives','global-acrylic-pressure-sensitive-adhesives-market--c41d2b8d1e678c1d94b2e171','layers'],
+    ['Rubber-Based Pressure-Sensitive Adhesives','global-rubber-based-pressure-sensitive-adhesives-market--ac53bcdf2ea6b0d7a3118399','layers'],
+    ['Silicone Pressure-Sensitive Adhesives','global-silicone-pressure-sensitive-adhesives-market--8eae7eaeea5303a5e1852664','layers'],
+    ['Double-Sided Adhesive Tapes','global-double-sided-adhesive-tapes-market--cf4729f3f9def5521675724c','tape'],
+    ['Single-Sided Adhesive Tapes','global-single-sided-adhesive-tapes-market--37107f0a7e7916734cf3eab5','tape'],
+    ['Transfer Adhesive Tapes','global-transfer-adhesive-tapes-market--0bebddec095878d894929b62','tape'],
+    ['Foam-Core Acrylic Bonding Tapes','global-foam-core-acrylic-bonding-tapes-market--8c38d5af73fa7aea1d1e8b0f','tape'],
+    ['Masking Tapes','global-masking-tapes-market--8c103d9c69fcbf6523fb5058','tape'],
+    ['Electrical Insulation Tapes','global-electrical-insulation-tapes-market--e424ef9efc17e31fa0d06184','tape'],
+    ['Thermally Conductive Adhesive Tapes','global-thermally-conductive-adhesive-tapes-market--814cb825b62371f1e15c177f','thermo'],
+    ['Structural Adhesive Films','global-structural-adhesive-films-market--27adc867927747b4a038c2db','tape'],
+    ['Heat-Activated Adhesive Films and Webs','global-heat-activated-adhesive-films-and-webs-market--8fbeb0d0257eb2b522fbf859','tape'],
+    ['Electrically Conductive Adhesives','global-electrically-conductive-adhesives-market--e7bf0fcf5e99a7fb38e32dff','zap'],
+    ['Thermally Conductive Adhesives','global-thermally-conductive-adhesives-market--cd664ab795136ffb167488da','thermo'],
+    ['Optically Clear Adhesives','global-optically-clear-adhesives-market--586b2743b4fd4ba76d88118b','eye'],
+    ['Underfill and Die-Attach Adhesives','global-underfill-and-die-attach-adhesives-market--b97a3cd0cd7ed068746b0d16','cpu'],
+    ['Flexible Polyurethane Foam','global-flexible-polyurethane-foam-market--b1552ce23b8c8ad3d48b3ce8','foam'],
+    ['High-Resilience (HR) Polyurethane Foam','global-high-resilience-hr-polyurethane-foam-market--313edc6f97387015b0ea3bc0','foam'],
+    ['Viscoelastic (Memory) Polyurethane Foam','global-viscoelastic-memory-polyurethane-foam-market--3ed9ff8cb16f270e6995dba6','foam'],
+    ['Reticulated Polyurethane Foam','global-reticulated-polyurethane-foam-market--27ce5b9fc19491cc02ff59ed','foam'],
+    ['Rebonded Polyurethane Foam','global-rebonded-polyurethane-foam-market--b8b02ee003803f706e6a27b4','foam'],
+    ['Rigid Polyurethane Foam','global-rigid-polyurethane-foam-market--fb4a9ee0ef9245d1b6a47767','foam'],
+    ['Polyisocyanurate (PIR) Foam','global-polyisocyanurate-pir-foam-market--23875f8d1d0845ec97fc5d89','foam'],
+    ['Spray Polyurethane Foam','global-spray-polyurethane-foam-market--d9ab5fbfb9ff246bdcd4063c','foam'],
+    ['One-Component Canned Polyurethane Foam','global-one-component-canned-polyurethane-foam-market--784d4cf7102ef6efbef1694e','foam'],
+    ['Semi-Rigid Polyurethane Foam','global-semi-rigid-polyurethane-foam-market--805f1e24149391c8ef03f6a7','foam'],
+    ['Integral Skin Polyurethane Foam','global-integral-skin-polyurethane-foam-market--8d0fc809398d64540f348f65','foam'],
+    ['Microcellular Polyurethane Foam','global-microcellular-polyurethane-foam-market--44a42ec435c44fec29152270','foam'],
+    ['Expanded Polystyrene (EPS) Foam','global-expanded-polystyrene-eps-foam-market--55443d9927cb2c39e6f02375','foam'],
+    ['Graphite-Enhanced EPS Foam','global-graphite-enhanced-eps-foam-market--cd34212e8598df2fc69c39ce','foam'],
+    ['Extruded Polystyrene (XPS) Foam','global-extruded-polystyrene-xps-foam-market--c2a5f265c6b0d95b4646e783','foam'],
+    ['Expanded Polypropylene (EPP) Foam','global-expanded-polypropylene-epp-foam-market--57e1bb8ccca2e2be7d010ca3','foam'],
+    ['Extruded Polypropylene Foam','global-extruded-polypropylene-foam-market--98ae655969f6f761bf01ea9e','foam'],
+    ['Cross-Linked Polyethylene (XLPE) Foam','global-cross-linked-polyethylene-xlpe-foam-market--97a149a6ece91daa5b23f2e6','foam'],
+    ['Non-Crosslinked Polyethylene Foam','global-non-crosslinked-polyethylene-foam-market--f868d58d4ca635ac49859dfd','foam'],
+    ['EVA Foam','global-eva-foam-market--0c635563b82966e2bd19e1b7','foam'],
+    ['Polyolefin Elastomer (POE) Foam','global-polyolefin-elastomer-poe-foam-market--87b9662e956f8a14d2a20896','foam'],
+    ['Semi-Rigid PVC Foam','global-semi-rigid-pvc-foam-market--d93122da07aa1739e27ec1c1','foam'],
+    ['Closed-Cell PVC Structural Core Foam','global-closed-cell-pvc-structural-core-foam-market--3134d5c4b7a3a62bfe3e14fe','foam'],
+    ['Polyimide Foam','global-polyimide-foam-market--1cc6f76be9ef594a5d6aa34d','foam'],
+    ['Phenolic Foam','global-phenolic-foam-market--442317b96d47011cbe5edf93','foam'],
+    ['Polyetherimide (PEI) Foam','global-polyetherimide-pei-foam-market--571a9051aa43b5b66ff01f10','foam'],
+    ['PEEK Foam','global-peek-foam-market--d3903fbae10f1b6d5711bde4','foam'],
+    ['Polymethacrylimide (PMI) Foam','global-polymethacrylimide-pmi-foam-market--feadf1f7193f5a3dac038898','foam'],
+    ['PET Structural Foam','global-pet-structural-foam-market--9979380877438956a55335ce','foam'],
+    ['PVDF Foam','global-pvdf-foam-market--ef46dfaad91ec6f3ecebc2f8','foam'],
+    ['Melamine Foam','global-melamine-foam-market--81c3ab406b6bb07fafd089e6','foam'],
+    ['Nitrile Rubber (NBR) Elastomeric Foam','global-nitrile-rubber-nbr-elastomeric-foam-market--4afe7bfe8504fc8c2600b7eb','foam'],
+    ['EPDM Foam','global-epdm-foam-market--b6ad295222c435c199dc390f','foam'],
+    ['Silicone Foam','global-silicone-foam-market--6573662eb60869589ed59fef','foam'],
+    ['Neoprene (CR) Foam','global-neoprene-cr-foam-market--e9c288d00b790d1b69490220','foam'],
+    ['Fluoroelastomer (FKM) Foam','global-fluoroelastomer-fkm-foam-market--09aef5bc8de1680689daaeef','foam'],
+    ['Expanded TPU (E-TPU) Foam','global-expanded-tpu-e-tpu-foam-market--10a0c520d44000f445209ab6','foam'],
+    ['Syntactic Foam','global-syntactic-foam-market--f9b2863385b111d496ea6417','foam'],
+    ['Carbon Foam','global-carbon-foam-market--3009b15a592eeaf47e0ebea0','foam'],
+    ['Bio-Based Polyurethane Foam','global-bio-based-polyurethane-foam-market--70060a1d64856c9eb7aa461d','foam'],
+    ['PLA Foam','global-pla-foam-market--33a40ba7c60c2850c862a122','foam'],
+    ['Starch-Based Foam','global-starch-based-foam-market--85ac342b280f505a94019d75','foam'],
+    ['Bio-Based Polyethylene Foam','global-bio-based-polyethylene-foam-market--c8787023f4e4671f0e5882aa','foam'],
+    ['Cellulose-Based Foam','global-cellulose-based-foam-market--a150eb93f457629ff29d5612','foam'],
+    ['Conductive (EMI/ESD) Foam','global-conductive-emi-esd-foam-market--6f130be73c0d25b8e5eb073c','zap'],
+    ['Die-Cut Foam Gaskets and Seals','global-die-cut-foam-gaskets-and-seals-market--dca23d5642df582bc9c3e0d5','seal'],
+    ['Pre-Compressed Foam Sealing Tapes','global-pre-compressed-foam-sealing-tapes-market--1fde57fe80b375a5ad2596c9','seal'],
+    ['Laminated Foam Composites','global-laminated-foam-composites-market--ded9ba6f32dd330525c711b8','foam'],
+    ['Molded Foam Components','global-molded-foam-components-market--0bce639855b26b5be9f21ce3','foam'],
+    ['Thermoformed Foam Parts','global-thermoformed-foam-parts-market--0721fabf446056e129ba25dc','foam'],
+    ['Silicone Sealants','global-silicone-sealants-market--fbb7b34293d40e6ea7508096','seal'],
+    ['Polyurethane Sealants','global-polyurethane-sealants-market--efb4796b37472df94a490ece','seal'],
+    ['Modified Silane (MS Polymer) Sealants','global-modified-silane-ms-polymer-sealants-market--297ef0c875e1c64f6942f073','seal'],
+    ['Acrylic Sealants','global-acrylic-sealants-market--a1138992f48ba133dd220151','seal'],
+    ['Polysulfide Sealants','global-polysulfide-sealants-market--a574ef8b16158c4cb970f44f','seal'],
+    ['Firestop Sealants','global-firestop-sealants-market--3f440c9d2bde465630b3b73e','seal'],
+    ['Construction Joint Sealants','global-construction-joint-sealants-market--f0b7af6d87b0350f884a153b','seal'],
+    ['Surface Preparation Chemicals for Bonding','global-surface-preparation-chemicals-for-bonding-market--0073f0dae8bd26b919368922','flask'],
+    ['Mechanical Surface Preparation Equipment for Bonding','global-mechanical-surface-preparation-equipment-for-bonding--1d15af1bed67b2b91eb97db2','wrench'],
+    ['Plasma and Corona Surface Treatment Systems','global-plasma-and-corona-surface-treatment-systems-market--36d7ed514fdcac9ff39f26f2','radio'],
+    ['Adhesion Promoters and Primers','global-adhesion-promoters-and-primers-market--e5a131b174a6c2633b883122','flask'],
+    ['Silane Coupling Agents','global-silane-coupling-agents-market--ca79b5846b97ccd58afd14e8','flask'],
+    ['Adhesive Application and Dispensing Equipment','global-adhesive-application-and-dispensing-equipment-market--67518cf12210d7810f67bfe8','nozzle'],
+    ['Meter-Mix-Dispense (MMD) Systems','global-meter-mix-dispense-mmd-systems-market--12f8652a89b17cb2c76de541','nozzle'],
+    ['Hot Melt Adhesive Dispensing Equipment','global-hot-melt-adhesive-dispensing-equipment-market--c8d702580afe27c3f8bf8b6c','nozzle'],
+    ['Industrial Bonding Robots and Automated Application Systems','global-industrial-bonding-robots-and-automated-application-s--e6a44ad52c5992df793cb789','bot'],
+    ['Thermal Interface Materials (TIM)','global-thermal-interface-materials-tim-market--8265e66fb652005aa7d8e58d','thermo'],
+    ['Thermal Gap Filler Pads','global-thermal-gap-filler-pads-market--e04352501b45613b32bb144f','thermo'],
+    ['Thermal Greases and Phase-Change Materials','global-thermal-greases-and-phase-change-materials-market--08ffe0f85fda0af7cac34e8e','thermo'],
+    ['Electronic Potting and Encapsulation Compounds','global-electronic-potting-and-encapsulation-compounds-market--10e6414ad27d704abfee079d','cpu']
   ]
 };
 
@@ -481,6 +611,14 @@ const P = {
   code:'<path d="m16 18 6-6-6-6M8 6l-6 6 6 6"/>',
   eye:'<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>',
   plane:'<path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/>',
+  tape:'<rect x="2" y="7" width="20" height="10" rx="3"/><circle cx="12" cy="12" r="3"/><path d="M12 17v4h9"/>',
+  foam:'<circle cx="7" cy="9" r="3.5"/><circle cx="15.5" cy="7" r="2.5"/><circle cx="12" cy="16" r="4"/><circle cx="19.5" cy="14" r="2"/>',
+  seal:'<path d="M2 6h20M2 18h20M7 6v12M17 6v12"/><circle cx="12" cy="12" r="2.5"/>',
+  spray:'<rect x="7" y="9" width="8" height="12" rx="2"/><path d="M9 9V6h4v3M18.5 4h.01M21 7h.01M18.5 10h.01M21 13h.01"/>',
+  sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M19.1 4.9 17 7M7 17l-2.1 2.1"/>',
+  leaf:'<path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.5 19 2c1 2 2 4.2 2 8 0 5.5-4.8 10-10 10Z"/><path d="M2 21c0-3 1.9-5.4 5.1-6C9.5 14.5 12 13 13 12"/>',
+  thermo:'<path d="M14 14.8V3.5a2.5 2.5 0 0 0-5 0v11.3a4.5 4.5 0 1 0 5 0z"/><path d="M12 8v8"/>',
+  nozzle:'<path d="M6 3h8v7l-2 4v7H8v-7L6 10z"/><path d="M6 7h8"/>',
   arrow:'<path d="M5 12h14M13 6l6 6-6 6"/>'
 };
 const svg = n => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${P[n]}</svg>`;
@@ -488,17 +626,19 @@ document.querySelectorAll('[data-icon]').forEach(el => el.innerHTML = svg(el.dat
 
 const META = {
   fire:{title:'Fire Ecosystem Industry Analysis',sub:'25 markets spanning detection, suppression, protection, training and emergency response.'},
-  drone:{title:'Drone Ecosystem Industry Analysis',sub:'34 markets spanning platforms, components, software, services, geospatial analytics and counter-UAS.'}
+  drone:{title:'Drone Ecosystem Industry Analysis',sub:'34 markets spanning platforms, components, software, services, geospatial analytics and counter-UAS.'},
+  adhesive:{title:'Adhesives, Sealants & Foams Industry Analysis',sub:'120 markets spanning bonding chemistries, tapes and films, polymer foams, sealants, surface preparation and application equipment.'}
 };
 document.getElementById('yr').textContent = new Date().getFullYear();
 
+const ECOS = ['fire', 'drone', 'adhesive'];
 const grid = document.getElementById('grid'), q = document.getElementById('q'), empty = document.getElementById('empty');
 let current = 'fire';
 
 function render(){
   const term = q.value.trim().toLowerCase();
-  const items = DATA[current].map((d,i)=>[...d,i]).filter(d => d[0].toLowerCase().includes(term));
-  grid.innerHTML = items.map(([name,slug,icon,,,i],k) => `
+  const items = DATA[current].map(([name,slug,icon],i)=>({name,slug,icon,i})).filter(it => it.name.toLowerCase().includes(term));
+  grid.innerHTML = items.map(({name,slug,icon,i},k) => `
     <a class="tile" href="/${current}/${slug}" target="_blank" rel="noopener" style="animation-delay:${k*25}ms" title="Open ${name} Industry Analysis">
       <div class="tile-top"><span class="ico">${svg(icon)}</span><span class="num">${String(i+1).padStart(2,'0')}</span></div>
       <h4>${name}</h4>
@@ -510,7 +650,8 @@ function render(){
 
 function setTab(t){
   current = t;
-  document.body.classList.toggle('drone', t === 'drone');
+  ECOS.forEach(e => document.body.classList.toggle(e, e === t && e !== 'fire'));
+  document.getElementById('sDash').textContent = DATA[t].length;
   document.querySelectorAll('.tab').forEach(b => b.setAttribute('aria-selected', b.dataset.tab === t));
   document.getElementById('secTitle').textContent = META[t].title;
   document.getElementById('heroTitle').textContent = META[t].title;
@@ -522,16 +663,16 @@ function setTab(t){
 document.querySelectorAll('.tab').forEach(b => b.addEventListener('click', () => { location.href = '/' + b.dataset.tab; }));
 q.addEventListener('input', render);
 const eco = location.pathname.split('/')[1];
-if (eco === 'fire' || eco === 'drone') {
+if (ECOS.includes(eco)) {
   setTab(eco);
   const lo = document.getElementById('logout');
   lo.href = '/auth/logout?eco=' + eco;
   lo.hidden = false;
-} else if (location.hash === '#fire' || location.hash === '#drone') {
+} else if (ECOS.includes(location.hash.slice(1))) {
   location.replace('/' + location.hash.slice(1));
 } else {
   document.body.classList.add('chooser');
-  document.getElementById('heroTitle').textContent = 'Fire & Drone Ecosystem Industry Analysis';
+  document.getElementById('heroTitle').textContent = 'Fire, Drone & Adhesive Ecosystem Industry Analysis';
   document.querySelectorAll('.tab').forEach(b => b.setAttribute('aria-selected', 'false'));
 }
 </script>
