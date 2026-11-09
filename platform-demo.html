@@ -357,10 +357,12 @@ body.rec{padding:0;background:#000;overflow:hidden}body.rec .top-title,body.rec 
 /* Embedded in the vault page. Drops the standalone page title and the mock
    browser bar so only the recording shows, and lets the screens use the full
    1600x900 stage. (The file's own #rec mode is not used: it stalls at 0:05.) */
-body{padding:0;min-height:0}
-.top-title{display:none}
+body{padding:0;min-height:0;background:transparent}
+.top-title,.bar,.controls,.chips{display:none}
 .chrome,.loadbar{display:none}
 .viewport{top:0}
+.player{width:100%}
+.frame{border-radius:0;box-shadow:none}
 </style>
 </head>
 <body>
