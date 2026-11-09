@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Coherent Insights Vault — Platform Walkthrough</title>
+<style>
+:root{--bg:#e9edf3;--panel:#ffffff;--ink:#0f1b2d;--muted:#5b6678;--line:#d5dbe5;--accent:#2a9d8f;--accent-ink:#ffffff;--frame:#0d1626;color-scheme:light}
+@media (prefers-color-scheme:dark){:root{--bg:#0a0f18;--panel:#131a26;--ink:#e6ebf2;--muted:#95a2b6;--line:#253044;--accent:#3cbcaa;--accent-ink:#06121a;--frame:#000000;color-scheme:dark}}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:20px 16px 36px}
+.top-title{width:min(100%,1280px);display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px;gap:12px;flex-wrap:wrap}
+.top-title h1{font-size:18px;font-weight:700}
+.top-title p{font-size:13px;color:var(--muted)}
+.player{width:min(100%,1280px)}
+.frame{position:relative;width:100%;aspect-ratio:16/9;background:var(--frame);border-radius:12px;overflow:hidden;box-shadow:0 18px 50px rgba(0,0,0,.25)}
+.frame:fullscreen{border-radius:0;aspect-ratio:auto;width:100vw;height:100vh}
+.controls{display:flex;align-items:center;gap:10px;margin-top:12px;flex-wrap:wrap}
+.controls button,.controls select{background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:8px;height:36px;padding:0 14px;font:inherit;font-size:14px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.controls button.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:600;min-width:96px;justify-content:center}
+.controls button:focus-visible,.controls select:focus-visible,.seg:focus-visible,.chip:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.time{font-variant-numeric:tabular-nums;font-size:14px;color:var(--muted);margin-left:auto}
+.bar{display:flex;gap:4px;margin-top:12px}
+.seg{position:relative;height:8px;background:var(--line);border-radius:4px;overflow:hidden;cursor:pointer;border:0;padding:0}
+.seg i{position:absolute;inset:0 auto 0 0;background:var(--accent);width:0}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.chip{font:inherit;font-size:12.5px;padding:6px 11px;border-radius:999px;border:1px solid var(--line);background:var(--panel);color:var(--muted);cursor:pointer}
+.chip.on{color:var(--accent-ink);background:var(--accent);border-color:var(--accent)}
+
+/* ====== STAGE (simulated product, fixed light theme like the real platform) ====== */
+.stage{position:absolute;left:0;top:0;width:1600px;height:900px;transform-origin:0 0;overflow:hidden;background:#fff;color:#0f1b2d;font-family:Inter,"Segoe UI",system-ui,Roboto,Arial,sans-serif;
+ --s-ink:#0f1b2d;--s-muted:#5d6878;--s-line:#e2e7ef;--s-bg:#f4f7fb;--s-navy:#10306a;--s-teal:#4fae9c;--s-blue:#2563eb}
+.chrome{position:absolute;left:0;right:0;top:0;height:44px;background:#e6e9ee;display:flex;align-items:center;gap:14px;padding:0 16px;border-bottom:1px solid #d1d6de;z-index:40}
+.dots{display:flex;gap:7px}.dots i{width:12px;height:12px;border-radius:50%;background:#ff5f57}.dots i:nth-child(2){background:#febc2e}.dots i:nth-child(3){background:#28c840}
+.navbtn{color:#7a8392;font-size:16px;letter-spacing:6px}
+.url{flex:1;height:28px;background:#fff;border-radius:14px;display:flex;align-items:center;gap:8px;padding:0 14px;font-size:13px;color:#3a4352}
+.url svg{width:13px;height:13px;color:#2e8b57}
+.loadbar{position:absolute;left:0;top:42px;height:3px;background:#4fae9c;width:0;z-index:41}
+.viewport{position:absolute;top:44px;left:0;right:0;bottom:0;overflow:hidden;background:#fff}
+.screen{position:absolute;inset:0;opacity:0;transition:opacity .5s;overflow:hidden;background:#fff;pointer-events:none}
+.screen.on{opacity:1}
+.scroller{position:absolute;left:0;right:0;top:0;will-change:transform}
+.ico{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.hov{box-shadow:0 0 0 3px rgba(79,174,156,.55)!important}
+
+/* logo */
+.logo .lw{font-family:Georgia,"Times New Roman",serif;font-size:var(--ls);color:#1d3b6e;letter-spacing:.02em;line-height:1;display:flex;align-items:center}
+.logo .lo{display:inline-block;width:.78em;height:.78em;border-radius:50%;margin:0 .03em;background:radial-gradient(circle,#2e9fd8 28%,transparent 32%) 0 0/.2em .2em,radial-gradient(circle,#8cc63f 28%,transparent 32%) .1em .1em/.2em .2em;box-shadow:inset 0 0 0 1px rgba(29,59,110,.15)}
+.logo .ls{font-size:calc(var(--ls)*.3);letter-spacing:.62em;color:#1d3b6e;margin-top:4px;white-space:nowrap}
+
+/* grid background for dark heroes */
+.gridbg{position:relative;overflow:hidden}
+.gridbg::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);background-size:56px 56px;pointer-events:none}
+.gridbg>*{position:relative}
+
+/* ===== landing ===== */
+.l-top{height:34px;display:flex;align-items:center;justify-content:space-between;padding:0 110px;font-size:12px;font-weight:600;letter-spacing:.04em;border-bottom:1px solid var(--s-line)}
+.l-top span{margin-right:28px}
+.l-tr{display:flex;align-items:center;gap:8px;color:#1d3b6e}
+.soc{width:22px;height:22px;border:1px solid #c9d2e0;border-radius:4px;display:inline-flex;align-items:center;justify-content:center;font-size:11px;margin:0!important}
+.l-nav{height:76px;display:flex;align-items:center;padding:0 110px;gap:22px;border-bottom:1px solid var(--s-line)}
+.l-nav nav{display:flex;gap:20px;font-weight:700;font-size:15px;margin-left:36px;flex:1;white-space:nowrap}
+.l-nav nav small{font-size:10px;margin-left:3px}
+.l-search{display:flex;align-items:center;gap:6px;border:1px solid #d0d6df;border-radius:22px;padding:8px 14px;font-size:14px;color:#3b4554}
+.btn-navy{background:#0f2a5c;color:#fff;font-weight:700;padding:11px 22px;border-radius:24px;font-size:15px}
+.l-hero{background:linear-gradient(120deg,#16386b 0%,#102c62 45%,#14406f 100%);color:#fff;text-align:center;padding:52px 0 48px}
+.l-hero::after{content:"";position:absolute;right:-120px;top:-80px;width:520px;height:420px;background:radial-gradient(closest-side,rgba(52,160,190,.35),transparent);pointer-events:none}
+.pill{display:inline-flex;align-items:center;gap:10px;border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.07);border-radius:22px;padding:9px 20px;font-size:14px;font-weight:700;letter-spacing:.06em;color:#d7e2f2}
+.pill .gd{width:9px;height:9px;border-radius:50%;background:#8cc63f;box-shadow:0 0 0 4px rgba(140,198,63,.25)}
+.l-hero h1{font-family:Georgia,"Times New Roman",serif;font-weight:500;font-size:78px;margin:26px 0 8px;letter-spacing:-.01em}
+.l-hero h1 .g{background:linear-gradient(90deg,#3cc0cb,#a4d45a);-webkit-background-clip:text;background-clip:text;color:transparent}
+.l-hero h3{font-size:25px;font-weight:700}
+.l-hero p{max-width:960px;margin:20px auto 0;font-size:18px;line-height:1.75;color:#c9d5e6}
+.l-hero hr{border:0;border-top:1px solid rgba(255,255,255,.15);width:1110px;margin:34px auto 26px}
+.l-stats{display:flex;justify-content:center;gap:52px;align-items:baseline}
+.l-stats b{font-size:31px;font-weight:800;margin-right:10px}
+.l-stats span{font-size:15.5px;color:#c9d5e6}
+.l-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;padding:30px 160px 20px}
+.lc{height:192px;border-radius:14px;background:#fff;box-shadow:0 10px 30px rgba(16,40,80,.1);border:1px solid #edf0f5;border-bottom:4px solid #1aa0a0;display:flex;align-items:center;gap:16px;padding:20px;position:relative}
+.lc .ic{width:58px;height:58px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex:none}
+.lc .ic .ico{width:26px;height:26px}
+.lc b{display:block;font-size:20px;color:#10306a;line-height:1.2}
+.lc span{font-size:14.5px;color:#5d6878;line-height:1.5;display:block;margin-top:4px}
+.lc .go{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex:none;margin-left:auto}
+.lc.c1{background:linear-gradient(135deg,#123a73,#1d6aa8);border-bottom-color:#8cc63f;color:#fff}
+.lc.c1 b{color:#fff}.lc.c1 span{color:#cfe0f2}
+.l-how{text-align:center;padding:46px 160px 50px}
+.lbl{font-size:14px;font-weight:800;letter-spacing:.2em;color:#2a9d8f}
+.l-how h2{font-family:Georgia,"Times New Roman",serif;font-weight:500;font-size:50px;color:#10306a;margin:12px 0}
+.l-how>p{font-size:18px;color:#5d6878}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:36px;text-align:left}
+.step{border:1px solid #e3e8ef;border-radius:14px;padding:24px;background:#f8fafc}
+.step em{font-style:normal;font-weight:800;color:#2a9d8f;font-size:14px}
+.step b{display:block;font-size:19px;color:#10306a;margin:10px 0 8px}
+.step p{font-size:14.5px;color:#5d6878;line-height:1.55}
+.l-foot{background:#0f2a5c;color:#b9c7dc;padding:34px 160px;font-size:14px;display:flex;justify-content:space-between}
+
+/* ===== hub ===== */
+.h-head{height:92px;display:flex;align-items:center;padding:0 130px;border-bottom:1px solid var(--s-line)}
+.h-head .r{margin-left:auto;display:flex;align-items:center;gap:20px;font-size:15px;color:#3b4554}
+.live{display:flex;align-items:center;gap:8px;border:1px solid #dfe5ec;border-radius:22px;padding:8px 16px}
+.live i{width:9px;height:9px;border-radius:50%;background:#22c55e}
+.outbtn{border:1px solid #dfe5ec;border-radius:22px;padding:8px 16px;font-weight:600;color:#0f1b2d}
+.h-hero{background:linear-gradient(115deg,#173a68 0%,#13305a 50%,#0d2142 100%);color:#fff;padding:56px 130px 120px;display:flex;gap:60px}
+.h-hero .pill{font-size:13.5px;letter-spacing:.12em}
+.h-hero h1{font-size:64px;line-height:1.08;font-weight:800;margin:26px 0 22px;letter-spacing:-.02em}
+.h-hero p{font-size:19px;line-height:1.75;color:#c9d5e6;max-width:740px}
+.h-stats{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-left:auto;align-self:flex-start;margin-top:22px}
+.h-stats div{width:300px;height:128px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);border-radius:14px;padding:26px}
+.h-stats b{font-size:40px;font-weight:800;display:block}
+.h-stats span{font-size:15px;color:#cfdbea}
+.h-band{margin:-74px 130px 0;padding:12px;background:#fff;border-radius:22px;box-shadow:0 12px 34px rgba(16,40,80,.12);position:relative}
+.h-band>div{height:110px;border-radius:14px;background:linear-gradient(90deg,#e3a02c,#c96a1f);display:flex;align-items:center;gap:20px;padding:0 28px;color:#fff}
+.h-band .ic{width:64px;height:64px;border-radius:12px;background:rgba(255,255,255,.22);display:flex;align-items:center;justify-content:center}
+.h-band .ic .ico{width:28px;height:28px}
+.h-band b{font-size:21px;display:block}.h-band span{font-size:16px;opacity:.92}
+.h-band em{margin-left:auto;font-style:normal;background:rgba(255,255,255,.25);border-radius:16px;padding:6px 14px;font-weight:700}
+.h-sec{background:#f4f7fb;padding:60px 130px 70px}
+.h-sec h2{font-size:33px;font-weight:800;color:#10233f}
+.h-sec>p{font-size:17px;color:#5d6878;margin:10px 0 24px}
+.h-search{width:450px;height:54px;border:1px solid #dfe5ec;background:#fff;border-radius:10px;display:flex;align-items:center;gap:12px;padding:0 18px;color:#6b7686;font-size:17px}
+.h-search .q{color:#0f1b2d}
+.h-search .q:empty::before{content:"Search markets…";color:#8a94a3}
+.caret{width:2px;height:22px;background:#0f1b2d;animation:blink 1s steps(1) infinite;margin-left:-10px;opacity:0}
+.h-search.focus{border-color:#c96a1f;box-shadow:0 0 0 3px rgba(201,106,31,.18)}
+.h-search.focus .caret{opacity:1}
+@keyframes blink{50%{visibility:hidden}}
+.h-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:20px;margin-top:30px}
+.hc{background:#fff;border:1px solid #e6ebf1;border-radius:16px;padding:26px;height:216px;display:flex;flex-direction:column}
+.hc .t{display:flex;justify-content:space-between;align-items:center}
+.hc .ic{width:58px;height:58px;border-radius:12px;background:#fdf0df;color:#c96a1f;display:flex;align-items:center;justify-content:center}
+.hc .ic .ico{width:26px;height:26px}
+.hc .n{font-weight:700;color:#9aa4b2;letter-spacing:.06em}
+.hc b{font-size:20px;margin-top:22px;line-height:1.25;color:#10233f}
+.hc span{font-size:14px;color:#7a8594;margin-top:6px}
+.hc.hide{display:none}
+
+/* ===== dashboard ===== */
+.d-head{display:flex;align-items:center;padding:24px 22px 20px;background:#f4f7fb}
+.d-head .tt{flex:1;text-align:center;padding-right:180px}
+.d-head h1{font-size:30px;font-weight:800;color:#0b1220}
+.d-head p{font-size:16.5px;color:#5d6878;margin-top:8px}
+.d-kpis{display:none;grid-template-columns:repeat(4,1fr);gap:20px;padding:20px 30px;margin:0 8px 18px;border-top:1px solid #e3e8ef;border-bottom:1px solid #e3e8ef;background:#f4f7fb}
+.d-kpis.on{display:grid}
+.d-kpis .k{display:flex;align-items:center;gap:12px}
+.d-kpis .k i{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center}
+.d-kpis small{font-size:12.5px;font-weight:700;letter-spacing:.04em;display:block}
+.d-kpis b{font-size:21px}
+.d-kpis em{display:block;font-style:normal;font-size:12px;color:#5d6878}
+.d-kpis .kh{grid-column:1/-1;font-size:15px;padding-bottom:10px;border-bottom:1px solid #e3e8ef;margin-bottom:4px}
+.d-tabs{margin:0 16px;background:#fff;border:1px solid #e3e8ef;border-radius:10px;padding:10px 16px;display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;box-shadow:0 2px 8px rgba(16,40,80,.05)}
+.d-tabs>b{font-size:15px;margin-right:6px}
+.d-tab{white-space:nowrap;display:flex;gap:8px;align-items:center;padding:9px 14px;border-radius:7px;font-size:15px;color:#1d2735;border:2px solid transparent;transition:background .3s,color .3s}
+.d-tab.on{background:#4fae9c;color:#fff;border-color:#2f8a79}
+.pane{display:none;padding-bottom:40px}
+.pane.on{display:block;animation:fin .5s}
+@keyframes fin{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.d-country{margin:18px 16px 0;background:#fff;border:1px solid #e3e8ef;border-radius:10px;height:58px;display:flex;align-items:center;gap:10px;padding:0 16px;font-size:15.5px}
+.d-country .p{padding:8px 15px;border-radius:7px}
+.d-country .p.on{background:#4fae9c;color:#fff}
+.d-panel{margin:18px 16px 0;background:#fff;border:1px solid #e3e8ef;border-radius:10px}
+.d-ph{height:58px;display:flex;align-items:center;gap:8px;padding:0 18px;border-bottom:1px solid #e3e8ef}
+.d-ph .sq{width:36px;height:36px;border-radius:7px;display:flex;align-items:center;justify-content:center;color:#3b4554}
+.d-ph .sq.on{background:#e3ecfb;color:#2563eb}
+.d-sub{height:58px;display:flex;align-items:center;padding:0 30px;margin-left:30px;color:#2563eb;font-size:17px;border-bottom:2px solid #2563eb}
+.d-sub2{height:58px;display:flex;align-items:center;padding:0 26px;font-size:17px;color:#0f1b2d;border-bottom:2px solid transparent}
+.d-sub2.on{color:#2563eb;border-bottom-color:#2563eb}
+.d-ins{margin-left:auto;display:flex;align-items:center;gap:6px;font-size:17px}
+.d-pad{padding:28px 30px 34px}
+.d-pad h2{font-size:29px;font-weight:800;color:#10233f}
+.mut{color:#5d6878;font-size:16.5px;margin-top:8px}
+.bar-h{font-size:24px;font-weight:800;color:#10233f;border-left:6px solid #6ab04c;padding-left:16px;margin:28px 0 22px;border-radius:2px}
+.seg-wrap{border:1px solid #e3e8ef;border-radius:14px;padding:26px 30px;background:#fbfcfe}
+.sgg h4{font-size:19px;border-left:5px solid #6ab04c;padding-left:14px;margin:6px 0 16px;color:#10233f}
+.sgl{border:1px solid #e3e8ef;border-radius:10px;background:#fff;padding:8px 20px;margin-bottom:26px}
+.sgl div{padding:15px 0;font-size:17px}
+.sgl em{font-style:normal;color:#6ab04c;font-weight:700;display:inline-block;width:76px}
+
+/* market analysis */
+.ma{display:grid;grid-template-columns:400px 1fr;gap:16px;margin:18px 16px 0}
+.side{display:flex;flex-direction:column;gap:16px}
+.box{background:#fff;border:1px solid #e3e8ef;border-radius:10px;padding:18px 20px}
+.qf h5{font-size:15px;letter-spacing:.1em;display:flex;align-items:center;gap:6px;margin-bottom:12px}
+.qf .g{display:grid;grid-template-columns:1fr 1fr;gap:14px 10px;font-size:15px}
+.qf .g span{display:flex;align-items:center;gap:8px;color:#1d2735}
+.qf .g .ico{color:#2563eb}
+.fl{font-size:15px;color:#1d2735;margin:4px 0 10px;letter-spacing:.02em}
+.tog{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:22px}
+.tog span{height:38px;display:flex;align-items:center;justify-content:center;border-radius:5px;background:#eef1f5;font-size:15.5px}
+.tog span.on{background:#2563eb;color:#fff}
+.sel{height:42px;border:1px solid #cfd6df;border-radius:6px;display:flex;align-items:center;justify-content:space-between;padding:0 14px;font-size:17px;margin-bottom:22px}
+.geo{background:#eef4fd;border-radius:6px;padding:12px;font-size:15px;color:#2563eb}
+.geo em{font-style:normal;display:inline-block;margin-top:8px;border:1px solid #c9d8f3;background:#fff;border-radius:4px;padding:4px 10px}
+.chart-wrap{position:relative;padding:20px 24px 26px}
+.chart-wrap h3{font-size:22px;margin-bottom:8px}
+.tip{position:absolute;background:#0f1b2d;color:#fff;font-size:13.5px;border-radius:8px;padding:9px 12px;line-height:1.45;opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap}
+.tip.on{opacity:1}
+.legend{display:flex;gap:22px;justify-content:center;font-size:14px;color:#3b4554}
+.legend span{display:flex;align-items:center;gap:6px}
+.legend i{width:12px;height:12px;border-radius:3px}
+
+/* tables */
+.props{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:26px}
+.prop{border:1px solid #e9edf2;border-radius:12px;padding:18px 22px;height:84px;color:#9aa4b2}
+.prop.on{border:2px solid #4fae9c;color:#0f1b2d}
+.prop .t{display:flex;justify-content:space-between;font-size:18px;font-weight:700}
+.prop em{font-style:normal;font-size:12px;font-weight:700;border-radius:12px;padding:3px 10px;border:1px solid #e1e5f4;letter-spacing:.04em}
+.prop.on em{background:#1a8f7a;color:#fff;border-color:#1a8f7a}
+.prop .s{font-size:14.5px;margin-top:8px}
+.prop.on .s{color:#2f7f70}
+.prop.p3 em{color:#c084fc;background:#faf5ff}
+.prop.p2 em{color:#8b93c9}
+.incl{margin-top:24px;border:1px solid #cfe3f5;background:#f2f8fe;border-radius:10px;padding:16px 20px;font-size:17px;line-height:1.5}
+.incl b{color:#10306a}
+.db{margin-top:26px;border-radius:10px;overflow:hidden;border:1px solid #dfe5ec}
+.dbh{background:#1b2a47;color:#fff;padding:24px 26px;display:flex;align-items:center}
+.dbh b{font-size:20px;display:block}.dbh span{font-size:16px;color:#c7d2e2;display:block;margin-top:8px}
+.dbh em{margin-left:auto;font-style:normal;background:#eef2f7;color:#1b2a47;font-weight:700;border-radius:16px;padding:7px 16px;font-size:14.5px;letter-spacing:.05em}
+.tscroll{overflow:hidden;position:relative}
+.tinner{will-change:transform}
+table{border-collapse:collapse;font-size:16px}
+th{text-align:left;font-size:14.5px;font-weight:700;padding:14px 16px;background:#e0effb;border-right:1px solid #fff;color:#0f1b2d;vertical-align:bottom}
+td{padding:14px 16px;vertical-align:top;border-bottom:1px solid #edf0f4;line-height:1.55}
+tr:nth-child(even) td{background:#f8fafc}
+.clamp{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+th.pg{background:#7a5512;color:#fff;font-size:14px;letter-spacing:.03em}
+th.p1{background:#dcec9a}th.p2{background:#cbe89e}th.p3{background:#a9de92}
+td.p1{background:#f4f9e4!important}td.p2{background:#eef7e3!important}td.p3{background:#e8f5e6!important}
+.defn{background:#f2f8fe;padding:18px 26px 20px;font-size:14px;line-height:1.75;color:#3b4554}
+.defn b.h{display:block;font-size:17px;color:#0f1b2d;margin-bottom:8px}
+.defn p+p{margin-top:10px}
+.statbar{background:#2b3a55;color:#fff;font-weight:700;font-size:14.5px;letter-spacing:.03em;padding:12px 16px}
+.skel td div{height:14px;border-radius:7px;background:linear-gradient(90deg,#eef1f5,#f7f9fb,#eef1f5);background-size:200% 100%;animation:sh 1.6s infinite}
+@keyframes sh{to{background-position:-200% 0}}
+
+/* VoC */
+.vh{border-left:5px solid #1d5f8a;border-radius:10px;border-top:1px solid #e3e8ef;border-right:1px solid #e3e8ef;border-bottom:1px solid #e3e8ef;padding:24px 28px}
+.vh small{font-size:13px;letter-spacing:.16em;font-weight:700;color:#1d6f9a}
+.vh h2{font-size:31px;color:#17406b;margin:8px 0}
+.vh p{font-size:15px;color:#5d6878}
+.vc{margin-top:24px;border:1px solid #e3e8ef;border-left:5px solid #52b69a;border-radius:10px;padding:26px 28px}
+.vc.blue{border-left-color:#1d6f9a}
+.ul{display:inline-block;font-size:20px;color:#17406b;border-bottom:2px solid #52b69a;padding-bottom:4px;margin-bottom:12px}
+.vc>p{font-size:17px;color:#3b4554;margin-bottom:20px}
+.vg{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.vg div{background:#f6f8fb;border:1px solid #e6ebf1;border-radius:8px;padding:20px;font-size:18px;font-weight:700;color:#17406b}
+.vc ul{list-style:none;margin-bottom:22px}
+.vc li{font-size:17px;padding:5px 0 5px 18px;position:relative}
+.vc li::before{content:"";position:absolute;left:0;top:14px;width:7px;height:7px;border-radius:50%;background:#1d6f9a}
+.vs{margin-top:24px;border:1px solid #e3e8ef;border-radius:10px;overflow:hidden}
+.vtabs{display:flex;border-bottom:3px solid #b8e0cf}
+.vtabs span{padding:20px 26px;font-size:18px;color:#3b4554}
+.vtabs span em{font-style:normal;font-weight:700;color:#7a8594;margin-right:8px;font-size:14px}
+.vtabs span.on{background:#13385c;color:#c9f27c;font-weight:700}
+.vtabs span.on em{color:#c9f27c}
+.vsearch{padding:20px 22px}
+.vsearch small{font-size:13px;letter-spacing:.12em;font-weight:700;color:#5d6878}
+.vsearch div{margin-top:8px;width:860px;height:46px;border:1px solid #cfd6df;border-radius:8px;display:flex;align-items:center;padding:0 16px;color:#8a94a3;font-size:17px}
+.qc{margin:20px 22px;border:1px solid #e3e8ef;border-radius:10px;overflow:hidden}
+.qh{background:#edf4fb;border-left:5px solid #1d6f9a;padding:16px 20px;display:flex;align-items:center;gap:14px;font-size:18px;font-weight:700;color:#17406b}
+.qh em{font-style:normal;background:#e8823a;color:#fff;border-radius:5px;padding:4px 10px;font-size:15px}
+.qh span{margin-left:auto;font-weight:400;font-size:15px;color:#5d6878}
+.qb{text-align:center;padding:20px 0 14px}
+.qt{border-top:1px solid #e3e8ef;padding:18px 22px;font-size:17px;line-height:1.6}
+.qt small{display:block;font-size:13px;letter-spacing:.14em;font-weight:700;color:#1d6f9a;margin-bottom:6px}
+
+/* Vendor quadrant */
+.vb{border-radius:14px;background:linear-gradient(90deg,#14223d,#1d3b5e 50%,#13978a);color:#fff;padding:36px 36px}
+.vb h2{font-size:33px;color:#fff}
+.vb p{font-size:19px;color:#d5e1ef;margin-top:12px}
+.vcard{margin-top:24px;border:1px solid #e3e8ef;border-radius:14px;padding:30px}
+.vcard h3{font-size:25px;color:#0f1b2d;margin-bottom:22px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.two>div{background:#f8fafc;border:1px solid #e3e8ef;border-radius:10px;padding:24px}
+.two h4{font-size:20px;margin-bottom:8px}
+.two p{font-size:17px;line-height:1.65;color:#2b3545}
+.plist b{display:block;font-size:20px;margin-bottom:12px}
+.plist div{font-size:18px;font-weight:700;color:#14406b;padding:7px 0 7px 26px}
+.quad{position:relative;height:620px;margin:6px 0 0 40px;border:2px solid #3b82c4;background:#0d1f3c repeating-linear-gradient(135deg,rgba(255,255,255,.035) 0 10px,transparent 10px 22px)}
+.quad .vl{position:absolute;left:50%;top:0;bottom:0;border-left:1px solid rgba(255,255,255,.3)}
+.quad .hl{position:absolute;top:50%;left:0;right:0;border-top:1px solid rgba(255,255,255,.3)}
+.quad .ql{position:absolute;color:#fff;font-weight:700;font-size:17px}
+.dot{position:absolute;display:flex;align-items:center;gap:6px;color:#fff;font-size:13.5px;font-weight:700;transform:translate(-9px,-50%) scale(0);transition:transform .35s cubic-bezier(.3,1.6,.5,1);white-space:nowrap}
+.dot.r{flex-direction:row-reverse;transform:translate(calc(-100% + 9px),-50%) scale(0)}
+.dot.show{transform:translate(-9px,-50%) scale(1)}
+.dot.r.show{transform:translate(calc(-100% + 9px),-50%) scale(1)}
+.dot i{width:16px;height:16px;border-radius:50%;border:2px solid #fff;flex:none}
+.yax{position:absolute;left:-36px;top:0;bottom:0;writing-mode:vertical-rl;transform:rotate(180deg);font-size:13px;letter-spacing:.14em;font-weight:700;color:#3b4554;text-align:center}
+.xax{text-align:center;font-size:13.5px;letter-spacing:.14em;font-weight:700;color:#3b4554;margin-top:14px}
+.ctry{margin-top:22px;font-size:16px;line-height:1.8}
+.ctry b{display:block}
+.mean{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.mean>div{background:#f8fafc;border:1px solid #e3e8ef;border-left:5px solid;border-radius:10px;padding:22px 24px}
+.mean .tg{font-size:13px;font-weight:700;border-radius:14px;padding:4px 12px;margin-right:10px}
+.mean h4{font-size:20px;display:flex;align-items:center}
+.mean small{display:block;color:#6b7686;font-size:15px;margin:8px 0 12px}
+.mean p{font-size:16.5px;line-height:1.7;color:#2b3545}
+.tt20 table{width:100%}
+.tt20 th{background:#0f2a5c;color:#fff;font-size:13.5px;letter-spacing:.06em;padding:16px 14px}
+.tt20 td{vertical-align:middle;font-size:16.5px;padding:14px}
+.qd{display:inline-flex;align-items:center;gap:8px;font-weight:700}
+.qd i{width:12px;height:12px;border-radius:50%}
+.sc{display:inline-flex;align-items:center;gap:10px;font-weight:700}
+.sc b{width:46px;height:46px;border-radius:50%;background:#1f3a8a;color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:15px}
+.sc.na::after{display:none}
+.sc::after{content:"";border:6px solid transparent;border-right:8px solid #1f3a8a;border-left:0}
+.bd{display:none;margin-top:14px;border:1px solid #e3e8ef;border-radius:10px;padding:8px 16px;background:#fbfcfe;font-size:15.5px}
+.bd div{display:flex;justify-content:space-between;gap:20px;padding:8px 0;border-bottom:1px solid #edf0f4}
+.bd div:last-child{border:0}
+.bd b{color:#1f3a8a}
+.open .bd{display:block;animation:fin .45s}
+.allc .bar2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.allc .in{height:48px;border:1px solid #cfd6df;border-radius:8px;display:flex;align-items:center;padding:0 16px;font-size:17px;color:#8a94a3}
+.allc .in.focus{border-color:#2563eb;box-shadow:0 0 0 3px rgba(37,99,235,.15);color:#0f1b2d}
+.str{display:inline-flex;align-items:center;gap:4px}
+.str i{border-radius:50%;background:#1f3a8a}
+.showall{border:1px solid #e3e8ef;background:#f8fafc;border-radius:8px;text-align:center;padding:16px;color:#1d4ed8;font-weight:700;font-size:17px;margin-top:14px}
+.pd{border:1px solid #e3e8ef;border-radius:10px;overflow:hidden;margin-top:18px}
+.pdh{background:#f3f6fa;padding:18px 22px;display:flex;align-items:center;gap:20px;font-size:16px}
+.pdh b{font-size:21px;color:#17406b}
+.pdh .r{margin-left:auto}
+.pds{padding:20px 22px 6px}
+.pds h5{font-size:17px;letter-spacing:.06em;color:#1d6f9a;margin-bottom:14px}
+.pdg{display:grid;grid-template-columns:380px 1fr;gap:18px;margin-bottom:20px}
+.pli div{display:flex;align-items:center;justify-content:space-between;border:1px solid #e3e8ef;border-radius:7px;padding:13px 16px;margin-bottom:8px;font-size:16.5px;transition:.25s}
+.pli div.on{border:2px solid #2563eb;background:#eef4fd;font-weight:700;color:#17406b}
+.pli b{background:#1f3a8a;color:#fff;border-radius:12px;padding:3px 10px;font-size:14px}
+.pdd{border:1px solid #e3e8ef;border-radius:10px;padding:24px 26px;background:#fbfcfe}
+.pdd h6{font-size:21px;margin-bottom:14px}
+.pdd blockquote{border-left:3px solid #52b69a;padding-left:16px;font-size:17px;line-height:1.75;color:#2b3545}
+.pdd small{display:block;font-size:13.5px;letter-spacing:.12em;font-weight:700;color:#5d6878;margin:18px 0 8px}
+.pdd ul{padding-left:22px;font-size:16.5px;line-height:1.75}
+
+/* overlays, captions, cursor */
+.cap{position:absolute;left:28px;bottom:26px;max-width:640px;background:rgba(9,19,36,.9);color:#fff;border-radius:12px;padding:15px 20px 16px;border-left:4px solid #8cc63f;opacity:0;transform:translateY(12px);transition:opacity .4s,transform .4s;z-index:50;box-shadow:0 10px 30px rgba(0,0,0,.3)}
+.cap.on{opacity:1;transform:none}
+.cap small{display:block;font-size:12px;letter-spacing:.14em;color:#a6d65d;font-weight:700;margin-bottom:5px}
+.cap b{font-size:21px;display:block;margin-bottom:4px}
+.cap span{font-size:15.5px;color:#cbd5e3;line-height:1.5}
+.ov{position:absolute;inset:0;z-index:60;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .7s;background:radial-gradient(1000px 600px at 70% 20%,rgba(60,192,203,.25),transparent),linear-gradient(130deg,#0d1f3c,#133a6a 60%,#0f6f70)}
+.ov.on{opacity:1}
+.ov .logo .lw,.ov .logo .ls{color:#fff}
+.ov h2{font-family:Georgia,"Times New Roman",serif;font-weight:500;font-size:76px;margin:34px 0 14px}
+.ov p{font-size:22px;color:#cbd8ea}
+.ov .row{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:36px;max-width:1200px}
+.ov .row span{border:1px solid rgba(255,255,255,.25);border-radius:20px;padding:8px 16px;font-size:16px;color:#e0e9f5}
+.ov.on .a1{animation:up .8s .1s both}.ov.on .a2{animation:up .8s .35s both}.ov.on .a3{animation:up .8s .6s both}.ov.on .a4{animation:up .8s .85s both}
+@keyframes up{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+.cur{position:absolute;left:0;top:0;z-index:70;width:30px;height:30px;opacity:0;transition:opacity .3s;pointer-events:none}
+.cur.on{opacity:1}
+.cur svg{width:30px;height:30px;filter:drop-shadow(0 2px 3px rgba(0,0,0,.4));transition:transform .12s;transform-origin:4px 3px}
+.cur.press svg{transform:scale(.82)}
+.rip{position:absolute;width:46px;height:46px;margin:-23px 0 0 -23px;border-radius:50%;border:3px solid rgba(79,174,156,.95);animation:rip .6s forwards;z-index:69;pointer-events:none}
+@keyframes rip{from{transform:scale(.3);opacity:1}to{transform:scale(1.6);opacity:0}}
+body.rec{padding:0;background:#000;overflow:hidden}body.rec .top-title,body.rec .bar,body.rec .controls,body.rec .chips{display:none}body.rec .player{width:100vw}body.rec .frame{position:fixed;inset:0;width:100vw;height:100vh;aspect-ratio:auto;border-radius:0;box-shadow:none}
+@media (prefers-reduced-motion:reduce){.pane.on,.ov.on .a1,.ov.on .a2,.ov.on .a3,.ov.on .a4{animation:none}}
+/* Embedded in the vault page. Drops the standalone page title and the mock
+   browser bar so only the recording shows, and lets the screens use the full
+   1600x900 stage. (The file's own #rec mode is not used: it stalls at 0:05.) */
+body{padding:0;min-height:0}
+.top-title{display:none}
+.chrome,.loadbar{display:none}
+.viewport{top:0}
+</style>
+</head>
+<body>
+<div class="top-title">
+  <h1>Coherent Insights Vault — platform walkthrough</h1>
+  <p>Auto-playing demo · Space to play/pause · ← → to change chapter</p>
+</div>
+<div class="player">
+  <div class="frame" id="frame">
+    <div class="stage" id="stage">
+      <div class="chrome">
+        <div class="dots"><i></i><i></i><i></i></div>
+        <div class="navbtn">‹ › ↻</div>
+        <div class="url"><svg viewBox="0 0 24 24" class="ico"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><span id="url">www.coherentmarketinsights.com/insights-vault</span></div>
+      </div>
+      <div class="loadbar" id="loadbar"></div>
+      <div class="viewport" id="viewport">
+        <div class="screen" id="landing"><div class="scroller"></div></div>
+        <div class="screen" id="hub"><div class="scroller"></div></div>
+        <div class="screen" id="dash"><div class="scroller"></div></div>
+      </div>
+      <div class="cap" id="cap"><small id="capk"></small><b id="capt"></b><span id="caps"></span></div>
+      <div class="ov" id="ov-intro"></div>
+      <div class="ov" id="ov-outro"></div>
+      <div class="cur" id="cur"><svg viewBox="0 0 24 24"><path d="M4 2.5l15 9.2-6.6 1.4 3.8 7.2-2.9 1.5-3.8-7.3L4.8 19z" fill="#fff" stroke="#0f1b2d" stroke-width="1.4" stroke-linejoin="round"/></svg></div>
+    </div>
+  </div>
+  <div class="bar" id="bar"></div>
+  <div class="controls">
+    <button class="primary" id="play">❚❚ Pause</button>
+    <button id="restart">↺ Restart</button>
+    <button id="prev">⏮ Prev</button>
+    <button id="next">Next ⏭</button>
+    <select id="speed" aria-label="Playback speed"><option value="0.75">0.75×</option><option value="1" selected>1×</option><option value="1.5">1.5×</option><option value="2">2×</option></select>
+    <button id="fs">⛶ Fullscreen</button>
+    <span class="time" id="time">0:00 / 0:00</span>
+  </div>
+  <div class="chips" id="chips"></div>
+</div>
+
+<script>
+/* ---------------- icons ---------------- */
+const IC={
+search:'<circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/>',
+list:'<path d="M4 6h16M9 12h11M9 18h11M4 12h1M4 18h1"/>',
+bars:'<path d="M4 20V11M10 20V5M16 20v-7M3 20h18"/>',
+target:'<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.6"/>',
+users:'<circle cx="9" cy="8" r="3.5"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18 14c2 .8 3 3 3 6"/>',
+building:'<rect x="5" y="3" width="14" height="18" rx="1"/><path d="M9 7h2M13 7h2M9 11h2M13 11h2M9 15h2M13 15h2"/>',
+chart:'<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 15l3-4 3 2 4-5"/>',
+cart:'<path d="M3 4h2l2.5 11h10L20 7H6.5"/><circle cx="9" cy="19" r="1.3"/><circle cx="17" cy="19" r="1.3"/>',
+grid:'<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 12h18M12 3v18"/>',
+layers:'<path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 13l9 5 9-5"/>',
+grid4:'<rect x="4" y="4" width="6" height="6" rx="1"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><rect x="14" y="14" width="6" height="6" rx="1"/>',
+bulb:'<path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/>',
+drop:'<path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/>',
+lock:'<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 7.5-2"/>',
+drone:'<circle cx="6" cy="6" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M8 8l8 8M16 8l-8 8"/>',
+flame:'<path d="M12 3c1 4 5 5.5 5 10a5 5 0 0 1-10 0c0-2.5 1.5-3.5 2-5 1 1.5 2 2 2 2s-.5-4 1-7z"/>',
+globe:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.5 3 14.5 0 18M12 3c-3 3.5-3 14.5 0 18"/>',
+ur:'<path d="M7 17L17 7M9 7h8v8"/>',
+down:'<path d="M12 5v14M6 13l6 6 6-6"/>',
+pin:'<path d="M12 21s-7-6-7-11a7 7 0 0 1 14 0c0 5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/>',
+dollar:'<path d="M12 3v18M16 7.5c-.7-1.3-2.2-2-4-2-2.2 0-4 1.2-4 3s1.8 2.6 4 3 4 1.2 4 3-1.8 3-4 3c-1.9 0-3.4-.8-4-2.2"/>',
+cal:'<rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/>',
+trend:'<path d="M3 17l6-6 4 4 8-8M15 7h6v6"/>',
+pulse:'<path d="M3 12h4l3-7 4 14 3-7h4"/>',
+bolt:'<path d="M13 2L4 14h7l-1 8 9-12h-7z"/>',
+save:'<path d="M5 3h11l3 3v15H5z"/><path d="M8 3v5h7M8 21v-7h8v7"/>'
+};
+const ico=(n,cls='ico',st='')=>`<svg viewBox="0 0 24 24" class="${cls}" style="${st}">${IC[n]}</svg>`;
+const logo=s=>`<div class="logo" style="--ls:${s}px"><div class="lw">C<i class="lo"></i>HERENT</div><div class="ls">MARKET INSIGHTS</div></div>`;
+
+/* ---------------- LANDING ---------------- */
+document.querySelector('#landing .scroller').innerHTML=`
+<div class="l-top"><div><span>MEDIA CENTER</span><span>CONTACT</span></div><div class="l-tr">GLOBAL | ENGLISH ▾ &nbsp;&nbsp;<span class="soc">in</span><span class="soc">𝕏</span><span class="soc">f</span><span class="soc">P</span></div></div>
+<div class="l-nav">${logo(36)}
+ <nav><span>About Us<small>▼</small></span><span>Products<small>▼</small></span><span>Services<small>▼</small></span><span>Industries<small>▼</small></span><span>Latest Insights</span><span>Thought Leadership</span><span>Resource Center<small>▼</small></span></nav>
+ <div class="l-search">${ico('search')} Search</div><div class="btn-navy" id="l-login">Login</div><b>Careers</b></div>
+<section class="l-hero gridbg">
+ <div class="pill"><i class="gd"></i>POWERED BY COHERENT MARKET INSIGHTS</div>
+ <h1>Coherent <span class="g">Insights Vault</span></h1>
+ <h3>Unlock the Power of Business Intelligence with Coherent Market Insights</h3>
+ <p>Insights Vault Powered by Coherent Market Insights offers state-of-the-art market research services to our clients.</p>
+ <hr>
+ <div class="l-stats">
+  <div><b class="cnt" data-to="25000" data-suf="+">0</b><span>Reports Across 43 Industries</span></div>
+  <div><b class="cnt" data-to="1200" data-suf="+">0</b><span>Reports Published Annually</span></div>
+  <div><b class="cnt" data-to="425" data-suf="+">0</b><span>Dedicated Analysts</span></div>
+ </div>
+</section>
+<section class="l-cards" id="l-cards">
+ <div class="lc c1" id="lc1"><div class="ic" style="background:rgba(255,255,255,.14)">${ico('lock')}</div><div><b>Complete Access</b><span style="color:#cfe0f2">25,000+ reports across 43 industries</span></div><div class="go" style="background:rgba(255,255,255,.18)">${ico('down')}</div></div>
+ <div class="lc" id="lc2" style="border-bottom-color:#1a8f9a"><div class="ic" style="background:#e6f4f4;color:#1a8f9a">${ico('drone')}</div><div><b>Drone Expo</b><span>Drone industry insights vault</span></div><div class="go" style="background:#e6f4f4;color:#1a8f9a">${ico('ur')}</div></div>
+ <div class="lc" id="lc3" style="border-bottom-color:#e0435f"><div class="ic" style="background:#fdeaee;color:#e0435f">${ico('flame')}</div><div><b>Fire Expo</b><span>Fire &amp; safety insights vault</span></div><div class="go" style="background:#fdeaee;color:#e0435f">${ico('ur')}</div></div>
+ <div class="lc" id="lc4" style="border-bottom-color:#1fb3b3"><div class="ic" style="background:#e4f6f6;color:#1fa3a8">${ico('drop')}</div><div><b>Adhesive and Bonding Market Analysis</b><span>Adhesive &amp; bonding insights vault</span></div><div class="go" style="background:#e4f6f6;color:#1fa3a8">${ico('ur')}</div></div>
+</section>
+<section class="l-how" id="l-how">
+ <div class="lbl">THE PROCESS</div>
+ <h2>How It Works</h2>
+ <p>From spotting disruption early to turning it into revenue — four steps, one platform.</p>
+ <div class="steps">
+  <div class="step"><em>01</em><b>Spot disruption early</b><p>Track signals and new reports across 43 industries as they publish.</p></div>
+  <div class="step"><em>02</em><b>Size the opportunity</b><p>Interactive market sizing, segment splits and forecasts out to 2032.</p></div>
+  <div class="step"><em>03</em><b>Map the ecosystem</b><p>Customer, distributor and vendor intelligence in one place.</p></div>
+  <div class="step"><em>04</em><b>Turn it into revenue</b><p>Act on procurement signals and voice-of-customer findings.</p></div>
+ </div>
+</section>
+<footer class="l-foot"><span>© Coherent Market Insights</span><span>Privacy · Terms · Contact</span></footer>`;
+
+/* ---------------- HUB ---------------- */
+const MARKETS=['One-Component Epoxy Adhesives','Two-Component Epoxy Adhesives','Structural Acrylic Adhesives','Anaerobic Adhesives','Cyanoacrylate Adhesives','Polyurethane Adhesives','Two-Component Polyurethane Adhesives','Silicone Adhesives & Sealants','Hot Melt Adhesives','Pressure-Sensitive Adhesive Tapes','Double-Sided Foam Tapes','Polymer Foams','MS Polymer Sealants','Water-Based Adhesives','UV-Curable Adhesives','Conductive Adhesives','Surface Primers & Activators','Adhesive Dispensing Equipment','Hot Melt Application Systems','Structural Bonding Films'];
+document.querySelector('#hub .scroller').innerHTML=`
+<div class="h-head">${logo(38)}<div class="r"><span>Industry Intelligence Reports</span><span class="live"><i></i>All reports live</span><span class="outbtn">Log out</span></div></div>
+<section class="h-hero gridbg">
+ <div><div class="pill">ECOSYSTEM INTELLIGENCE HUB</div>
+ <h1>Adhesives and Bonding<br>Industry Analysis</h1>
+ <p>One gateway to 179 interactive market reports — customer landscapes, distributor networks, competitive quadrants and survey insights across the fire safety, drone and adhesives &amp; bonding value chains.</p></div>
+ <div class="h-stats">
+  <div><b class="cnt" data-to="120">0</b><span>Interactive reports</span></div>
+  <div><b class="cnt" data-to="1">0</b><span>Industry ecosystem</span></div>
+  <div><b class="cnt" data-to="20000" data-suf="+">0</b><span>Customer profiles mapped</span></div>
+  <div><b class="cnt" data-to="30000" data-suf="+">0</b><span>Distributors profiled</span></div>
+ </div>
+</section>
+<div class="h-band" id="h-band"><div><div class="ic">${ico('drop')}</div><div><b>Adhesives and Bonding Industry Analysis</b><span>Bonding chemistries, foams, sealants &amp; application equipment</span></div><em>120</em></div></div>
+<section class="h-sec" id="h-sec">
+ <h2>Adhesives and Bonding Industry Analysis</h2>
+ <p>120 markets spanning bonding chemistries, tapes and films, polymer foams, sealants, surface preparation and application equipment.</p>
+ <div class="h-search" id="h-search">${ico('search')}<span class="q" id="h-q"></span><i class="caret"></i></div>
+ <div class="h-grid" id="h-grid">${MARKETS.map((m,i)=>`<div class="hc" data-n="${m.toLowerCase()}"><div class="t"><div class="ic">${ico('drop')}</div><span class="n">${String(i+1).padStart(2,'0')}</span></div><b>${m}</b><span>Industry Analysis</span></div>`).join('')}</div>
+</section>`;
+
+/* ---------------- DASHBOARD ---------------- */
+const TABS=[['tax','Taxonomy','list'],['ma','Market Analysis','bars'],['com','Coherent Opportunity Matrix','target'],['ci','Customer Intelligence','users'],['di','Distributor Intelligence','building'],['voc','Voice of Customer - B2B','chart'],['b2c','Voice of Customer - B2C','cart'],['vq','Vendor Intelligence (Coherent Quadrant)','grid']];
+const ph=n=>`<div class="d-ph"><span class="sq on">${ico('layers')}</span><span class="sq">${ico('grid4')}</span><span class="d-sub">${n}</span><span class="d-ins">${ico('bulb')} Insights</span></div>`;
+const country=`<div class="d-country">${ico('globe')}<b>Country</b><span class="p on">Global</span><span class="p">Europe</span></div>`;
+const MKT='Global Two-Component Epoxy Adhesives Market';
+
+const SEGS=[['Hardener Type',['Amine','Polyamide','Anhydride','Other Hardeners']],['Cure Speed',['Rapid-Set','Standard-Set','Slow-Set / Long Pot Life']],['Packaging Format',['Dual Cartridges','Bulk Kits','Retail Syringes & Tubes']],['End-Use Industry',['Automotive & Transportation','Aerospace & Defense','Wind Energy & Marine','Building & Construction','Industrial Assembly & Machinery','Other End-Use Industries']],['Region',['North America','Latin America','Europe','Asia Pacific (APAC)','Middle East','Africa']]];
+const paneTax=`<div class="d-panel">${ph('Taxonomy')}<div class="d-pad">
+<h2>${MKT} — Taxonomy</h2><p class="mut">Scope of this dashboard · Revenue, USD Mn, 2021 - 2032</p>
+<div class="bar-h">Market Segmentation</div>
+<div class="seg-wrap">${SEGS.map((s,i)=>`<div class="sgg" id="seg${i}"><h4>${s[0]} Insights (Revenue, USD Mn, 2021 - 2032)</h4><div class="sgl">${s[1].map((x,j)=>`<div><em>${i+1}.${j+1}.</em>${x}</div>`).join('')}</div></div>`).join('')}</div></div></div>`;
+
+const paneMA=`<div class="ma">
+<div class="side">
+ <div class="box qf"><h5>${ico('bolt','ico','color:#f59e0b')} QUICK FILTERS <span style="margin-left:auto;color:#2563eb">${ico('save')}</span></h5>
+  <div class="g"><span>${ico('globe')}Top Markets</span><span>${ico('trend')}Growth Leaders</span><span>${ico('target')}Emerging Markets</span><span>${ico('bars')}Full Comparison</span></div></div>
+ <div class="box">
+  <div class="fl">DATA TYPE</div><div class="tog"><span class="on">Value</span><span id="ma-vol">Volume</span></div>
+  <div class="fl">VIEW MODE</div><div class="sel">Segment Mode <span>⌄</span></div>
+  <div class="fl">GEOGRAPHY SELECTION</div><div class="sel">1 selected <span>⌄</span></div>
+  <div class="geo">${ico('pin','ico','width:14px;height:14px;vertical-align:-2px')} Selected (1) <span style="float:right">Clear All</span><br><em>Global ×</em></div>
+  <div class="fl" style="margin-top:22px">SEGMENT SELECTION (MULTI-TYPE)</div><div style="font-size:15px;margin-bottom:8px">Step 1: Select Segment Type</div><div class="sel">By Hardener Type <span>⌄</span></div>
+  <div style="font-size:15px;margin-bottom:8px">Step 2: Select Segments</div><div class="sel" style="font-size:15px">Amine, Polyamide, Anhydride, Other <span>⌄</span></div>
+ </div>
+</div>
+<div class="d-panel" style="margin:0">
+ <div class="d-ph"><span class="sq on">${ico('layers')}</span><span class="sq">${ico('grid4')}</span>
+  <span class="d-sub2 on" id="ct-bar" style="margin-left:24px">Grouped Bar Chart</span><span class="d-sub2" id="ct-line">Line Chart</span><span class="d-sub2">Heatmap</span><span class="d-sub2">Table</span><span class="d-sub2">Waterfall</span>
+  <span class="d-ins">${ico('bulb')} Insights</span></div>
+ <div class="chart-wrap" id="chart-wrap"><h3 id="ma-title">Comparative Analysis - Grouped Bars</h3>
+  <svg id="ma-svg" viewBox="0 0 1100 520" width="1100" height="520"></svg>
+  <div class="legend" id="ma-leg"></div>
+  <div class="tip" id="tip"></div>
+ </div>
+</div></div>`;
+
+const CIH=['Company Name','Type','Founded Year','Headquarters','Region','Countries/Regions','Ownership','Business Type (specific)','Employees','Application','Sub-application','Use Case','Whom They Sell To','Industry Type','Enterprise Size','Entity Type'];
+const CI=[
+['Sabre Yachts','Buyer','1970','Raymond, Maine','North America','United States (NA)','private','Sabre Yachts is a luxury motor yacht manufacturer building downeast-style cruisers','200','Marine boatbuilding and repair','Hull-to-deck joint bonding and secondary bonding of stringers and bulkheads','Boatbuilding and composite manufacturing facilities in Maine','Sabre Yachts sells to Recreational Boating; Marine Leisure type of customers','Manufacturing','Medium','Commercial','Amine','Standard-Set; Slow-Set / Long Pot Life','Dual Cartridges; Bulk Kits'],
+['Morris Yachts','Buyer','1972','Trenton, Maine','North America','United States (NA)','private','Morris Yachts is an American builder of custom sailing yachts','51','Marine boatbuilding and repair','Keel and keel-stub fairing and keel-to-hull bedding on sailboats','Used in the shipbuilding facilities and composite production center in Maine','Morris Yachts sells to Luxury Marine Transportation; private owners','Manufacturing','Medium','Commercial','Amine','Slow-Set / Long Pot Life','Bulk Kits'],
+['Van Dam Custom Boats','Buyer','1978','Boyne City, Michigan','North America','United States (NA)','private','Builder of custom wooden runabouts and yachts','25','Marine boatbuilding and repair','Wooden boat plank and frame bonding, scarf joints and cold-molded laminates','Used in hull/deck construction, cabin sides, trim, interior joinery','Van Dam Custom Boats sells to Maritime / Luxury Recreation type of customers','Manufacturing','Small','Commercial','Amine','Standard-Set; Slow-Set / Long Pot Life','Bulk Kits'],
+['AVIC Composite Corporation','Buyer','2001','Beijing','Asia Pacific','China (APAC)','state-owned','Developer of advanced composite materials for aviation','1,200','Aerospace structural assembly and repair','Composite airframe skin-to-spar and skin-to-rib bonding','Used within its dedicated R&D facilities and manufacturing lines','AVIC Composite Corporation sells to Aerospace and Defense OEMs','Chemicals & Materials','Mid-market','Commercial','Anhydride','Standard-Set','Bulk Kits'],
+['Puente Hills Collision Center','Buyer','1994','City of Industry, California','North America','United States (NA)','private','Independent collision repair centre for passenger vehicles','30','Automotive and motorsport body and chassis bonding','Collision repair panel and quarter-panel bonding on aluminum and steel','In the auto body repair shop facilities and service bays during the repair process','Puente Hills Collision Center sells to Automotive Repair and insurance customers','Automotive','Small','Commercial','Amine','Standard-Set','Dual Cartridges'],
+['Lockheed Martin','Buyer','1995','Bethesda, Maryland','North America','United States (NA)','public','Global aerospace, defense and security company','120,000+','Aerospace structural assembly and repair','Composite airframe skin-to-spar and skin-to-rib bonding; Radome assembly','Airframe assembly processes, sandwich panel composite fabrication','Lockheed Martin sells to Aerospace and Defense; National Security agencies','Aerospace & Defense','Large Enterprise','Commercial','Amine','Standard-Set','Bulk Kits; Dual Cartridges'],
+['Northrop Grumman','Buyer','1994','Falls Church, Virginia','North America','United States (NA)','public','Aerospace and defense technology company','100,000+','Aerospace structural assembly and repair','Composite airframe skin-to-spar and skin-to-rib bonding; Radome assembly','Used across primary aircraft manufacturing facilities and integration sites','Northrop Grumman sells to Defense and Military Aerospace; Commercial space','Aerospace & Defense','Large Enterprise','Commercial','Amine','Rapid-Set; Standard-Set','Dual Cartridges; Bulk Kits'],
+['Gulfstream Aerospace','Buyer','1958','Savannah, Georgia','North America','United States (NA)','subsidiary','Designer and manufacturer of business jets','20,000+','Aerospace structural assembly and repair','Composite airframe skin-to-spar and skin-to-rib bonding; Radome assembly','Used within aerospace manufacturing facilities and maintenance centres','Gulfstream Aerospace sells to Private Aviation; Corporate Flight departments','Aerospace & Defense','Large Enterprise','Commercial','Amine','Standard-Set','Bulk Kits']];
+const prop=(t,s,b,on,cl='')=>`<div class="prop ${on?'on':''} ${cl}"><div class="t">${t}<em>${b}</em></div><div class="s">${s}</div></div>`;
+const paneCI=`${country}<div class="d-panel">${ph('Customer Intelligence')}<div class="d-pad">
+<h2>B2B - Customer Intelligence Database - Existing customers and Potential customers</h2>
+<p class="mut">${MKT} · Intelligence directory across proposition tiers</p>
+<div class="props" id="ci-props">${prop('Companies','237 records','STANDARD',1)}${prop('Proposition 2','No data','ADVANCE',0,'p2')}${prop('Proposition 3','No data','PREMIUM',0,'p3')}</div>
+<div class="incl"><b>Includes:</b> Procurement Intelligence (derived by primary research and/or real-time trigger signals and/or captured intent) (3 fields)</div>
+<div class="db" id="ci-db"><div class="dbh"><div><b>${MKT} – Customer Database</b><span>Verified directory and insight on customers</span></div><em>STANDARD</em></div>
+<div class="tscroll" id="ci-ts"><div class="tinner" style="width:${16*215+3*330}px"><table style="width:100%">
+<tr><th colspan="16" style="background:#e0effb;height:40px"></th><th colspan="3" class="pg" id="ci-pg">PROCUREMENT INTELLIGENCE (DERIVED BY PRIMARY RESEARCH AND/OR REAL-TIME TRIGGER SIGNALS AND/OR CAPTURED INTENT)</th></tr>
+<tr>${CIH.map(h=>`<th style="width:215px">${h}</th>`).join('')}<th class="p1" style="width:330px">Two-Component Epoxy Adhesives, By Hardener Type - they procure</th><th class="p2" style="width:330px">Two-Component Epoxy Adhesives, By Cure Speed - they procure</th><th class="p3" style="width:330px">Two-Component Epoxy Adhesives, By Packaging Format - they procure</th></tr>
+${CI.map((r,ri)=>`<tr ${ri==0?'id="ci-r1"':''}>${r.map((c,i)=>`<td class="${i==16?'p1':i==17?'p2':i==18?'p3':''}"><div class="clamp">${c}</div></td>`).join('')}</tr>`).join('')}
+</table></div></div></div></div></div>`;
+
+const DIH=['#','Company','Website','Founded','Headquarters','Continent / Geography','Operational Presence','Ownership'];
+const DI=[['1','Krayden, Inc.','krayden.com','1989','Denver, United States','NA(United States, Canada); EU(United Kingdom, France); APAC(Singapore)','United States; Canada; Mexico; Singapore; Malaysia; Philippines','Private Company'],
+['2','Hisco, Inc. (acquired by Distribution Solutions Group)','hisco.com','1970','Houston, United States','NA(United States, Canada); LATAM(Mexico)','United States; Canada; Mexico; Costa Rica; Dominican Republic','Private Company']];
+const paneDI=`${country}<div class="d-panel">${ph('Distributor Intelligence')}<div class="d-pad">
+<h2>Distributor Intelligence Database - Existing distributors and Potential distributors</h2>
+<p class="mut">${MKT} · Verified distributor directory across proposition tiers</p>
+<div class="props">${prop('Companies','392 records','STANDARD',1)}${prop('Proposition 2','No data','ADVANCE',0,'p2')}${prop('Proposition 3','No data','PREMIUM',0,'p3')}</div>
+<div class="incl" id="di-incl"><b>Includes:</b> Distributors listed: 392 | Headquarter countries: 51 | Acquired by another group (named in the company name): 26 (21 fields)</div>
+<div class="db"><div class="dbh"><div><b>${MKT} – Distributor Database</b><span>Verified directory and insight on distributors</span></div><em>STANDARD</em></div>
+<div class="defn" id="di-def"><b class="h">${MKT}</b>
+<p>MARKET DEFINITION: The two-component epoxy adhesives market comprises adhesives supplied as separate resin and hardener parts that cure after mixing at ambient or elevated temperature. It measures sales of finished kits and bulk systems for structural, repair and industrial bonding. BY HARDENER TYPE: Amine, Polyamide, Anhydride, Other Hardeners. BY CURE SPEED: Rapid-Set, Standard-Set, Slow-Set / Long Pot Life. BY PACKAGING FORMAT: Dual Cartridges, Bulk Kits, Retail Syringes &amp; Tubes. BY END-USE INDUSTRY: Automotive &amp; Transportation, Aerospace &amp; Defense, Wind Energy &amp; Marine, Building &amp; Construction, Industrial Assembly &amp; Machinery, Other End-Use Industries. BY REGION: North America, Latin America, Europe, Asia Pacific (APAC), Middle East, Africa. EXCLUDED from the market: One-component epoxy adhesives; structural acrylic adhesives; epoxy flooring, coatings and potting compounds; standalone epoxy resins and hardeners.</p>
+<p>WHO IS INCLUDED: DISTRIBUTOR DEFINITION (physical goods market): a company whose PRIMARY business is buying in volume from manufacturers and reselling/distributing onward - wholesale, authorized, value-added or stocking distributor. EXCLUDED: channel partners, resellers, VARs, dealers, agents and brokers that do not stock or wholesale; manufacturers and OEMs; system integrators; and pure service providers or consultancies.</p></div>
+<div class="statbar" id="di-table">DISTRIBUTORS LISTED: 392 | HEADQUARTER COUNTRIES: 51 | ACQUIRED BY ANOTHER GROUP: 26</div>
+<table style="width:100%"><tr>${DIH.map((h,i)=>`<th style="${i==0?'width:70px':''}">${h}</th>`).join('')}</tr>
+${DI.map((r,ri)=>`<tr id="di-r${ri+1}">${r.map(c=>`<td><div class="clamp">${c}</div></td>`).join('')}</tr>`).join('')}
+${[1,2,3].map(()=>`<tr class="skel">${DIH.map(()=>`<td><div></div></td>`).join('')}</tr>`).join('')}
+</table></div></div></div>`;
+
+const paneVOC=`${country}<div class="d-panel">${ph('Voice of Customer - B2B')}<div class="d-pad">
+<div class="vh"><small>CUSTOMER INTELLIGENCE (B2B)</small><h2>Two Component Epoxy Adhesives</h2><p>Global &nbsp;&nbsp; Sample Size - 140 Respondents &nbsp;&nbsp; 4 sections · 21 questions</p></div>
+<div class="vc" id="v-buy"><h3 class="ul">Buyers</h3><p>Procurement managers and technical assembly buyers inside major industrial manufacturers and subassembly converters.</p>
+<div class="vg"><div>Automotive and Transportation</div><div id="v-aero">Aerospace and Defense</div><div>Wind Energy and Marine</div><div>Building and Construction</div><div>Industrial Assembly and Machinery</div></div></div>
+<div class="vc blue" id="v-org"><h3 class="ul">Organisations We Surveyed</h3><ul><li>Mid sized automotive tier-1 systems integrators</li><li>Large scale commercial aircraft structures fabricators</li><li>Family owned structural building contractors</li><li>Multinational wind turbine component manufacturers</li><li>Specialist electronics contract manufacturing firms</li></ul>
+<h3 class="ul">Designations We Spoke To</h3><ul style="margin:0"><li>Procurement Manager</li><li>Materials Engineer</li><li>Supply Chain Specialist</li><li>Operations Buyer</li><li>Plant Production Manager</li></ul></div>
+<div class="vs" id="v-sec"><div class="vtabs"><span class="on" id="vt1"><em>01</em>Epoxy Adhesives Buying</span><span id="vt2"><em>02</em>Epoxy Adhesives Adoption and Usage</span><span><em>03</em>Epoxy Adhesives Performance</span><span><em>04</em>Future Epoxy Adhesives Buying</span></div>
+<div class="vsearch"><small>SEARCH</small><div>Question or insight text…</div></div>
+<div style="padding:0 22px;color:#5d6878;font-size:15px">5 questions</div>
+<div class="qc" id="q1"><div class="qh"><em>Q.1</em>Which brand of two component epoxy adhesives does your organisation buy most?<span>Sample Size - 140 Respondents</span></div>
+ <div class="qb"><svg id="d1" viewBox="0 0 560 300" width="560" height="300"></svg><div class="legend" id="l1"></div></div>
+ <div class="qt"><small>TAKEAWAYS</small>Industrial operations heavily rely on Henkel's flagship brand because 36% of buyers value its predictable chemical formulation and extensive global distribution network for minimizing production line disruptions.</div></div>
+<div class="qc" id="q2"><div class="qh"><em>Q.2</em>Which quality certification do you require most from your two component epoxy supplier?<span>Sample Size - 140 Respondents</span></div>
+ <div class="qb"><svg id="d2" viewBox="0 0 560 300" width="560" height="300"></svg><div class="legend" id="l2"></div></div>
+ <div class="qt"><small>TAKEAWAYS</small>Nearly half of buyers treat a general quality-management certification as the entry ticket, while aerospace and automotive buyers add sector-specific approvals on top.</div></div>
+</div></div></div>`;
+
+/* vendor */
+const QC={L:'#7ed321',C:'#6aa6f0',T:'#b9a6f5',E:'#8fe3c4'};
+const DOTS=[['Jowat',19,12,'C'],['Epicol',34,15,'C'],['Artecola',10,26,'C'],['QEP400',36,32,'C'],['Fusion Epoxi',16,42,'C'],
+['Araldite',78,12,'L',1],['Pattex',90,22,'L',1],['Devcon',65,24,'L'],['LORD',77,32,'L',1],['3M',65,42,'L'],
+['Soudal',10,60,'E'],['Duroplast Chemie',21,72,'E'],['Novatio',36,75,'E'],['Compound',26,86,'E'],['Sylpyl',10,91,'E'],
+['Smooth-On',63,60,'T',1],['Super Glue',67,74,'T',1],['Protavic',90,70,'T',1],['Afer',64,88,'T'],['Marston-Domsel',84,88,'T',1]];
+const QN={L:'Leaders',C:'Challengers',T:'Trailblazers',E:'Evolving Players'};
+const TOP=[['Araldite','Huntsman Corporation','The Woodlands, Texas, USA','L',99,96,98],['Pattex','Henkel AG & Co. KGaA','Düsseldorf, Germany','L',100,94,97],['Devcon','Illinois Tool Works Inc.','Glenview, Illinois, USA','L',92,91,92],['LORD','Parker Hannifin Corporation','Cleveland, Ohio, USA','L',93,92,92],['3M','3M Company','St. Paul, Minnesota, USA','L',92,90,91],['Jowat','Jowat SE','Detmold, Germany','C',83,86,84],['Epicol','Korachem NV (acquired by Koramic Investment Group)','Wommelgem, Belgium','C',84,82,83],['QEP400','Âncora Sistemas de Fixação Ltda.','Vinhedo, Brazil','C',85,81,83],['Fusion Epoxi','Fusion Epoxi','Mexico City, Mexico','C',81,79,80],['Artecola','Artecola Química S.A.','Campo Bom, Brazil','C',77,80,78],['Smooth-On','Smooth-On, Inc.','Macungie, Pennsylvania, USA','T',88,86,87],['Super Glue','Pacer Technology (subsidiary of AC Marca)','Ontario, California, USA','T',88,82,85],['Protavic','Protavic America, Inc.','Newburyport, Massachusetts, USA','T',89,78,84]];
+const XP=[['Hardener Chemistry Breadth',98],['Cure Speed Portfolio',98],['Packaging Format Versatility',99],['Adhesion & Mechanical Performance',100],['Formulation & Customization Capability',98]];
+const YP=[['Global Distribution & Sales Reach',100],['Revenue Scale & Growth',99],['Key Customer Contracts & OEM Approvals',100],['Manufacturing Capacity & Geographic Footprint',91],['Brand Strength & Market Share',92]];
+const ALL=[['DELO-DUOPOX','DELO Industrie Klebstoffe GmbH & Co. KGaA','Windach, Germany'],['Sader','Bostik SA (subsidiary of Arkema)','Colombes, France'],['AeroPaste','Syensqo SA','Brussels, Belgium'],['Adekit','Sika Advanced Resins SAS','Saint-Priest, France']];
+const DETAIL={
+'Hardener Chemistry Breadth':{t:"The rating rests on the company's verified documentation of three distinct hardener chemical families—polyamines/amines, polyamidoamines, and anhydrides—available within its component and structural assembly technical datasheets. Its custom amine retail packaging formulation breakdown is detailed to match regulatory safety profiles.",p:['The Component Selector Guide for formulators lists polyamidoamine, aromatic amine and anhydride chemistries suitable for two-component systems.','Technical documentation for the structural adhesives core range indicates diverse polyamine-based hardener pairings, including Hardener HW 4859 used in Araldite 2019.','Polyamide hardener selections are documented within commercial Araldite two-part packaging, such as the 2:1 mix ratio polyamide range.']},
+'Cure Speed Portfolio':{t:"We verified that the company documents an extensive cure speed portfolio for its two-component epoxy adhesives, providing technical data sheets with explicit pot life and cure speed tracking across rapid-set, standard-set, and slow-set or long pot life variations.",p:['ARALDITE 2012 is reported as a rapid-cure, two-component epoxy paste adhesive with a short pot life of 5 to 8 minutes at 25°C.','ARALDITE Standard is marketed as a multipurpose two-component epoxy adhesive featuring a standard pot life of 45 to 50 minutes or up to 140 minutes.','ARALDITE 2011 is documented as a slow-setting structural paste with an extended pot life, requiring 7 hours to reach lap shear strength above 1 MPa at 23°C.','ARALDITE 420 technical data specifies a usable life of 1 to 2 hours for a 50g to 100g mix at 25°C.']},
+'Global Distribution & Sales Reach':{t:"The rating rests on Huntsman Corporation's extensive global footprint, consisting of an operational presence across 25 countries, distribution networks spanning over 50 countries in the EMEA region, and established partnerships with major industrial distributors.",p:['The company reports an extensive European distribution network for its Advanced Materials division covering over 50 countries, including Algeria, Austria, Benelux, France, Germany, Italy, Poland, South Africa, Spain, Switzerland, Turkey and the United Kingdom.','Distributor coverage outside Europe runs through the Advanced Materials division\'s international networks.']}};
+const pdList=(arr,id,act)=>`<div class="pli" id="${id}">${arr.map(([n,s])=>`<div data-p="${n}" class="${n==act?'on':''}"><span>${n==act?'▾':'▸'} ${n}</span><b>${s}</b></div>`).join('')}</div>`;
+const pdDetail=(n,s)=>{const d=DETAIL[n];return `<h6>${n} — scored ${s}/100</h6><blockquote>${d.t}</blockquote><small>SUPPORTING POINTS</small><ul>${d.p.map(x=>`<li>${x}</li>`).join('')}</ul>`};
+const str=n=>`<span class="str">${[6,8,10,12,14].map((s,i)=>`<i style="width:${s+2}px;height:${s+2}px;opacity:${i<n?1:.25}"></i>`).join('')}</span>`;
+const paneVQ=`${country}<div class="d-panel">${ph('Vendor Intelligence (Coherent Quadrant)')}<div class="d-pad">
+<div class="vb"><h2>Vendor Intelligence (Coherent Quadrant)</h2><p>${MKT} · Global · 183 Manufacturer scored on Product Capability (X) and Business Capability (Y)</p></div>
+<div class="vcard"><h3>Market Classification</h3><div class="two"><div><h4>Market</h4><p>${MKT}</p><h4 style="margin-top:18px">Market Type</h4><p>The two-component epoxy adhesives market comprises adhesives supplied as separate resin and hardener parts that cure after mixing at ambient or elevated temperatures. This assessment compares key manufacturers that supply finished bonding kits and bulk systems for structural, repair, and industrial applications.</p></div>
+<div><h4>Provider Categories in this Market</h4><p style="font-size:19px;margin-top:10px">1. Manufacturer</p><p style="color:#6b7686;font-size:15.5px;margin-top:10px">Defined by the scope of this report.</p></div></div></div>
+<div class="vcard" id="vq-params"><h3>Market Scoring Parameters</h3><p style="font-size:17px;color:#5d6878;margin:-8px 0 20px">The X and Y axes and these 10 parameters were defined for <b style="color:#0f1b2d">${MKT}</b> and form the basis of the company scores below.</p>
+<div class="two plist"><div><b>X — Product Capability</b>${XP.map(x=>`<div>${x[0]}</div>`).join('')}</div><div><b>Y — Business Capability</b>${YP.map(x=>`<div>${x[0]}</div>`).join('')}</div></div></div>
+<div class="vcard" id="vq-quad"><h3>Quadrant Positioning <span style="font-weight:400;font-size:16px;color:#6b7686">(20 on chart · 183 in total)</span></h3>
+<div class="quad" id="quad"><div class="yax">BUSINESS CAPABILITY ( Y AXIS ) · EMERGING → BEST-IN-CLASS →</div><div class="vl"></div><div class="hl"></div>
+<span class="ql" style="left:16px;top:14px">Challengers</span><span class="ql" style="right:16px;top:14px">Leaders</span><span class="ql" style="left:16px;bottom:14px">Evolving Players</span><span class="ql" style="right:16px;bottom:14px">Trailblazers</span>
+${DOTS.map(d=>`<div class="dot ${d[4]?'r':''}" ${d[0]=='Araldite'?'id="dot-ar"':''} style="left:${d[1]}%;top:${d[2]}%"><i style="background:${QC[d[3]]}"></i>${d[0]}</div>`).join('')}</div>
+<div class="xax">PRODUCT CAPABILITY ( X AXIS ) · EMERGING → BEST-IN-CLASS →</div>
+<div class="ctry"><b>Countries on chart (by quadrant)</b><strong>Leaders</strong>: United States×4, Germany×1 · <strong>Challengers</strong>: Germany×1, Belgium×1, Brazil×2, Mexico×1 · <strong>Trailblazers</strong>: United States×3, Germany×1, France×1 · <strong>Evolving Players</strong>: Belgium×2, Germany×1, Brazil×1, Mexico×1</div></div>
+<div class="vcard" id="vq-mean"><h3>What Each Quadrant Means</h3><div class="mean">
+<div style="border-left-color:#7ed321"><h4><span class="tg" style="background:#7ed321">Leaders</span>Integrated Market Leaders</h4><small>Best-in-class Product Capability, Best-in-class Business Capability</small><p>Companies demonstrating strong product capabilities and robust business execution. They combine mature and differentiated offerings with established market presence, customer reach, commercial scale, and effective growth strategies.</p></div>
+<div style="border-left-color:#6aa6f0"><h4><span class="tg" style="background:#cfe0fb">Challengers</span>Scale-Driven Challengers</h4><small>Emerging Product Capability, Best-in-class Business Capability</small><p>Companies with strong business presence and commercial capabilities, supported by established customer relationships, market reach, channels, or brand strength, but with relatively lower product differentiation or breadth.</p></div>
+<div style="border-left-color:#b9a6f5"><h4><span class="tg" style="background:#e3dafc">Trailblazers</span>Innovation-Driven Trailblazers</h4><small>Best-in-class Product Capability, Emerging Business Capability</small><p>Companies demonstrating strong product capabilities, innovation, or differentiated offerings, but with comparatively lower business scale or market penetration. Growth depends on strengthening commercial execution.</p></div>
+<div style="border-left-color:#8fe3c4"><h4><span class="tg" style="background:#c9f3e2">Emerging Players</span>Foundation-Building Evolving</h4><small>Emerging Product Capability, Emerging Business Capability</small><p>Companies with developing product capabilities and relatively limited business presence. These participants may serve focused segments or geographies, with room to strengthen both proposition and footprint.</p></div>
+</div></div>
+<div class="vcard tt20" id="vq-top"><h3>Top 20 Companies <span style="font-weight:400;font-size:16px;color:#6b7686">(plotted on the chart above · click a score for the breakdown)</span></h3>
+<table><tr><th>BRAND</th><th>COMPANY</th><th>HQ</th><th>ROLE</th><th>QUADRANT</th><th>X (PRODUCT CAPABILITY)</th><th>Y (BUSINESS CAPABILITY)</th><th>OVERALL SCORE</th></tr>
+${TOP.map((r,i)=>`<tr ${i==0?'id="ar-row"':''}><td>${r[0]}</td><td style="max-width:260px">${r[1]}</td><td style="max-width:220px">${r[2]}</td><td>Manufacturer</td><td><span class="qd"><i style="background:${QC[r[3]]}"></i>${QN[r[3]]}</span></td>
+<td><span class="sc" ${i==0?'id="ar-x"':''}><b>${r[4]}</b></span>${i==0?`<div class="bd">${XP.map(x=>`<div><span>${x[0]}</span><b>${x[1]}</b></div>`).join('')}</div>`:''}</td>
+<td><span class="sc"><b>${r[5]}</b></span>${i==0?`<div class="bd">${YP.map(x=>`<div><span>${x[0]}</span><b>${x[1]}</b></div>`).join('')}</div>`:''}</td><td><span class="sc na"><b>${r[6]}</b></span></td></tr>`).join('')}
+<tr><td colspan="8" style="text-align:center;color:#1d4ed8;font-weight:700">+ 7 more companies on the chart</td></tr></table></div>
+<div class="vcard allc" id="vq-all"><h3>All Assessed Companies</h3><div class="bar2"><div class="in" id="all-in">Brand, company or HQ…</div><div class="in" style="color:#0f1b2d;justify-content:space-between">All quadrants <span>⌄</span></div></div>
+<div style="font-size:15px;color:#5d6878;margin:12px 0" id="all-n">163 companies</div>
+<table style="width:100%" class="tt20"><tr><th>BRAND</th><th>COMPANY</th><th>HQ</th><th>ROLE</th><th>RELATIVE POSITIONING</th><th>STRENGTH</th></tr>
+${ALL.map(r=>`<tr class="allr" data-s="${(r.join(' ')).toLowerCase()}"><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td><td>Manufacturer</td><td><span class="qd"><i style="background:#7ed321"></i>Leaders</span></td><td>${str(5)}</td></tr>`).join('')}</table>
+<div class="showall">▾ Show all 163 companies</div></div>
+<div class="vcard" id="vq-pd"><h3>Parameter Detail by Company <span style="font-weight:400;font-size:16px;color:#6b7686">(Product and Business Capability evidence for the 20 companies on the chart)</span></h3>
+<p style="font-size:16px;color:#5d6878;margin-top:-12px">Click any parameter to read its scoring rationale and supporting evidence.</p>
+<div class="pd"><div class="pdh"><b>Huntsman Corporation</b><span style="color:#6b7686">Araldite</span><span class="qd"><i style="background:#7ed321"></i>Leaders</span><span class="r">X <b style="font-size:16px;color:#0f1b2d">99</b> &nbsp; Y <b style="font-size:16px;color:#0f1b2d">96</b> &nbsp; Overall <b style="font-size:16px;color:#0f1b2d">98</b></span></div>
+<div class="pds"><h5>X — PRODUCT CAPABILITY</h5><div class="pdg"><div id="pd-xl"></div><div class="pdd" id="pd-xd"></div></div></div>
+<div class="pds" id="pd-y"><h5>Y — BUSINESS CAPABILITY</h5><div class="pdg">${pdList(YP,'pd-yl','Global Distribution & Sales Reach')}<div class="pdd">${pdDetail('Global Distribution & Sales Reach',100)}</div></div></div>
+</div></div>
+</div></div>`;
+
+document.querySelector('#dash .scroller').innerHTML=`
+<div class="d-head">${logo(30)}<div class="tt"><h1>${MKT}</h1><p>Customer Intelligence, Distributor Intelligence, Vendor Intelligence, Voice of Customer - B2B, Future Outlook</p></div></div>
+<div class="d-kpis" id="kpis"><div class="kh"><b style="font-size:15px">Market Size</b> for <b style="font-size:15px">Global</b> | <b style="font-size:15px">By Hardener Type</b></div>
+ <div class="k"><i style="background:#e3ecfb;color:#2563eb">${ico('dollar')}</i><div><small>MARKET SIZE 2021</small><b>$ 1.4 Billion</b></div></div>
+ <div class="k"><i style="background:#dff5e6;color:#16a34a">${ico('cal')}</i><div><small>MARKET SIZE 2032</small><b>$ 2.9 Billion</b></div></div>
+ <div class="k" id="kpi-cagr"><i style="background:#f1e6fd;color:#9333ea">${ico('trend')}</i><div><small>CAGR (2026-2032)</small><b>6.91%</b></div></div>
+ <div class="k"><i style="background:#fdeedd;color:#ea580c">${ico('pulse')}</i><div><small>ABSOLUTE GROWTH (2021-2032)</small><b>$ 1.5 Billion</b><em>+108.3% increase</em></div></div></div>
+<div class="d-tabs"><b>Chart View</b>${TABS.map(t=>`<span class="d-tab" data-tab="${t[0]}">${ico(t[2])}${t[1]}</span>`).join('')}</div>
+<div class="pane" data-pane="tax">${paneTax}</div>
+<div class="pane" data-pane="ma">${paneMA}</div>
+<div class="pane" data-pane="ci">${paneCI}</div>
+<div class="pane" data-pane="di">${paneDI}</div>
+<div class="pane" data-pane="voc">${paneVOC}</div>
+<div class="pane" data-pane="vq">${paneVQ}</div>`;
+
+/* overlays */
+document.getElementById('ov-intro').innerHTML=`<div class="a1">${logo(54)}</div><h2 class="a2">Coherent Insights Vault</h2><p class="a3">Platform walkthrough — from the vault to vendor quadrants</p>
+<div class="row a4"><span>Insights Vault</span><span>Industry Hub</span><span>Taxonomy</span><span>Market Analysis</span><span>Customer Intelligence</span><span>Distributor Intelligence</span><span>Voice of Customer</span><span>Coherent Quadrant</span></div>`;
+document.getElementById('ov-outro').innerHTML=`<div class="a1">${logo(54)}</div><h2 class="a2">One platform. Every layer of the market.</h2><p class="a3">25,000+ reports · 20,000+ customer profiles · 30,000+ distributors · 183 vendors scored</p>
+<div class="row a4"><span>Market sizing to 2032</span><span>Procurement intelligence</span><span>Distributor networks</span><span>Buyer surveys</span><span>Coherent Quadrant</span></div>`;
+
+/* ---------------- charts ---------------- */
+const YRS=[...Array(12)].map((_,i)=>2021+i);
+const SER=[{n:'Amine',c:'#52b69a',v:615,g:.072},{n:'Polyamide',c:'#34a0a4',v:375,g:.070},{n:'Anhydride',c:'#1a759f',v:250,g:.066},{n:'Other Hardeners',c:'#184e77',v:160,g:.062}].map(s=>({...s,d:YRS.map((_,i)=>s.v*Math.pow(1+s.g,i))}));
+let maMode='bar';
+const CX0=90,CY0=40,CW=990,CHH=400,YMAX=1400;
+const yv=v=>CY0+CHH-v/YMAX*CHH;
+function axes(){let s='';for(let v=0;v<=1250;v+=250){s+=`<line x1="${CX0}" x2="${CX0+CW}" y1="${yv(v)}" y2="${yv(v)}" stroke="#e5e9ef" stroke-dasharray="4 4"/><text x="${CX0-10}" y="${yv(v)+5}" text-anchor="end" font-size="14" fill="#5d6878">${v?v.toFixed(1):'0.000'}</text>`}
+ s+=`<line x1="${CX0}" x2="${CX0}" y1="${CY0}" y2="${CY0+CHH}" stroke="#333"/><line x1="${CX0}" x2="${CX0+CW}" y1="${CY0+CHH}" y2="${CY0+CHH}" stroke="#333"/>`;
+ s+=`<text transform="translate(30 ${CY0+CHH/2}) rotate(-90)" text-anchor="middle" font-size="17" fill="#5d6878">Market Value (USD Million)</text><text x="${CX0+CW/2}" y="${CY0+CHH+56}" text-anchor="middle" font-size="17" fill="#5d6878">Year</text>`;
+ const gw=CW/12;YRS.forEach((y,i)=>s+=`<text x="${CX0+gw*i+gw/2}" y="${CY0+CHH+24}" text-anchor="middle" font-size="14" fill="#3b4554">${y}</text>`);return s}
+function drawMA(p){const svg=document.getElementById('ma-svg');let s=axes();const gw=CW/12;
+ if(maMode==='bar'){const bw=(gw-16)/4;YRS.forEach((y,i)=>SER.forEach((se,k)=>{const v=se.d[i]*p;s+=`<rect ${i==5&&k==0?'id="bar-hit"':''} x="${CX0+gw*i+8+k*bw}" y="${yv(v)}" width="${bw-2}" height="${CY0+CHH-yv(v)}" fill="${se.c}" rx="1.5"/>`}))}
+ else{SER.forEach(se=>{const pts=se.d.map((v,i)=>`${CX0+gw*i+gw/2},${yv(v)}`).join(' ');s+=`<polyline points="${pts}" fill="none" stroke="${se.c}" stroke-width="3.5" pathLength="1" stroke-dasharray="1" stroke-dashoffset="${1-p}"/>`;se.d.forEach((v,i)=>{if(i/11<=p+.001)s+=`<circle cx="${CX0+gw*i+gw/2}" cy="${yv(v)}" r="4.5" fill="#fff" stroke="${se.c}" stroke-width="2.5"/>`})})}
+ svg.innerHTML=s;
+ document.getElementById('ma-title').textContent=maMode==='bar'?'Comparative Analysis - Grouped Bars':'Trend Analysis - Line Chart';
+ document.getElementById('ma-leg').innerHTML=SER.map(se=>`<span><i style="background:${se.c}"></i>${se.n}</span>`).join('');
+ document.getElementById('ct-bar').classList.toggle('on',maMode==='bar');document.getElementById('ct-line').classList.toggle('on',maMode==='line');}
+
+const D1=[['LOCTITE',36,'#52b69a'],['3M Scotch Weld',24,'#1a759f'],['Huntsman Araldite',19,'#76c893'],['Sika',11,'#168aad'],['Others',10,'#1e4e79']];
+const D2=[['ISO 9001',48,'#52b69a'],['IATF 16949',29,'#1a759f'],['AS9100',16,'#76c893'],['Others',7,'#1e4e79']];
+function donut(id,data,p){const cx=280,cy=250,R=180,r=100,el=document.getElementById(id);let s='',acc=Math.PI,tot=Math.PI*p,gap=.025;
+ data.forEach(([n,v,c])=>{const span=Math.PI*v/100;let a1=acc+gap/2,a2=Math.min(acc+span-gap/2,Math.PI+tot);acc+=span;if(a2<=a1)return;
+  const P=(rad,a)=>`${cx+rad*Math.cos(a)},${cy+rad*Math.sin(a)}`;
+  s+=`<path d="M${P(R,a1)} A${R} ${R} 0 0 1 ${P(R,a2)} L${P(r,a2)} A${r} ${r} 0 0 0 ${P(r,a1)}Z" fill="${c}"/>`;
+  if(p>.98){const m=(a1+a2)/2;s+=`<text x="${cx+(R+38)*Math.cos(m)}" y="${cy+(R+30)*Math.sin(m)}" text-anchor="middle" font-size="19" fill="${c}">${v.toFixed(1)}%</text>`}});
+ el.innerHTML=s}
+function legends(){document.getElementById('l1').innerHTML=D1.map(d=>`<span><i style="background:${d[2]};border-radius:50%"></i>${d[0]}</span>`).join('');document.getElementById('l2').innerHTML=D2.map(d=>`<span><i style="background:${d[2]};border-radius:50%"></i>${d[0]}</span>`).join('');}
+legends();
+
+function setPD(name){const s=XP.find(x=>x[0]==name)[1];document.getElementById('pd-xl').innerHTML=pdList(XP,'pd-xl-in',name);document.getElementById('pd-xd').innerHTML=pdDetail(name,s);}
+
+/* ---------------- engine ---------------- */
+const $=s=>document.querySelector(s);
+const stage=$('#stage'),frame=$('#frame'),cur=$('#cur');
+let scale=1,VH=856;
+function fit(){const fw=frame.clientWidth,fh=frame.clientHeight;scale=Math.min(fw/1600,fh/900);const ox=(fw-1600*scale)/2,oy=(fh-900*scale)/2;stage.style.transform=`translate(${ox}px,${oy}px) scale(${scale})`}
+new ResizeObserver(fit).observe(frame);fit();
+
+let clock=0,playing=true,last=null,speed=1,waiters=[],gen=0,curCh=0,chStart=0;
+class Abort extends Error{}
+let MANUAL=false,frameNo=0;window.clickLog=[];
+function tick(ts){if(MANUAL){requestAnimationFrame(tick);return}if(last!==null&&playing)clock+=Math.min(100,ts-last)*speed;last=ts;
+ const ready=waiters.filter(w=>w.t<=clock);waiters=waiters.filter(w=>w.t>clock);ready.forEach(w=>w.res());drawProgress();requestAnimationFrame(tick)}
+function sleep(ms){const g=gen;return new Promise((res,rej)=>waiters.push({t:clock+ms,f:frameNo,res:()=>g===gen?res():rej(new Abort())}))}
+const ez=p=>p<.5?2*p*p:1-Math.pow(-2*p+2,2)/2;
+async function tween(ms,fn){const s=clock;for(;;){const p=Math.min(1,(clock-s)/ms);fn(ez(p));if(p>=1)break;await sleep(0)}}
+
+let cx=1200,cy=600;
+function setCur(x,y){cx=x;cy=y;cur.style.transform=`translate(${x-4}px,${y-3}px)`}
+function el(sel){return typeof sel==='string'?document.querySelector(sel):sel}
+function center(e,dx=0,dy=0){const r=e.getBoundingClientRect(),s=stage.getBoundingClientRect();return{x:(r.left+r.width/2-s.left)/scale+dx,y:(r.top+r.height/2-s.top)/scale+dy}}
+async function moveTo(sel,ms=900,dx=0,dy=0){const t=center(el(sel),dx,dy),a={x:cx,y:cy};await tween(ms,p=>setCur(a.x+(t.x-a.x)*p,a.y+(t.y-a.y)*p))}
+async function click(){cur.classList.add('press');const r=document.createElement('div');r.className='rip';r.style.left=cx+'px';r.style.top=cy+'px';stage.appendChild(r);r.addEventListener('animationend',()=>r.remove());clickLog.push(clock);await sleep(180);cur.classList.remove('press');await sleep(120)}
+function hov(sel,on=true){el(sel).classList.toggle('hov',on)}
+function clearHov(){document.querySelectorAll('.hov').forEach(e=>e.classList.remove('hov'))}
+
+const S={};
+const scr=id=>document.querySelector('#'+id+' .scroller');
+function setScroll(id,y){S[id]=y;scr(id).style.transform=`translateY(${-y}px)`}
+const maxS=id=>Math.max(0,scr(id).offsetHeight-VH);
+async function scrollTo(id,y,ms=1200){y=Math.max(0,Math.min(maxS(id),y));const a=S[id]||0;await tween(ms,p=>setScroll(id,a+(y-a)*p))}
+async function scrollToEl(sel,off=100,ms=1200){const e=el(sel),sc=e.closest('.screen'),vr=sc.getBoundingClientRect(),er=e.getBoundingClientRect();await scrollTo(sc.id,(S[sc.id]||0)+(er.top-vr.top)/scale-off,ms)}
+let hx=0;
+function setH(x){hx=x;$('#ci-ts .tinner').style.transform=`translateX(${-x}px)`}
+async function hScroll(x,ms){const w=$('#ci-ts'),max=$('#ci-ts .tinner').scrollWidth-w.clientWidth;x=Math.max(0,Math.min(max,x));const a=hx;await tween(ms,p=>setH(a+(x-a)*p))}
+
+function show(id,url){document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('on',s.id===id));if(url)setURL(url)}
+function setURL(u){$('#url').textContent='www.coherentmarketinsights.com/'+u;const lb=$('#loadbar');lb.style.transition='none';lb.style.width='0';lb.style.opacity=1;void lb.offsetWidth;lb.style.transition='width .7s ease, opacity .4s .7s';lb.style.width='100%';lb.style.opacity=0}
+function caption(k,t,s){const c=$('#cap');c.classList.remove('on');sleep(180).catch(()=>{}).then(()=>{$('#capk').textContent=k;$('#capt').textContent=t;$('#caps').textContent=s;c.classList.add('on')})}
+function capOff(){$('#cap').classList.remove('on')}
+function ov(id,on){$('#ov-'+id).classList.toggle('on',on)}
+function cursorOn(on){cur.classList.toggle('on',on)}
+async function countUp(root,ms=1600){const els=[...document.querySelectorAll(root+' .cnt')];await tween(ms,p=>els.forEach(e=>e.textContent=Math.round(+e.dataset.to*p).toLocaleString('en-US')+(p>=1?(e.dataset.suf||''):'')))}
+function setCounts(root,full){document.querySelectorAll(root+' .cnt').forEach(e=>e.textContent=full?(+e.dataset.to).toLocaleString('en-US')+(e.dataset.suf||''):'0')}
+const DURL='insights-vault/adhesives-and-bonding/two-component-epoxy-adhesives';
+function setTab(t){document.querySelectorAll('.d-tab').forEach(e=>e.classList.toggle('on',e.dataset.tab===t));document.querySelectorAll('.pane').forEach(e=>e.classList.toggle('on',e.dataset.pane===t));$('#kpis').classList.toggle('on',t==='ma');
+ maMode='bar';drawMA(1);$('#tip').classList.remove('on');setH(0);donut('d1',D1,1);donut('d2',D2,1);document.querySelectorAll('.dot').forEach(d=>d.classList.add('show'));$('#ar-row').classList.remove('open');setPD('Hardener Chemistry Breadth');
+ $('#all-in').textContent='Brand, company or HQ…';$('#all-in').classList.remove('focus');document.querySelectorAll('.allr').forEach(r=>r.style.display='');$('#all-n').textContent='163 companies';
+ document.getElementById('vt1').classList.add('on');setURL(DURL+'#'+t)}
+const tab=t=>`.d-tab[data-tab="${t}"]`;
+async function goTab(t){await moveTo(tab(t),900);hov(tab(t));await sleep(200);await click();hov(tab(t),false);setTab(t);setScroll('dash',0)}
+function hubFilter(q){q=q.toLowerCase();document.querySelectorAll('.hc').forEach(c=>c.classList.toggle('hide',!c.dataset.n.includes(q)))}
+
+/* ---------------- chapters ---------------- */
+const CH=[
+{n:'Intro',d:5000,run:async()=>{show('landing','insights-vault');setScroll('landing',0);setCounts('#landing',false);capOff();cursorOn(false);ov('intro',true);await sleep(4300);ov('intro',false);await sleep(500)}},
+
+{n:'Insights Vault',d:17000,run:async()=>{show('landing','insights-vault');setScroll('landing',0);setCounts('#landing',false);setCur(1250,620);cursorOn(true);
+ caption('01 · INSIGHTS VAULT','Coherent Insights Vault','The gateway to 25,000+ reports across 43 industries, with 425+ dedicated analysts.');
+ await sleep(400);await countUp('#landing',1800);
+ await moveTo('#l-login',900);hov('#l-login');await sleep(700);hov('#l-login',false);
+ caption('01 · INSIGHTS VAULT','Choose your vault','Complete access, or dedicated vaults for Drone, Fire and Adhesives & Bonding.');
+ await scrollTo('landing',470,1300);
+ for(const id of ['#lc1','#lc2','#lc3']){await moveTo(id,700);hov(id);await sleep(450);hov(id,false)}
+ caption('01 · INSIGHTS VAULT','How it works','From spotting disruption early to turning it into revenue — four steps, one platform.');
+ await scrollToEl('#l-how',70,1400);await sleep(2200);
+ await scrollTo('landing',470,1200);await moveTo('#lc4',800);hov('#lc4');await sleep(300);await click();hov('#lc4',false);await sleep(300)}},
+
+{n:'Industry Hub',d:12000,run:async()=>{show('hub','insights-vault/adhesives-and-bonding');setScroll('hub',0);setCounts('#hub',false);$('#h-q').textContent='';$('#h-search').classList.remove('focus');hubFilter('');cursorOn(true);
+ caption('02 · INDUSTRY HUB','Adhesives & Bonding ecosystem hub','120 interactive reports, 20,000+ customer profiles and 30,000+ distributors mapped.');
+ await countUp('#hub',1600);await sleep(700);
+ await moveTo('#h-band',900);hov('#h-band');await sleep(600);hov('#h-band',false);
+ await scrollToEl('#h-sec',30,1300);
+ caption('02 · INDUSTRY HUB','Find any market in seconds','Live search across all 120 market reports in the ecosystem.');
+ await moveTo('#h-search',800);await click();$('#h-search').classList.add('focus');
+ for(const ch of 'two-component'){$('#h-q').textContent+=ch;hubFilter($('#h-q').textContent);await sleep(105)}
+ await sleep(700);const card=[...document.querySelectorAll('.hc')].find(c=>c.dataset.n.startsWith('two-component epoxy'));
+ await moveTo(card,900);hov(card);await sleep(450);await click();hov(card,false);await sleep(300)}},
+
+{n:'Taxonomy',d:12000,run:async()=>{show('dash');setTab('tax');setScroll('dash',0);cursorOn(true);
+ caption('03 · REPORT DASHBOARD','Taxonomy','Global Two-Component Epoxy Adhesives Market · Revenue, USD Mn, 2021–2032. Every view in one tab bar.');
+ await moveTo(tab('tax'),900);hov(tab('tax'));await sleep(600);hov(tab('tax'),false);await sleep(1200);
+ caption('03 · TAXONOMY','Market segmentation','Hardener type, cure speed, packaging format, end-use industry and region.');
+ await scrollTo('dash',420,1500);await sleep(1200);await scrollTo('dash',1050,1600);await sleep(1200);await scrollTo('dash',99999,1500);await sleep(900)}},
+
+{n:'Market Analysis',d:16000,run:async()=>{show('dash');setTab('tax');setScroll('dash',0);cursorOn(true);
+ caption('04 · MARKET ANALYSIS','Market size and growth','$1.4B in 2021 to $2.9B by 2032 — a 6.91% CAGR over 2026–2032.');
+ await goTab('ma');drawMA(0);
+ await moveTo('#kpi-cagr',800);hov('#kpi-cagr');await sleep(700);hov('#kpi-cagr',false);
+ await tween(1800,drawMA);await sleep(500);
+ await scrollTo('dash',230,1000);
+ caption('04 · MARKET ANALYSIS','Segment-level forecasts','Compare hardener types year by year — value or volume, any geography.');
+ const b=$('#bar-hit');await moveTo(b,800);const t=$('#tip'),c=center(b),w=center($('#chart-wrap'));const wr=$('#chart-wrap').getBoundingClientRect(),sr=stage.getBoundingClientRect();
+ t.innerHTML=`<b>Amine · 2026</b><br>USD ${SER[0].d[5].toFixed(1)} Mn`;t.style.left=(c.x-((wr.left-sr.left)/scale)+18)+'px';t.style.top=(c.y-((wr.top-sr.top)/scale)-60)+'px';t.classList.add('on');
+ await sleep(1400);t.classList.remove('on');
+ await moveTo('#ma-vol',700);hov('#ma-vol');await sleep(600);hov('#ma-vol',false);
+ await moveTo('#ct-line',800);await click();maMode='line';await tween(1800,drawMA);await sleep(900);
+ await moveTo('#ct-bar',800);await click();maMode='bar';drawMA(1);await sleep(600)}},
+
+{n:'Customer Intelligence',d:15500,run:async()=>{show('dash');setTab('ma');setScroll('dash',0);cursorOn(true);
+ caption('05 · CUSTOMER INTELLIGENCE','Customer database','237 verified existing and potential buyers, organised by proposition tier.');
+ await goTab('ci');await moveTo('#ci-props .prop',800);await sleep(600);
+ await scrollToEl('#ci-db',20,1300);await sleep(800);
+ await moveTo('#ci-r1 td',700,-40);await sleep(500);
+ caption('05 · CUSTOMER INTELLIGENCE','Procurement intelligence','What each buyer procures — hardener type, cure speed and packaging format.');
+ await hScroll(1800,2000);await sleep(600);await hScroll(99999,1800);await moveTo('#ci-pg',700);await sleep(1400);
+ await scrollTo('dash',(S.dash||0)+320,1200);await sleep(500)}},
+
+{n:'Distributor Intelligence',d:11800,run:async()=>{show('dash');setTab('ci');setScroll('dash',0);cursorOn(true);
+ caption('06 · DISTRIBUTOR INTELLIGENCE','Distributor database','392 distributors across 51 headquarter countries, with 21 fields each.');
+ await goTab('di');await sleep(500);await moveTo('#di-incl',700);await sleep(600);
+ await scrollToEl('#di-def',20,1300);
+ caption('06 · DISTRIBUTOR INTELLIGENCE','Clear inclusion rules','Market definition and distributor criteria are spelled out before the data.');
+ await sleep(2200);
+ await scrollToEl('#di-table',30,1200);await moveTo('#di-r1 td:nth-child(2)',700);await sleep(600);await moveTo('#di-r2 td:nth-child(7)',700);await sleep(900)}},
+
+{n:'Voice of Customer',d:18500,run:async()=>{show('dash');setTab('di');setScroll('dash',0);cursorOn(true);
+ caption('07 · VOICE OF CUSTOMER (B2B)','Buyer survey','140 respondents · 4 sections · 21 questions across five buyer industries.');
+ await goTab('voc');donut('d1',D1,0);donut('d2',D2,0);await sleep(900);
+ await scrollToEl('#v-buy',30,1200);await moveTo('#v-aero',700);hov('#v-aero');await sleep(500);hov('#v-aero',false);
+ await scrollToEl('#v-org',30,1200);
+ caption('07 · VOICE OF CUSTOMER (B2B)','Who we spoke to','Procurement managers, materials engineers and plant production leads.');
+ await sleep(1500);
+ await scrollToEl('#v-sec',30,1200);await moveTo('#vt2',600);hov('#vt2');await sleep(400);hov('#vt2',false);await moveTo('#vt1',600);
+ await scrollToEl('#q1',30,1100);await tween(1600,p=>donut('d1',D1,p));
+ caption('07 · VOICE OF CUSTOMER (B2B)','Answers with takeaways','Every question is charted and paired with an analyst takeaway.');
+ await sleep(1500);await scrollToEl('#q2',30,1200);await tween(1400,p=>donut('d2',D2,p));await sleep(800)}},
+
+{n:'Coherent Quadrant',d:33500,run:async()=>{show('dash');setTab('voc');setScroll('dash',0);cursorOn(true);
+ caption('08 · VENDOR INTELLIGENCE','Coherent Quadrant','183 manufacturers scored on product capability (X) and business capability (Y).');
+ await goTab('vq');await sleep(1000);
+ await scrollToEl('#vq-params',30,1300);
+ caption('08 · VENDOR INTELLIGENCE','Ten scoring parameters','Five product parameters and five business parameters define every score.');
+ await sleep(1800);
+ document.querySelectorAll('.dot').forEach(d=>d.classList.remove('show'));
+ await scrollToEl('#vq-quad',20,1300);
+ caption('08 · VENDOR INTELLIGENCE','Quadrant positioning','Leaders, Challengers, Trailblazers and Evolving Players at a glance.');
+ for(const d of document.querySelectorAll('.dot')){d.classList.add('show');await sleep(90)}
+ await moveTo('#dot-ar i',800);await sleep(800);
+ await scrollToEl('#vq-mean',30,1300);await sleep(1800);
+ await scrollToEl('#vq-top',20,1300);
+ caption('08 · VENDOR INTELLIGENCE','Top 20 companies','Click any score to open its parameter-level breakdown.');
+ await sleep(500);await moveTo('#ar-x b',800);await click();$('#ar-row').classList.add('open');await sleep(2200);
+ await scrollToEl('#vq-all',30,1400);
+ caption('08 · VENDOR INTELLIGENCE','All 163 assessed companies','Search by brand, company or headquarters and filter by quadrant.');
+ await moveTo('#all-in',700);await click();const ai=$('#all-in');ai.classList.add('focus');ai.textContent='';
+ for(const ch of 'France'){ai.textContent+=ch;await sleep(115)}
+ document.querySelectorAll('.allr').forEach(r=>r.style.display=r.dataset.s.includes('france')?'':'none');$('#all-n').textContent='2 companies';await sleep(1200);
+ await scrollToEl('#vq-pd',20,1400);
+ caption('08 · VENDOR INTELLIGENCE','Evidence behind every score','Each parameter shows its scoring rationale and supporting points.');
+ await sleep(1300);
+ await moveTo('#pd-xl-in [data-p="Cure Speed Portfolio"]',800);await click();setPD('Cure Speed Portfolio');await sleep(2200);
+ await scrollToEl('#pd-y',30,1300);await sleep(2000)}},
+
+{n:'Outro',d:6500,run:async()=>{capOff();cursorOn(false);ov('outro',true);await sleep(6200)}}
+];
+
+/* ---------------- player ---------------- */
+const TOTAL=CH.reduce((a,c)=>a+c.d,0);
+const bar=$('#bar'),chips=$('#chips');
+CH.forEach((c,i)=>{const b=document.createElement('button');b.className='seg';b.style.flex=c.d;b.title=c.n;b.setAttribute('aria-label','Jump to '+c.n);b.innerHTML='<i></i>';b.onclick=()=>playFrom(i);bar.appendChild(b);
+ const ch=document.createElement('button');ch.className='chip';ch.textContent=c.n;ch.onclick=()=>playFrom(i);chips.appendChild(ch)});
+const fmt=ms=>{const s=Math.floor(ms/1000);return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')};
+function drawProgress(){const segs=bar.children;let el=0;for(let i=0;i<CH.length;i++){let f=i<curCh?1:i>curCh?0:Math.min(1,(clock-chStart)/CH[i].d);segs[i].firstChild.style.width=(f*100)+'%';if(i<curCh)el+=CH[i].d;else if(i===curCh)el+=f*CH[i].d}
+ [...chips.children].forEach((c,i)=>c.classList.toggle('on',i===curCh));$('#time').textContent=fmt(el)+' / '+fmt(TOTAL)}
+let ended=false;
+async function playFrom(i){gen++;const ws=waiters;waiters=[];ws.forEach(w=>w.res());const my=gen;ended=false;
+ document.querySelectorAll('.ov').forEach(o=>o.classList.remove('on'));clearHov();$('#tip').classList.remove('on');
+ if(!playing){playing=true;updBtn()}
+ for(let k=i;k<CH.length;k++){curCh=k;chStart=clock;clearHov();
+  try{await CH[k].run();const rem=CH[k].d-(clock-chStart);if(rem>0)await sleep(rem)}catch(e){if(e instanceof Abort)return;console.error(e);return}
+  if(my!==gen)return}
+ ended=true;playing=false;updBtn();$('#play').textContent='↺ Replay'}
+function updBtn(){$('#play').textContent=playing?'❚❚ Pause':'▶ Play'}
+$('#play').onclick=()=>{if(ended){playFrom(0);return}playing=!playing;updBtn()};
+$('#restart').onclick=()=>playFrom(0);
+$('#prev').onclick=()=>playFrom(Math.max(0,curCh-1));
+$('#next').onclick=()=>playFrom(Math.min(CH.length-1,curCh+1));
+$('#speed').onchange=e=>speed=+e.target.value;
+$('#fs').onclick=()=>{document.fullscreenElement?document.exitFullscreen():frame.requestFullscreen&&frame.requestFullscreen()};
+document.addEventListener('keydown',e=>{if(e.target.tagName==='SELECT')return;if(e.code==='Space'){e.preventDefault();$('#play').click()}else if(e.code==='ArrowRight')$('#next').click();else if(e.code==='ArrowLeft')$('#prev').click()});
+setPD('Hardener Chemistry Breadth');drawMA(1);
+window.step=async function(ms){frameNo++;clock+=ms;
+ const rd=waiters.filter(w=>w.t<=clock&&w.f<frameNo);waiters=waiters.filter(w=>!(w.t<=clock&&w.f<frameNo));rd.forEach(w=>w.res());
+ for(let k=0;k<3;k++)await new Promise(r=>setTimeout(r,0));
+ for(const a of document.getAnimations()){if(!a._m){a._m=1;a.pause();a.currentTime=0}else{a.currentTime=(a.currentTime||0)+ms}}
+ return ended};
+window.startManual=function(){MANUAL=true;speed=1;playFrom(0);return clock};
+const REC=location.hash==='#rec';if(REC){document.body.classList.add('rec');fit()}
+requestAnimationFrame(tick);if(!REC)playFrom(0);
+</script>
+</body>
+</html>

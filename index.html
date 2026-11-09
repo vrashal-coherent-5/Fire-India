@@ -72,6 +72,12 @@
   .tab.drone{--t1:var(--drone-1);--t2:var(--drone-2)}
   .tab.adhesive{--t1:var(--adhesive-1);--t2:var(--adhesive-2)}
 
+  /* ---------- Platform walkthrough ---------- */
+  .demo{display:none;margin:44px 0 0}
+  body.adhesive .demo{display:block}
+  body.chooser .demo{display:none}
+  .demo iframe{display:block;width:100%;aspect-ratio:16/9;border:0;background:transparent}
+
   .toolbar{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin:44px 0 24px;flex-wrap:wrap}
   .toolbar h2{font-size:26px;font-weight:800;letter-spacing:-.01em}
   .toolbar p{color:var(--muted);font-size:14px;margin-top:6px}
@@ -223,6 +229,10 @@
       </button>
     </div>
   </div>
+
+  <section class="demo" id="demo">
+    <iframe id="demoFrame" title="Coherent Insights Vault platform walkthrough" loading="lazy"></iframe>
+  </section>
 
   <div class="toolbar">
     <div>
@@ -656,8 +666,29 @@ function setTab(t){
   document.getElementById('secTitle').textContent = META[t].title;
   document.getElementById('heroTitle').textContent = META[t].title;
   document.getElementById('secSub').textContent = META[t].sub;
+  setDemo(t === 'adhesive');
   render();
 }
+
+// The walkthrough only plays on the adhesive page, so it is loaded on demand and
+// sized to its own content (same origin), since the player is 16:9 plus controls.
+const demoFrame = document.getElementById('demoFrame');
+function sizeDemo(){
+  const d = demoFrame.contentDocument;
+  const player = d && d.querySelector('.player');
+  if (player) demoFrame.style.height = Math.ceil(player.getBoundingClientRect().bottom) + 'px';
+}
+function setDemo(on){
+  if (!on) { demoFrame.removeAttribute('src'); return; }
+  if (demoFrame.getAttribute('src')) return;
+  demoFrame.addEventListener('load', () => {
+    sizeDemo();
+    // The demo fills its chapter chips after load, which changes its height.
+    new ResizeObserver(sizeDemo).observe(demoFrame.contentDocument.querySelector('.player'));
+  }, { once: true });
+  demoFrame.src = '/platform-demo.html';
+}
+addEventListener('resize', () => { if (demoFrame.getAttribute('src')) sizeDemo(); });
 
 // Each ecosystem lives at its own path (/fire, /drone) and has its own login.
 document.querySelectorAll('.tab').forEach(b => b.addEventListener('click', () => { location.href = '/' + b.dataset.tab; }));
