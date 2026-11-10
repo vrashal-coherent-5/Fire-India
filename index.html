@@ -206,9 +206,9 @@
     </div>
     <div class="stats">
       <div class="stat"><b id="sDash">25</b><span>Interactive reports</span></div>
-      <div class="stat"><b>1</b><span>Industry ecosystem</span></div>
-      <div class="stat"><b>20,000+</b><span>Customer profiles mapped</span></div>
-      <div class="stat"><b>30,000+</b><span>Distributors profiled</span></div>
+      <div class="stat"><b id="sEco">1</b><span>Industry ecosystem</span></div>
+      <div class="stat"><b id="sCust">20,000+</b><span>Customer profiles mapped</span></div>
+      <div class="stat"><b id="sDist">30,000+</b><span>Distributors profiled</span></div>
     </div>
   </div>
 </section>
@@ -755,10 +755,15 @@ function render(){
   empty.style.display = items.length ? 'none' : 'block';
 }
 
+const COUNT = { adhesive: '500+' };
+
 function setTab(t){
   current = t;
   ECOS.forEach(e => document.body.classList.toggle(e, e === t && e !== 'fire'));
-  document.getElementById('sDash').textContent = DATA[t].length;
+  document.getElementById('sDash').textContent = COUNT[t] || DATA[t].length;
+  document.getElementById('sEco').textContent = '1';
+  document.getElementById('sCust').textContent = '20,000+';
+  document.getElementById('sDist').textContent = '30,000+';
   document.querySelectorAll('.tab').forEach(b => b.setAttribute('aria-selected', b.dataset.tab === t));
   document.getElementById('secTitle').textContent = META[t].title;
   document.getElementById('heroTitle').textContent = META[t].title;
@@ -789,7 +794,11 @@ if (ECOS.includes(eco)) {
   location.replace('/' + location.hash.slice(1));
 } else {
   document.body.classList.add('chooser');
-  document.getElementById('heroTitle').textContent = 'Fire, Drone, Adhesive & Food Ecosystem Industry Analysis';
+  document.getElementById('heroTitle').textContent = "Coherent's Insight Vault";
+  document.getElementById('sDash').textContent = '700+';
+  document.getElementById('sEco').textContent = '4';
+  document.getElementById('sCust').textContent = '60,000+';
+  document.getElementById('sDist').textContent = '80,000+';
   document.querySelectorAll('.tab').forEach(b => b.setAttribute('aria-selected', 'false'));
 }
 </script>
