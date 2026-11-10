@@ -13,6 +13,10 @@
       "destination": "/index.html"
     },
     {
+      "source": "/profoods",
+      "destination": "/index.html"
+    },
+    {
       "source": "/fire/:slug",
       "destination": "https://mainbuilder.vercel.app/shared/:slug"
     },
@@ -22,6 +26,10 @@
     },
     {
       "source": "/adhesive/:slug",
+      "destination": "https://mainbuilder.vercel.app/shared/:slug"
+    },
+    {
+      "source": "/profoods/:slug",
       "destination": "https://mainbuilder.vercel.app/shared/:slug"
     },
     {
