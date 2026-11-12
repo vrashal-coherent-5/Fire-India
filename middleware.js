@@ -14,7 +14,14 @@ const IDS = {
   profoods: ['eebf31eb6fe641aa0d98f789','13a73848dc204fa3606115fe','807deee582a31066d721b773','9122591526cf6bea3cc2a7e2','d9c6e1004e4eb89fd4806b00','dc7944384dddcf7a07d7b9b5','ad567a60b2db0fab812ed947','dc1b2d672a6e78ca01b7ea13','16e96783b255ee7be8a9c08d','642ef256615eeda0a789fcc5','77a6405d46d2c3681ba6aa47','4bbe8fdfa1a71f2727c4c4e0','586d86c472044aebbabbade3','e3db9426060153ef9eb05ae4','fe8bc9c54b12f8478d15d48e','e3fe43101c7a83793618741e','7431fd71612dc4f008667755','66da747d4f9330f77c314a32','f444becf45293b83a81eb0a6','95c6c429e2df0451ed78bb1c','1be9afa8f274405cd0768839','cec23397c184c1aed5ff72cf','ed1e796758fa682f159c2db6','6a7ae3d27576336cf8409f5a','b2922458101ca3b98610b85a','7cb382bd3e61bcddb7a20617','17a6ebcc9e2ee70cf6109be0','d950af9beeb69324eaee5c7b','c188e47a71427c1e2fdb75db','712256e62da16e8f7de4c368','65273a137c50d34fafebd594','8d225864c01c5aa460ee8491','87b01840ebcd7fe8920548e7','8371174f5a73f6bed8a1f2ee','c0c44b6d886747a44c4d0e60','94e218f6757a8f274aec2bf7','19f5ad73f336548e0afb60a6','26b18a14467fd676e95a70fb','eedea3795a93938e551696cb','187b3493a068b923d858b0fb','98da3279c3ead13eb54379c1','74b6fba34b4a743fe1444484','50c122539d9cdd54effb82dd','62364f4b895a12aa1f124972','361687a9c359c03a88b4d989','dbeb47044be4b8aaa9960569','f80999e647d84d6e5a1f5548','6905cfa849ef7693a4e51884','6ad37844a5b393bba73ad545','15b52ba428d90731217590ed','c66a2f8e1c72d6af3ac2da54','dcefe89cf219c15546333c0e','48b59ef721c9a974a83d11ed','3c8ec56784e6db10e9b9096c','828c92a58900e2a61425aece','28991f5b8255b222ce96359c','c7bddc0b11900415f2b1f474','82069639f14bdb4f18794a76','744fc55b3e7170603115592b','5049bb6be3fbc865a743741a','d0b5e6b4305ce1109d2609cc','edbd7bbd5f0a130cee8c6e3f','09d2a5db5b1fd131cfb38c24','698e2bfadeb00f15bcbf1ee0','79b1e00c4d666c85912dc536','864cb53f085350e6780d8c6d','652a717d2a5c6bca4f0f800e','39bcaa5b1d8b496dbbeb1a9d','f52522c9f970998cfb567a39','f3dd5dc52fa4d1301c3b942d','e39c0b439f049c2ddc2d15aa','8bdd4015d6a2086ca4bd1e1d','c7305220d590641f476ecd27','950a09f51d70868017784560','9554f8879d2068189aeecd7e'],
 };
 const ECOS = ['fire', 'drone', 'adhesive', 'profoods'];
-const ROLE = { fire: 'fire-access', drone: 'drone-access', adhesive: 'adhesive-access', profoods: 'profoods-access' };
+// Any one of an ecosystem's role names grants access, so a role can be renamed
+// in Auth0 without locking everyone out mid-flight.
+const ROLE = {
+  fire: ['fire-access'],
+  drone: ['drone-access'],
+  adhesive: ['adhesive-access'],
+  profoods: ['pro_food', 'profoods-access'],
+};
 const ROLES_CLAIM = 'https://coherentinsightvault.com/roles';
 const SESSION_HOURS = 8;
 
@@ -112,7 +119,7 @@ async function handleAuth(req, url) {
     const { id_token } = await res.json();
     const claims = fromB64url(id_token.split('.')[1]);
     const roles = claims[ROLES_CLAIM] || [];
-    if (!roles.includes(ROLE[tx.eco])) {
+    if (!ROLE[tx.eco].some(r => roles.includes(r))) {
       const name = { fire: 'Fire', drone: 'Drone', adhesive: 'Adhesives and Bonding', profoods: 'Food & Beverage' }[tx.eco];
       return page(403, 'No access', `Your account (${claims.email || claims.sub}) does not have access to the ${name} Ecosystem reports. Please contact Coherent Market Insights for access.`, [clearTx]);
     }
