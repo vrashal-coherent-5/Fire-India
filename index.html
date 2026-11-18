@@ -79,6 +79,10 @@
   .tab[aria-selected="true"] h3,.tab[aria-selected="true"] small{color:#fff}
   .tab[aria-selected="true"] small{opacity:.85}
   .tab[aria-selected="true"] .ti,.tab[aria-selected="true"] .count{background:rgba(255,255,255,.2);color:#fff}
+  /* The banner on an ecosystem page carries the title alone; the counts belong
+     on the landing page, where they compare the ecosystems. */
+  .tab .count{display:none}
+  body.chooser .tab .count{display:block}
   .tab.fire{--t1:var(--fire-1);--t2:var(--fire-2)}
   .tab.drone{--t1:var(--drone-1);--t2:var(--drone-2)}
   .tab.adhesive{--t1:var(--adhesive-1);--t2:var(--adhesive-2)}
