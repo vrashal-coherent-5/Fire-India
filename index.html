@@ -55,9 +55,11 @@
   .hero ul li b{display:block;margin-bottom:3px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#fff;font-weight:700}
   @media (max-width:1040px){ .hero ul{grid-template-columns:repeat(2,1fr)} }
   @media (max-width:640px){ .hero ul{grid-template-columns:1fr} }
-  #heroBlurb{display:none}
-  body.chooser #heroBlurb{display:block}
-  body.chooser #heroList{display:none}
+  /* The five modules are listed on the adhesives page only; every other page
+     keeps the one-line blurb. */
+  #heroList{display:none}
+  body.adhesive #heroList{display:grid}
+  body.adhesive #heroBlurb{display:none}
   .stats{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
   .stat{padding:22px;border-radius:var(--radius);background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);backdrop-filter:blur(6px)}
   .stat b{display:block;font-size:34px;font-weight:800;letter-spacing:-.02em}
