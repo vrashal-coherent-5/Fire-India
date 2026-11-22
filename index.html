@@ -61,8 +61,8 @@
   /* The five modules are listed on the adhesives page only; every other page
      keeps the one-line blurb. */
   #heroList{display:none}
-  body.adhesive #heroList{display:grid}
-  body.adhesive #heroBlurb{display:none}
+  body.adhesive #heroList,body.healthcare-pharma #heroList{display:grid}
+  body.adhesive #heroBlurb,body.healthcare-pharma #heroBlurb{display:none}
   .stats{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
   .stat{padding:22px;border-radius:var(--radius);background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);backdrop-filter:blur(6px)}
   .stat b{display:block;font-size:34px;font-weight:800;letter-spacing:-.02em}
@@ -264,7 +264,7 @@
       <button class="tab healthcare-pharma" role="tab" data-tab="healthcare-pharma" aria-selected="false">
         <span class="ti" data-icon="pill"></span>
         <span><h3>Healthcare &amp; Pharma Industry Analysis</h3><small>CPHI &amp; P-MEC &middot; APIs, formulation, machinery, packaging &amp; compliance</small></span>
-        <span class="count" id="cHealthcare">368</span>
+        <span class="count" id="cHealthcare">400+</span>
       </button>
     </div>
   </div>
@@ -1139,7 +1139,7 @@ const META = {
   drone:{title:'Drone Ecosystem Industry Analysis',sub:'34 markets spanning platforms, components, software, services, geospatial analytics and counter-UAS.'},
   adhesive:{title:'Advanced Materials, Adhesives, Bonding, Thermal Management, and Industrial Solutions, & Ecosystem',sub:'120 markets spanning bonding chemistries, tapes and films, polymer foams, sealants, surface preparation and application equipment.'},
   profoods:{title:'Food & Beverage Industry Analysis',sub:'75 markets spanning processed foods, food ingredients and food manufacturing technology.'},
-  'healthcare-pharma':{title:'APIs & Specialty Chemicals, Formulation & Finished Dose, Pharmaceutical Manufacturing, Processing, Pharma Machinery, Packaging, and Packaging Machinery, Materials & Drug Delivery, Quality, and Compliance, and Digital/ Automation',sub:'368 markets spanning APIs and intermediates, finished dose formulation, manufacturing and packaging machinery, drug delivery, quality and compliance, and digital automation.'}
+  'healthcare-pharma':{title:'APIs & Specialty Chemicals, Formulation & Finished Dose, Pharmaceutical Manufacturing, Processing, Pharma Machinery, Packaging, and Packaging Machinery, Materials & Drug Delivery, Quality, and Compliance, and Digital/ Automation',sub:'400+ markets spanning APIs and intermediates, finished dose formulation, manufacturing and packaging machinery, drug delivery, quality and compliance, and digital automation.'}
 };
 document.getElementById('yr').textContent = new Date().getFullYear();
 
@@ -1162,7 +1162,7 @@ function render(){
   empty.style.display = items.length ? 'none' : 'block';
 }
 
-const COUNT = { adhesive: '500+' };
+const COUNT = { adhesive: '500+', 'healthcare-pharma': '400+' };
 
 function setTab(t){
   current = t;
