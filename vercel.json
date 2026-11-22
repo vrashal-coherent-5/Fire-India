@@ -17,6 +17,10 @@
       "destination": "/index.html"
     },
     {
+      "source": "/healthcare-pharma",
+      "destination": "/index.html"
+    },
+    {
       "source": "/fire/:slug",
       "destination": "https://mainbuilder.vercel.app/shared/:slug"
     },
@@ -30,6 +34,10 @@
     },
     {
       "source": "/profoods/:slug",
+      "destination": "https://mainbuilder.vercel.app/shared/:slug"
+    },
+    {
+      "source": "/healthcare-pharma/:slug",
       "destination": "https://mainbuilder.vercel.app/shared/:slug"
     },
     {

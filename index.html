@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Fire, Drone, Adhesive & Food Ecosystem Intelligence Hub | Coherent Market Insights</title>
+<title>Fire, Drone, Adhesive, Food & Pharma Ecosystem Intelligence Hub | Coherent Market Insights</title>
 <link rel="icon" type="image/png" href="/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,12 +16,14 @@
     --drone-1:#16b3c7; --drone-2:#3b5bdb; --drone-soft:#e9f6fb;
     --adhesive-1:#e2a32c; --adhesive-2:#bf6a1e; --adhesive-soft:#fdf4e4;
     --profoods-1:#6fb82e; --profoods-2:#3d7d1f; --profoods-soft:#f0f8e6;
+    --healthcare-1:#5b6ef5; --healthcare-2:#343f9e; --healthcare-soft:#eef0ff;
     --accent-1:var(--fire-1); --accent-2:var(--fire-2); --accent-soft:var(--fire-soft);
     --radius:16px;
   }
   body.drone{ --accent-1:var(--drone-1); --accent-2:var(--drone-2); --accent-soft:var(--drone-soft); }
   body.adhesive{ --accent-1:var(--adhesive-1); --accent-2:var(--adhesive-2); --accent-soft:var(--adhesive-soft); }
   body.profoods{ --accent-1:var(--profoods-1); --accent-2:var(--profoods-2); --accent-soft:var(--profoods-soft); }
+  body.healthcare-pharma{ --accent-1:var(--healthcare-1); --accent-2:var(--healthcare-2); --accent-soft:var(--healthcare-soft); }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
   body{font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
@@ -36,7 +38,7 @@
   .logout{color:var(--ink);font-weight:600;transition:.2s}
   .logout:hover{border-color:var(--ink)}
   body.chooser .toolbar,body.chooser .grid,body.chooser .empty{display:none}
-  body.chooser .tabs{grid-template-columns:repeat(4,1fr)}
+  body.chooser .tabs{grid-template-columns:repeat(3,1fr)}
   @media (max-width:1180px){ body.chooser .tabs{grid-template-columns:repeat(2,1fr)} }
   body.chooser .tab{display:flex!important;background:#fff}
   body.chooser .tab:hover{background:#f7f9fc}
@@ -49,6 +51,7 @@
   .hero-inner{position:relative;max-width:1320px;margin:0 auto;padding:56px 32px 76px;display:grid;grid-template-columns:1.35fr 1fr;gap:30px 48px;align-items:center}
   .eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:#bfe9f0;padding:7px 14px;border:1px solid rgba(255,255,255,.18);border-radius:999px;background:rgba(255,255,255,.06)}
   .hero h1{font-size:clamp(32px,4.2vw,52px);line-height:1.08;font-weight:800;letter-spacing:-.02em;margin:20px 0 18px}
+  .hero h1.long{font-size:clamp(22px,2.3vw,30px);line-height:1.25;letter-spacing:-.01em}
   .hero p{font-size:17px;line-height:1.65;color:#c9d6e6;max-width:620px}
   .hero ul{grid-column:1/-1;list-style:none;margin:0;padding:24px 0 0;border-top:1px solid rgba(255,255,255,.14);display:grid;grid-template-columns:repeat(3,1fr);gap:22px 34px}
   .hero ul li{padding-left:13px;border-left:2px solid var(--accent-1,#16b3c7);font-size:12.5px;line-height:1.55;color:#a9bbd0}
@@ -89,6 +92,7 @@
   .tab.drone{--t1:var(--drone-1);--t2:var(--drone-2)}
   .tab.adhesive{--t1:var(--adhesive-1);--t2:var(--adhesive-2)}
   .tab.profoods{--t1:var(--profoods-1);--t2:var(--profoods-2)}
+  .tab.healthcare-pharma{--t1:var(--healthcare-1);--t2:var(--healthcare-2)}
 
   /* ---------- Platform walkthrough ---------- */
   .demo{display:none;margin:44px 0 0}
@@ -216,7 +220,7 @@
     <div>
       <span class="eyebrow">Ecosystem Intelligence Hub</span>
       <h1 id="heroTitle">Fire Ecosystem Industry Analysis</h1>
-      <p id="heroBlurb">One gateway to 254 interactive market reports &mdash; customer landscapes, distributor networks, competitive quadrants and survey insights across the fire safety, drone, adhesives &amp; bonding and processed food value chains.</p>
+      <p id="heroBlurb">One gateway to 622 interactive market reports &mdash; customer landscapes, distributor networks, competitive quadrants and survey insights across the fire safety, drone, adhesives &amp; bonding and processed food and pharmaceutical value chains.</p>
     </div>
     <div class="stats">
       <div class="stat"><b id="sDash">25</b><span>Interactive reports</span></div>
@@ -256,6 +260,11 @@
         <span class="ti" data-icon="grain"></span>
         <span><h3>Food &amp; Beverage Industry Analysis</h3><small>ProFood Expo &middot; foods, ingredients &amp; manufacturing technology</small></span>
         <span class="count" id="cProfoods">75</span>
+      </button>
+      <button class="tab healthcare-pharma" role="tab" data-tab="healthcare-pharma" aria-selected="false">
+        <span class="ti" data-icon="pill"></span>
+        <span><h3>Healthcare &amp; Pharma Industry Analysis</h3><small>CPHI &amp; P-MEC &middot; APIs, formulation, machinery, packaging &amp; compliance</small></span>
+        <span class="count" id="cHealthcare">368</span>
       </button>
     </div>
   </div>
@@ -683,6 +692,376 @@ const DATA = {
     ['Sugar Confectionery','global-sugar-confectionery-market--c7305220d590641f476ecd27','cookie'],
     ['Vegetable Ingredients','global-vegetable-ingredients-market--950a09f51d70868017784560','leaf'],
     ['Vitamin Premixes','global-vitamin-premixes-market--9554f8879d2068189aeecd7e','flask']
+  ],
+  'healthcare-pharma': [
+    ['Aloe Vera Pharmaceutical Extracts','aloe-vera-pharmaceutical-extracts-market--3f3cc2f4901be28c3f9abc7e','leaf'],
+    ['Amino Acid Pharmaceutical Intermediates','amino-acid-pharmaceutical-intermediates-market--64019dc185a9fbfdda8dc699','flask'],
+    ['Amorphous Solid Dispersion Drug Delivery Systems','amorphous-solid-dispersion-drug-delivery-systems-market--c6ce7e44104ca6339a2689a8','gear'],
+    ['Andrographis Paniculata Extracts','andrographis-paniculata-extracts-market--28964f3bfd5779d1fb82c7be','leaf'],
+    ['Anti-CD20 Biosimilars','anti-cd20-biosimilars-market--5d5f351051eab97717927089','dna'],
+    ['Anti-HER2 Biosimilars','anti-her2-biosimilars-market--af65b80b811fbd107838406b','dna'],
+    ['Anti-Inflammatory APIs','anti-inflammatory-apis-market--4004a0e187f7feb823019db1','flask'],
+    ['Anti-VEGF Biosimilars','anti-vegf-biosimilars-market--12898f9800476db169e126a0','dna'],
+    ['Antibacterial APIs','antibacterial-apis-market--1ced652a0215d572e0cd668a','flask'],
+    ['Antibody-Drug Conjugates','antibody-drug-conjugates-market--49d57b8f9d5b39b6cb2c0278','dna'],
+    ['Anticoagulant APIs','anticoagulant-apis-market--f5f68c52ca10d6e00337860f','flask'],
+    ['Antidiabetic APIs','antidiabetic-apis-market--ad4d0f76c27b4f0c8b18f5de','flask'],
+    ['Antiepileptic APIs','antiepileptic-apis-market--8ea8279ed3ce6dbc31225187','flask'],
+    ['Antifungal APIs','antifungal-apis-market--aabd306adb7f6db5c6ef5a49','flask'],
+    ['Antihypertensive APIs','antihypertensive-apis-market--de6dab32e0d2749455ac0a30','flask'],
+    ['Antimalarial APIs','antimalarial-apis-market--f574f8850eab4c55227bfdd5','flask'],
+    ['Antituberculosis APIs','antituberculosis-apis-market--c55580a631c2da7db475c453','flask'],
+    ['Antiviral APIs','antiviral-apis-market--3bf08cd160ff1f9f7098425f','flask'],
+    ['Artichoke Leaf Extracts','artichoke-leaf-extracts-market--7216eb975fdcab87fc3c66f1','leaf'],
+    ['Ashwagandha Standardized Extracts','ashwagandha-standardized-extracts-market--aa21d6aaf0750f17d6fd93b7','leaf'],
+    ['Bacopa Monnieri Extracts','bacopa-monnieri-extracts-market--88e893838ef8bb8301e3e942','leaf'],
+    ['Benzimidazole-Based Pharmaceutical Intermediates','benzimidazole-based-pharmaceutical-intermediates-market--21a372d8a92a08a124ab3694','flask'],
+    ['Berberine Botanical Extracts','berberine-botanical-extracts-market--03f7a7499aa29965a4dc10e5','leaf'],
+    ['Beta-Lactam Antibiotic APIs','beta-lactam-antibiotic-apis-market--ecebd8148728270bb7b6ae3e','cpu'],
+    ['Biodegradable Drug-Eluting Implants','biodegradable-drug-eluting-implants-market--58e6d1af7f08baa33f22c35c','nozzle'],
+    ['Biologics Contract Manufacturing','biologics-contract-manufacturing-market--89ad72a44e21ccedd96a033f','dna'],
+    ['Biosimilar Contract Manufacturing','biosimilar-contract-manufacturing-market--9a7d17f38825ea403d8df7a1','dna'],
+    ['Bispecific Antibody Therapeutics','bispecific-antibody-therapeutics-market--6186d1353ef2489681ec6224','dna'],
+    ['Boronic Acid Pharmaceutical Building Blocks','boronic-acid-pharmaceutical-building-blocks-market--7e4a51f1874509913c53f267','flask'],
+    ['Boswellia Serrata Extracts','boswellia-serrata-extracts-market--2bd2e5f50be6f96220175da3','leaf'],
+    ['Brominated Pharmaceutical Intermediates','brominated-pharmaceutical-intermediates-market--5c9f1a379769751d8bf6b021','flask'],
+    ['Cardiovascular APIs','cardiovascular-apis-market--113c0e904ad388b8245ff8a5','flask'],
+    ['Centella Asiatica Extracts','centella-asiatica-extracts-market--c4e2661a366f47276324e4ee','leaf'],
+    ['Central Nervous System APIs','central-nervous-system-apis-market--865002cec351fee7efb043af','gear'],
+    ['Cephalosporin APIs','cephalosporin-apis-market--edebf3cb7cca801513308af9','flask'],
+    ['Chewable Pharmaceutical Tablets','chewable-pharmaceutical-tablets-market--5d98572a3700a71139395588','pill'],
+    ['Chiral Pharmaceutical Intermediates','chiral-pharmaceutical-intermediates-market--c5ca2b7e5d71b09944550167','flask'],
+    ['Chlorinated Pharmaceutical Intermediates','chlorinated-pharmaceutical-intermediates-market--8d11e08e7190dbefb9276e8a','flask'],
+    ['Cleanroom Decontamination Systems','cleanroom-decontamination-systems-market--f1206a73720d1d26f3038e10','shield'],
+    ['Cleanroom Differential Pressure Monitoring Systems','cleanroom-differential-pressure-monitoring-systems-market--04a6f2eda76ee4c888f3b224','scan'],
+    ['Cleanroom Garment Storage Cabinets','cleanroom-garment-storage-cabinets-market--3f7e13853ca046f4545564d6','shield'],
+    ['Cleanroom Particle Monitoring Systems','cleanroom-particle-monitoring-systems-market--032d4d379a1f50df0a5e359f','scan'],
+    ['Coleus Forskohlii Extracts','coleus-forskohlii-extracts-market--c9481c9e290fc79628a4e1e7','leaf'],
+    ['Colloidal Silicon Dioxide Pharmaceutical Excipients','colloidal-silicon-dioxide-pharmaceutical-excipients-market--d4057975e1e5f115cec2e9d6','flask'],
+    ['Corticosteroid APIs','corticosteroid-apis-market--735856660e799fbbbb1fc843','flask'],
+    ['Croscarmellose Sodium Excipients','croscarmellose-sodium-excipients-market--65c0c21c1f280fce026b1507','flask'],
+    ['Crospovidone Excipients','crospovidone-excipients-market--f4d74282b22c07fc6f04d8e8','flask'],
+    ['Curcumin Pharmaceutical Extracts','curcumin-pharmaceutical-extracts-market--8438fe0423ad744cb244d372','leaf'],
+    ['Cyclodextrin Pharmaceutical Excipients','cyclodextrin-pharmaceutical-excipients-market--01db72074a45e7ea1666af8f','flask'],
+    ['Delayed-Release Oral Tablets','delayed-release-oral-tablets-market--6681522988a3f71d0b7da8db','pill'],
+    ['Dermatology APIs','dermatology-apis-market--7c3a3910a67ac2a3ceb24357','flask'],
+    ['Dicalcium Phosphate Pharmaceutical Excipients','dicalcium-phosphate-pharmaceutical-excipients-market--da44d2fdcd8588fcecb3dd59','flask'],
+    ['Dry Powder for Oral Suspension','dry-powder-for-oral-suspension-market--58dd841083f4da5e5670ed1c','pill'],
+    ['Dynamic Material Pass-Through Chambers','dynamic-material-pass-through-chambers-market--70d6ce59a5ec7242fa2034a2','pill'],
+    ['Echinacea Pharmaceutical Extracts','echinacea-pharmaceutical-extracts-market--d14f136e5bea9bae4caf3a0a','leaf'],
+    ['Effervescent Pharmaceutical Tablets','effervescent-pharmaceutical-tablets-market--cb4e1c2ed2a46535a9902400','pill'],
+    ['Ethylcellulose Pharmaceutical Excipients','ethylcellulose-pharmaceutical-excipients-market--31f30ce672b544547b9b89f7','flask'],
+    ['Extended-Release Oral Tablets','extended-release-oral-tablets-market--6c5dd15da08a2978463954b5','pill'],
+    ['Fluorinated Pharmaceutical Intermediates','fluorinated-pharmaceutical-intermediates-market--23c30be5baaae78b26e24ec7','flask'],
+    ['Fluoroquinolone APIs','fluoroquinolone-apis-market--5c154a3469d5af19bbf60cf8','flask'],
+    ['Gastrointestinal APIs','gastrointestinal-apis-market--0dbb78deb0b07a69878c6630','flask'],
+    ['Gastroretentive Drug Delivery Systems','gastroretentive-drug-delivery-systems-market--4bdccf22e51bd3fd15c31e6f','gear'],
+    ['Ginkgo Biloba Extracts','ginkgo-biloba-extracts-market--6d6e0546195914d99e32a1b3','leaf'],
+    ['Ginseng Pharmaceutical Extracts','ginseng-pharmaceutical-extracts-market--062ef208ab1844894bce44f1','leaf'],
+    ['GLP-1 Receptor Agonist Peptide APIs','glp-1-receptor-agonist-peptide-apis-market--3248e57266660671c99d39b9','dna'],
+    ['Green Tea Catechin Extracts','green-tea-catechin-extracts-market--c89a4314de6cf8f54b46dc36','leaf'],
+    ['Hard Gelatin Capsules','hard-gelatin-capsules-market--549a4d9f52aaf98ca158781a','pill'],
+    ['Heterocyclic Pharmaceutical Intermediates','heterocyclic-pharmaceutical-intermediates-market--e4e2fd500b7bd5dbb11af779','flask'],
+    ['High-Potency API Contract Manufacturing','high-potency-api-contract-manufacturing-market--40bfcdddde7431abcaf42a5f','factory'],
+    ['High-Potency APIs','high-potency-apis-market--90f4fe9f26d0b7ea95e816d3','flask'],
+    ['Hormonal APIs','hormonal-apis-market--0fae77e25f9a80cc81c2ea55','flask'],
+    ['HPMC Pharmaceutical Capsules','hpmc-pharmaceutical-capsules-market--789eb1cf737d5d1b2b985248','pill'],
+    ['Hydroxypropyl Cellulose Excipients','hydroxypropyl-cellulose-excipients-market--85226b23aec6858673c92744','flask'],
+    ['Hydroxypropyl Methylcellulose Excipients','hydroxypropyl-methylcellulose-excipients-market--a3ab6c0e8afa61d8049be16e','flask'],
+    ['Imidazole-Based Pharmaceutical Intermediates','imidazole-based-pharmaceutical-intermediates-market--811a64d588a0e239c69e36bc','flask'],
+    ['Immediate-Release Oral Tablets','immediate-release-oral-tablets-market--d0d5e45f420a93f349f9cf8b','pill'],
+    ['Immunosuppressant APIs','immunosuppressant-apis-market--09170d7f5cd2ce81e20ee802','gear'],
+    ['Indole-Based Pharmaceutical Intermediates','indole-based-pharmaceutical-intermediates-market--edf2647c5cbff327c4d181b0','flask'],
+    ['Inhalation Dry Powder Formulations','inhalation-dry-powder-formulations-market--81c959afc2d8b3a390a187d3','pill'],
+    ['Injectable Anesthetic Drug Formulations','injectable-anesthetic-drug-formulations-market--9961c8e5fe7c0997451f6c14','syringe'],
+    ['Injectable Antibiotic Drug Formulations','injectable-antibiotic-drug-formulations-market--89c0fa9b5ea9c0ef0fa8c720','cpu'],
+    ['Injectable Corticosteroid Formulations','injectable-corticosteroid-formulations-market--941a4ecfd8746f2df568dfda','syringe'],
+    ['Injectable Iron Formulations','injectable-iron-formulations-market--b88a72614715cbd7e56ba358','syringe'],
+    ['Injectable Oncology Drug Formulations','injectable-oncology-drug-formulations-market--2cdc836aaa6fc6d3badaef5d','syringe'],
+    ['Injectable Radiopharmaceuticals','injectable-radiopharmaceuticals-market--b7c092c2a5c8dec57e293d93','syringe'],
+    ['Intra-Articular Injectable Drug Formulations','intra-articular-injectable-drug-formulations-market--60f080855daea4b5f0e8d4dc','syringe'],
+    ['Intranasal Systemic Drug Delivery Systems','intranasal-systemic-drug-delivery-systems-market--b9eeb8c1aade7e99aa7b3511','gear'],
+    ['Intrathecal Drug Formulations','intrathecal-drug-formulations-market--a45c4e6d7b99afe8bc956e98','pill'],
+    ['Intravenous Electrolyte Solutions','intravenous-electrolyte-solutions-market--e816bba1e2fae2205065087b','pill'],
+    ['Ion-Exchange Resin Drug Delivery Systems','ion-exchange-resin-drug-delivery-systems-market--c34180bd2a73974d2a2f1c1c','gear'],
+    ['Lactose-Based Pharmaceutical Excipients','lactose-based-pharmaceutical-excipients-market--c1ed29a50eb86dec525bbcdd','flask'],
+    ['Large-Volume Parenteral Solutions','large-volume-parenteral-solutions-market--6836c0be3cdfd77dcb1a0ead','syringe'],
+    ['Licorice Root Pharmaceutical Extracts','licorice-root-pharmaceutical-extracts-market--5cb2c33d3ca682ca576c7b15','leaf'],
+    ['Lipid-Lowering APIs','lipid-lowering-apis-market--8a53f22e1c30569a5fd98e61','flask'],
+    ['Liposomal Drug Delivery Systems','liposomal-drug-delivery-systems-market--70e3a4f638ba2da3bc67472e','gear'],
+    ['Long-Acting Injectable Drug Delivery Systems','long-acting-injectable-drug-delivery-systems-market--fa793a3b5123bafe64e55c2e','syringe'],
+    ['Long-Acting Insulin Analogs','long-acting-insulin-analogs-market--c7f5bd4bd586f8930bd9b1bc','pill'],
+    ['Lyophilized Injectable Drug Formulations','lyophilized-injectable-drug-formulations-market--5b97daef96cbe9af86fea5c3','syringe'],
+    ['Macrolide Antibiotic APIs','macrolide-antibiotic-apis-market--dd9d73eb7c9bdd0a827b7c1b','cpu'],
+    ['Mannitol Pharmaceutical Excipients','mannitol-pharmaceutical-excipients-market--a9f6101669f1ffb8d62d26c3','flask'],
+    ['Microcrystalline Cellulose Pharmaceutical Excipients','microcrystalline-cellulose-pharmaceutical-excipients-market--ff89ad5c84f76a05b3610d15','flask'],
+    ['Microneedle Drug Delivery Systems','microneedle-drug-delivery-systems-market--1002dc22b85418cc934812b3','gear'],
+    ['Milk Thistle Silymarin Extracts','milk-thistle-silymarin-extracts-market--f35a77a03f131a46677fb2e5','leaf'],
+    ['Modular Pharmaceutical Cleanroom Systems','modular-pharmaceutical-cleanroom-systems-market--abe05ee5f29fe2ed2b188d5d','shield'],
+    ['Monoclonal Antibody Therapeutics','monoclonal-antibody-therapeutics-market--baa43e9f1361f89367664d1e','dna'],
+    ['Mucoadhesive Drug Delivery Systems','mucoadhesive-drug-delivery-systems-market--081cb984a5f7cd983e7e2bda','gear'],
+    ['Multiparticulate Drug Delivery Systems','multiparticulate-drug-delivery-systems-market--4b1eb938f4fb2a1e8874e3dd','gear'],
+    ['Nanostructured Lipid Carrier Drug Delivery Systems','nanostructured-lipid-carrier-drug-delivery-systems-market--cbd74aaccaac7ff8a3d17001','gear'],
+    ['Nasal Drug Sprays','nasal-drug-sprays-market--231e521a70e8177c179857d1','nozzle'],
+    ['Non-Steroidal Anti-Inflammatory APIs','non-steroidal-anti-inflammatory-apis-market--c2e5ad7981fdae32c8cc249a','flask'],
+    ['Ocular Drug Delivery Inserts','ocular-drug-delivery-inserts-market--4321744c0c2e2528c6d84bca','nozzle'],
+    ['Oncology Small Molecule APIs','oncology-small-molecule-apis-market--417e8b7592106efff360e9a1','flask'],
+    ['Ophthalmic APIs','ophthalmic-apis-market--ee8e2572478beefefe811728','nozzle'],
+    ['Ophthalmic Drug Formulations','ophthalmic-drug-formulations-market--45179958c3f44178e842c734','nozzle'],
+    ['Oral Liquid Suspensions','oral-liquid-suspensions-market--c097fe3e0ab43cd1540881ab','pill'],
+    ['Oral Pharmaceutical Granules','oral-pharmaceutical-granules-market--02485f164187896ee9920fde','pill'],
+    ['Oral Pharmaceutical Solutions','oral-pharmaceutical-solutions-market--b065fbc3159aa40668e290da','pill'],
+    ['Oral Solid Dosage Contract Manufacturing','oral-solid-dosage-contract-manufacturing-market--fd4132763e51dd3df2bf3d5f','pill'],
+    ['Orally Disintegrating Tablets','orally-disintegrating-tablets-market--1d03749af1172bdc3158405b','pill'],
+    ['Osmotic-Controlled Oral Drug Delivery Systems','osmotic-controlled-oral-drug-delivery-systems-market--f30b0d16ceed84fba73ffd5e','gear'],
+    ['Otic Drug Formulations','otic-drug-formulations-market--3644685dce42a49727524d5a','pill'],
+    ['Parenteral Nutrition Formulations','parenteral-nutrition-formulations-market--f916296884414e0f4ee2220e','syringe'],
+    ['Peptide API Contract Manufacturing','peptide-api-contract-manufacturing-market--9ad6d89d5bb59bcab3426475','dna'],
+    ['Peptide Coupling Reagents','peptide-coupling-reagents-market--d5dcf210f17f733c4a13fbfe','dna'],
+    ['Pharmaceutical Aggregation Systems','pharmaceutical-aggregation-systems-market--efa1c1bfc8cbbc34298011e7','clip'],
+    ['Pharmaceutical Air Showers','pharmaceutical-air-showers-market--21996761f077a7d772e3a9a6','pill'],
+    ['Pharmaceutical Airflow Visualization Equipment','pharmaceutical-airflow-visualization-equipment-market--fa8a8af6ecf618dc3e75e835','gear'],
+    ['Pharmaceutical Ampoule Filling Machines','pharmaceutical-ampoule-filling-machines-market--40d0ae496976de326a201a97','syringe'],
+    ['Pharmaceutical Ampoule Sealing Machines','pharmaceutical-ampoule-sealing-machines-market--00314dc4cdbd9dde5ce42f4c','syringe'],
+    ['Pharmaceutical Analytical Testing Outsourcing','pharmaceutical-analytical-testing-outsourcing-market--970a558205b75c5bf90491d0','cpu'],
+    ['Pharmaceutical Aseptic Filling Lines','pharmaceutical-aseptic-filling-lines-market--411e296bc7b32717296bf6ba','gear'],
+    ['Pharmaceutical Aseptic Isolators','pharmaceutical-aseptic-isolators-market--93ef3169b8f84860f63224c4','shield'],
+    ['Pharmaceutical Aseptic Transfer Systems','pharmaceutical-aseptic-transfer-systems-market--99bb1ccfd25a6612bae24f8a','gear'],
+    ['Pharmaceutical Atomic Absorption Spectrometers','pharmaceutical-atomic-absorption-spectrometers-market--1ebd9cc8dba59a05c4d6c79c','scan'],
+    ['Pharmaceutical Autoclaves','pharmaceutical-autoclaves-market--ba69bd26067ca569d6cac6a9','thermo'],
+    ['Pharmaceutical Automatic Potentiometric Titrators','pharmaceutical-automatic-potentiometric-titrators-market--5324a2cda37003ef3dbda223','pill'],
+    ['Pharmaceutical Bin Blenders','pharmaceutical-bin-blenders-market--a98d5a06ddfde828396065f7','gear'],
+    ['Pharmaceutical Biocatalysts','pharmaceutical-biocatalysts-market--6dbc442d3dedfa1dd24d2e04','flask'],
+    ['Pharmaceutical Bioreactors','pharmaceutical-bioreactors-market--be76abb55c868771bafaee62','pill'],
+    ['Pharmaceutical Biosafety Cabinets','pharmaceutical-biosafety-cabinets-market--9ed54fa0932de4699c0865b9','pill'],
+    ['Pharmaceutical Blister Packaging Machines','pharmaceutical-blister-packaging-machines-market--45a19a2856bbabd57436f857','box'],
+    ['Pharmaceutical Blow-Fill-Seal Machines','pharmaceutical-blow-fill-seal-machines-market--3c4723db4bd6054f93695c74','gear'],
+    ['Pharmaceutical Bottle Capping Machines','pharmaceutical-bottle-capping-machines-market--a19e1b37cd828e4d1121d008','box'],
+    ['Pharmaceutical Bottle Filling Lines','pharmaceutical-bottle-filling-lines-market--bc88e3346de0026cc2f7b2c2','box'],
+    ['Pharmaceutical Bottle Unscramblers','pharmaceutical-bottle-unscramblers-market--470cf0595f9d80dbf747da21','box'],
+    ['Pharmaceutical Buffer Preparation Systems','pharmaceutical-buffer-preparation-systems-market--ef780b6480a2c94af790d1be','gear'],
+    ['Pharmaceutical Bundling Machines','pharmaceutical-bundling-machines-market--87e586b87e7b546e966e86dc','box'],
+    ['Pharmaceutical Capsule Filling Machines','pharmaceutical-capsule-filling-machines-market--1d1c4d7ec0eaefbd167f0809','gear'],
+    ['Pharmaceutical Capsule Polishing Machines','pharmaceutical-capsule-polishing-machines-market--94bbc55cdf0ef8fe9f418caf','gear'],
+    ['Pharmaceutical Cartoning Machines','pharmaceutical-cartoning-machines-market--3fdc7ad08b635831d05f53e0','box'],
+    ['Pharmaceutical Cartridge Filling Machines','pharmaceutical-cartridge-filling-machines-market--145de3464d7ced0bbabaacb7','syringe'],
+    ['Pharmaceutical Case Packing Machines','pharmaceutical-case-packing-machines-market--4522a513b6aa17491957a26b','gear'],
+    ['Pharmaceutical Centrifuges','pharmaceutical-centrifuges-market--fdf92a2458b605f36739dfb3','pill'],
+    ['Pharmaceutical Checkweighers','pharmaceutical-checkweighers-market--5474db23467c65af4d023042','pill'],
+    ['Pharmaceutical Chromatography Resins','pharmaceutical-chromatography-resins-market--7d1d9a5a7365793cd1a31917','scan'],
+    ['Pharmaceutical Chromatography Skids','pharmaceutical-chromatography-skids-market--af84254092fe857aa55d9523','scan'],
+    ['Pharmaceutical Clean-in-Place Systems','pharmaceutical-clean-in-place-systems-market--a90c3c29a6de8fcb207406a2','gear'],
+    ['Pharmaceutical Cleanroom Airlocks','pharmaceutical-cleanroom-airlocks-market--a56ef5b6073d3d5d0693d6a6','shield'],
+    ['Pharmaceutical Cleanroom Ceiling Systems','pharmaceutical-cleanroom-ceiling-systems-market--4c9c72fb2023170c62bc85f2','shield'],
+    ['Pharmaceutical Cleanroom Doors','pharmaceutical-cleanroom-doors-market--931a6fd14be1112eb98f8b70','shield'],
+    ['Pharmaceutical Cleanroom Flooring Systems','pharmaceutical-cleanroom-flooring-systems-market--caf8130f5b04c3963df18c1a','shield'],
+    ['Pharmaceutical Cleanroom Fogging Systems','pharmaceutical-cleanroom-fogging-systems-market--d16f6cba35f5193fb4c339b6','shield'],
+    ['Pharmaceutical Cleanroom Furniture','pharmaceutical-cleanroom-furniture-market--22a80708322b3148704a4a17','shield'],
+    ['Pharmaceutical Cleanroom Interlocking Systems','pharmaceutical-cleanroom-interlocking-systems-market--1f82c65e0d9a706f90df00c5','shield'],
+    ['Pharmaceutical Cleanroom Lighting','pharmaceutical-cleanroom-lighting-market--e165c10ca26a3771f1bd5314','shield'],
+    ['Pharmaceutical Cleanroom Monitoring Systems','pharmaceutical-cleanroom-monitoring-systems-market--6dbae1625ec81e6b17e98d21','scan'],
+    ['Pharmaceutical Cleanroom Pass Boxes','pharmaceutical-cleanroom-pass-boxes-market--ff233913af50dbdb11e8a9c7','shield'],
+    ['Pharmaceutical Cleanroom Qualification Equipment','pharmaceutical-cleanroom-qualification-equipment-market--f9dbe42551be1fac72dbe5df','clip'],
+    ['Pharmaceutical Cleanroom Retrofit Systems','pharmaceutical-cleanroom-retrofit-systems-market--65784a27131d92f13feec240','shield'],
+    ['Pharmaceutical Cleanroom Sealing Systems','pharmaceutical-cleanroom-sealing-systems-market--e051523a02bc0a7a2982e51f','shield'],
+    ['Pharmaceutical Cleanroom Utility Panels','pharmaceutical-cleanroom-utility-panels-market--2817b57ca18cf312a5766a90','shield'],
+    ['Pharmaceutical Cleanroom Viewing Panels','pharmaceutical-cleanroom-viewing-panels-market--42d4f24cba6f564182fd3439','shield'],
+    ['Pharmaceutical Cleanroom Wall Panels','pharmaceutical-cleanroom-wall-panels-market--cc7aff3204e314bce584a371','shield'],
+    ['Pharmaceutical Cleanroom Waste Transfer Systems','pharmaceutical-cleanroom-waste-transfer-systems-market--08b807a1221d8f8248de1453','shield'],
+    ['Pharmaceutical Cleanroom Windows','pharmaceutical-cleanroom-windows-market--23051139ab54241ce8c198d3','shield'],
+    ['Pharmaceutical Cold-Form Blister Machines','pharmaceutical-cold-form-blister-machines-market--73150b37a88c65257d91c7cf','box'],
+    ['Pharmaceutical Cone Mills','pharmaceutical-cone-mills-market--9fdc583cb162226f13dacd68','gear'],
+    ['Pharmaceutical Container Closure Integrity Testers','pharmaceutical-container-closure-integrity-testers-market--52658b127738828c3a39372a','scan'],
+    ['Pharmaceutical Continuous Manufacturing Lines','pharmaceutical-continuous-manufacturing-lines-market--c53c00860a09b3189e47fa48','pill'],
+    ['Pharmaceutical Controlled-Release Matrix Polymers','pharmaceutical-controlled-release-matrix-polymers-market--5eca734a2808364f0c450b98','pill'],
+    ['Pharmaceutical Cotton Insertion Machines','pharmaceutical-cotton-insertion-machines-market--8f52810955916022779b7553','gear'],
+    ['Pharmaceutical Depyrogenation Tunnels','pharmaceutical-depyrogenation-tunnels-market--99ab23e543c02e777c857ee2','thermo'],
+    ['Pharmaceutical Desiccant Insertion Machines','pharmaceutical-desiccant-insertion-machines-market--bd23f27ce31592dde5b2252d','gear'],
+    ['Pharmaceutical Double Cone Blenders','pharmaceutical-double-cone-blenders-market--1010bb2be0fa5968b74850fe','gear'],
+    ['Pharmaceutical Dust Extraction Systems','pharmaceutical-dust-extraction-systems-market--53971f3ff67d4389baa6dc88','gear'],
+    ['Pharmaceutical Electronic Batch Record Systems','pharmaceutical-electronic-batch-record-systems-market--775eec580365c60ab7c566b6','cpu'],
+    ['Pharmaceutical Emulsification Systems','pharmaceutical-emulsification-systems-market--6a056bb95229adf9e9157bd3','gear'],
+    ['Pharmaceutical Endotoxin Testing Instruments','pharmaceutical-endotoxin-testing-instruments-market--8864e1082da755336ba22400','scan'],
+    ['Pharmaceutical Enteric Coating Polymers','pharmaceutical-enteric-coating-polymers-market--1eb0c9a9bcf2dfae60f9f22b','gear'],
+    ['Pharmaceutical Fan Filter Units','pharmaceutical-fan-filter-units-market--7754c50a308d1982b378c4b9','shield'],
+    ['Pharmaceutical Film Coating Excipients','pharmaceutical-film-coating-excipients-market--dba25db9874a4cf114469667','gear'],
+    ['Pharmaceutical Fluid Bed Granulators','pharmaceutical-fluid-bed-granulators-market--8f975847358d69a9a0a66ebb','gear'],
+    ['Pharmaceutical Form-Fill-Seal Machines','pharmaceutical-form-fill-seal-machines-market--94ee2a85230012101d1584db','gear'],
+    ['Pharmaceutical Formulation Development Outsourcing','pharmaceutical-formulation-development-outsourcing-market--5bbb2998ad698c04457d8552','factory'],
+    ['Pharmaceutical Freeze-Thaw Systems','pharmaceutical-freeze-thaw-systems-market--faab2ca6e52c5fbf7a60fabc','gear'],
+    ['Pharmaceutical FTIR Spectrometers','pharmaceutical-ftir-spectrometers-market--4589442e953322697516f1bb','scan'],
+    ['Pharmaceutical Fume Extraction Systems','pharmaceutical-fume-extraction-systems-market--213d57fb62199c7b15022f9b','gear'],
+    ['Pharmaceutical Gas Chromatography Systems','pharmaceutical-gas-chromatography-systems-market--937a49e9d58885c8da791f19','scan'],
+    ['Pharmaceutical GC-MS Systems','pharmaceutical-gc-ms-systems-market--cf6b5acbee20249ce95ae987','gear'],
+    ['Pharmaceutical Grade Acetonitrile','pharmaceutical-grade-acetonitrile-market--4ac888d3157f548be6f41950','pill'],
+    ['Pharmaceutical Grade Activated Carbon','pharmaceutical-grade-activated-carbon-market--fa97ad88ff6ae83ebcb81b55','pill'],
+    ['Pharmaceutical Grade Dimethylformamide','pharmaceutical-grade-dimethylformamide-market--fb31f33050db4a6c3fa560de','pill'],
+    ['Pharmaceutical Grade Ethanol','pharmaceutical-grade-ethanol-market--fe912a3e64ad2e40f9ef2fe6','pill'],
+    ['Pharmaceutical Grade Isopropyl Alcohol','pharmaceutical-grade-isopropyl-alcohol-market--ce00992d7c59b4d14c7fa8d5','pill'],
+    ['Pharmaceutical Grade Nitrogen Gas','pharmaceutical-grade-nitrogen-gas-market--125fb6432cc7e60d721be9fa','pill'],
+    ['Pharmaceutical Grade Purified Water','pharmaceutical-grade-purified-water-market--887419c873f2e01750c099fc','droplet'],
+    ['Pharmaceutical Grignard Reagents','pharmaceutical-grignard-reagents-market--7a56d0b9cb184dc6389555d2','flask'],
+    ['Pharmaceutical Hammer Mills','pharmaceutical-hammer-mills-market--7d154d581b7f2693eafb1c41','gear'],
+    ['Pharmaceutical HEPA Filtration Systems','pharmaceutical-hepa-filtration-systems-market--d82ab5769db829eadfaa0157','gear'],
+    ['Pharmaceutical High-Shear Granulators','pharmaceutical-high-shear-granulators-market--44968a15f6a8f02bcd3a27a0','gear'],
+    ['Pharmaceutical Homogenizers','pharmaceutical-homogenizers-market--0bc8677d8495b165bc567c00','pill'],
+    ['Pharmaceutical Hot Melt Extruders','pharmaceutical-hot-melt-extruders-market--af98e10d39306c0d3c7d4c43','pill'],
+    ['Pharmaceutical Hot-Melt Extrusion Formulations','pharmaceutical-hot-melt-extrusion-formulations-market--5e429bfff8d8a7b25e96a92b','pill'],
+    ['Pharmaceutical HPLC Systems','pharmaceutical-hplc-systems-market--d109042059c90f448194ad3e','scan'],
+    ['Pharmaceutical HVAC Air Handling Units','pharmaceutical-hvac-air-handling-units-market--acfeb97471006dfef805cc62','shield'],
+    ['Pharmaceutical HVAC Chillers','pharmaceutical-hvac-chillers-market--5870b504508dac3b26104778','shield'],
+    ['Pharmaceutical HVAC Dehumidifiers','pharmaceutical-hvac-dehumidifiers-market--5c90157662e718dc2591e24e','shield'],
+    ['Pharmaceutical HVAC Ductwork','pharmaceutical-hvac-ductwork-market--7197ce2c05e33a945addb741','shield'],
+    ['Pharmaceutical HVAC Heat Recovery Units','pharmaceutical-hvac-heat-recovery-units-market--ddc2cba07558edf6db3cde06','shield'],
+    ['Pharmaceutical HVAC Humidifiers','pharmaceutical-hvac-humidifiers-market--71ede8ff3fca0b5d7b063cda','shield'],
+    ['Pharmaceutical HVAC Terminal Filter Housings','pharmaceutical-hvac-terminal-filter-housings-market--1fd2e5c8ed58ffdcdec7d5db','shield'],
+    ['Pharmaceutical HVAC Variable Air Volume Systems','pharmaceutical-hvac-variable-air-volume-systems-market--1c67fb19a69e8d6d11a1ac35','shield'],
+    ['Pharmaceutical Hydrogenation Catalysts','pharmaceutical-hydrogenation-catalysts-market--30b3f7bf19a3d5663e50a177','flask'],
+    ['Pharmaceutical ICP-MS Systems','pharmaceutical-icp-ms-systems-market--401bbba1bd7e9abe7ab72935','gear'],
+    ['Pharmaceutical Induction Sealing Machines','pharmaceutical-induction-sealing-machines-market--9197423247b20f6e0bfa4d35','gear'],
+    ['Pharmaceutical Inline NIR Monitoring Systems','pharmaceutical-inline-nir-monitoring-systems-market--62ad22da0571c4c3686cec4d','scan'],
+    ['Pharmaceutical Inline Raman Monitoring Systems','pharmaceutical-inline-raman-monitoring-systems-market--549452bb8edb0af24240fb1b','scan'],
+    ['Pharmaceutical Intermediate Custom Synthesis','pharmaceutical-intermediate-custom-synthesis-market--ab224c234a26d9d795936db8','flask'],
+    ['Pharmaceutical Karl Fischer Titrators','pharmaceutical-karl-fischer-titrators-market--0db2558e01bc14c82f8eba07','pill'],
+    ['Pharmaceutical Labeling Machines','pharmaceutical-labeling-machines-market--1d87423225242bc4eab45388','box'],
+    ['Pharmaceutical Laboratory Balances','pharmaceutical-laboratory-balances-market--46e20503ac7525828d5b6f39','pill'],
+    ['Pharmaceutical Laboratory Sample Preparation Systems','pharmaceutical-laboratory-sample-preparation-systems-market--e47a191f45c450fae7cc0368','gear'],
+    ['Pharmaceutical Laminar Airflow Units','pharmaceutical-laminar-airflow-units-market--00ddcb15c8d0a5ea4dcf4936','shield'],
+    ['Pharmaceutical Laser Coding Machines','pharmaceutical-laser-coding-machines-market--fe2b2303050f111e09f22e4e','gear'],
+    ['Pharmaceutical LC-MS/MS Systems','pharmaceutical-lc-ms-ms-systems-market--8fdf47ead7d5d9aed0494802','gear'],
+    ['Pharmaceutical Leaflet Inserters','pharmaceutical-leaflet-inserters-market--119b363a9907fa1ee77c7a93','leaf'],
+    ['Pharmaceutical Leak Testing Machines','pharmaceutical-leak-testing-machines-market--9eca17c5ce1399e86b56640f','scan'],
+    ['Pharmaceutical Lipid-Based Excipients','pharmaceutical-lipid-based-excipients-market--164c7ebc8ce01ad3fd238a09','flask'],
+    ['Pharmaceutical Liquid Filling Machines','pharmaceutical-liquid-filling-machines-market--b9a29750cc242defcb464b11','gear'],
+    ['Pharmaceutical Liquid Mixing Tanks','pharmaceutical-liquid-mixing-tanks-market--b32f0ea6f26426296454bd56','pill'],
+    ['Pharmaceutical Lyophilizers','pharmaceutical-lyophilizers-market--e28fb60f8b091f7d0121ba5e','snow'],
+    ['Pharmaceutical Magnesium Stearate','pharmaceutical-magnesium-stearate-market--7fe3494d966a47fd510e9f34','pill'],
+    ['Pharmaceutical Manufacturing Digital Twins','pharmaceutical-manufacturing-digital-twins-market--31ce69f723b865519d8c4be1','cpu'],
+    ['Pharmaceutical Manufacturing Execution Systems','pharmaceutical-manufacturing-execution-systems-market--90c02c227ed57d5db0796f44','cpu'],
+    ['Pharmaceutical Media Preparation Systems','pharmaceutical-media-preparation-systems-market--aa7b0a2f40e11c23d92c43d5','gear'],
+    ['Pharmaceutical Microbial Air Samplers','pharmaceutical-microbial-air-samplers-market--70f5c8fab109b23dcf81667e','pill'],
+    ['Pharmaceutical Near-Infrared Analyzers','pharmaceutical-near-infrared-analyzers-market--d4e23a0e4a82281fc089e8ba','scan'],
+    ['Pharmaceutical Negative Pressure Containment Systems','pharmaceutical-negative-pressure-containment-systems-market--6a1d34c2d8b03d86992f72bd','shield'],
+    ['Pharmaceutical Ointment Manufacturing Plants','pharmaceutical-ointment-manufacturing-plants-market--7a921b52e0bd10972f85ddaa','pill'],
+    ['Pharmaceutical Ointments','pharmaceutical-ointments-market--5e0fb337827236218e74087d','pill'],
+    ['Pharmaceutical Organometallic Reagents','pharmaceutical-organometallic-reagents-market--061e3747fb212376af7b9296','flask'],
+    ['Pharmaceutical Oscillating Granulators','pharmaceutical-oscillating-granulators-market--6ef91ddbb8a4b8a7c1510a8e','gear'],
+    ['Pharmaceutical Outsert Applicators','pharmaceutical-outsert-applicators-market--f61ad2fca58ed9a83de20881','pill'],
+    ['Pharmaceutical Packaging Line Controllers','pharmaceutical-packaging-line-controllers-market--37aace3f73adc75fc723fef1','box'],
+    ['Pharmaceutical Packaging Robotic Pick-and-Place Systems','pharmaceutical-packaging-robotic-pick-and-place-systems-mark--e7698d106d7002908a8aabbf','box'],
+    ['Pharmaceutical Palladium Catalysts','pharmaceutical-palladium-catalysts-market--c2f3252dc12bb2822991c69e','flask'],
+    ['Pharmaceutical Palletizing Systems','pharmaceutical-palletizing-systems-market--ac38da4155128f125d235a32','box'],
+    ['Pharmaceutical Particle Size Analyzers','pharmaceutical-particle-size-analyzers-market--a786e84e0c7ca4ff95b089f7','scan'],
+    ['Pharmaceutical pH Meters','pharmaceutical-ph-meters-market--0b01ccab25509f85c36f3952','pill'],
+    ['Pharmaceutical Photostability Chambers','pharmaceutical-photostability-chambers-market--f1b295eebc619e9f090ba709','pill'],
+    ['Pharmaceutical Powder Transfer Systems','pharmaceutical-powder-transfer-systems-market--6e49bf1db28a76e718fac41d','gear'],
+    ['Pharmaceutical Prefilled Syringe Filling Machines','pharmaceutical-prefilled-syringe-filling-machines-market--844f1be9000da9542b6b87c3','syringe'],
+    ['Pharmaceutical Preservatives','pharmaceutical-preservatives-market--d37924548a3e473c924525be','pill'],
+    ['Pharmaceutical Print-and-Apply Labelers','pharmaceutical-print-and-apply-labelers-market--eba0395dcb8f96069dd4b835','box'],
+    ['Pharmaceutical Process Analytical Technology Systems','pharmaceutical-process-analytical-technology-systems-market--9f6eeb02810303404bc99a1a','cpu'],
+    ['Pharmaceutical Process Control PLC Systems','pharmaceutical-process-control-plc-systems-market--06232b20ca7f3f13b5e6ecd4','gear'],
+    ['Pharmaceutical Raman Spectrometers','pharmaceutical-raman-spectrometers-market--d9ad948b9913a58d37df37b6','scan'],
+    ['Pharmaceutical Recyclable Packaging Conversion Equipment','pharmaceutical-recyclable-packaging-conversion-equipment-mar--664b8bcb50ac0888d8928a1b','box'],
+    ['Pharmaceutical Restricted Access Barrier Systems','pharmaceutical-restricted-access-barrier-systems-market--523d48063ff12df0ade94566','shield'],
+    ['Pharmaceutical Roller Compactors','pharmaceutical-roller-compactors-market--ddfc8e25a8a3eae7fa748466','pill'],
+    ['Pharmaceutical Sachet Filling Machines','pharmaceutical-sachet-filling-machines-market--2f7f20092c0b0d7a697c8181','box'],
+    ['Pharmaceutical Sachet Formulations','pharmaceutical-sachet-formulations-market--c817f475f9a3b6969f4622fd','box'],
+    ['Pharmaceutical SCADA Systems','pharmaceutical-scada-systems-market--edb9c93a8b4ffe783c40064c','cpu'],
+    ['Pharmaceutical Serialization Printers','pharmaceutical-serialization-printers-market--5ccc101f57294bcedc6bb340','clip'],
+    ['Pharmaceutical Serialization Vision Systems','pharmaceutical-serialization-vision-systems-market--8b90aac2cc2a867ac0d17e91','clip'],
+    ['Pharmaceutical Shrink Wrapping Machines','pharmaceutical-shrink-wrapping-machines-market--e75bc96b9d5c02617ae45e6d','box'],
+    ['Pharmaceutical Single-Use Bioprocess Bags','pharmaceutical-single-use-bioprocess-bags-market--209df51be69d75a5cbb41cc5','pill'],
+    ['Pharmaceutical Single-Use Bioreactors','pharmaceutical-single-use-bioreactors-market--00e6ed2c6b7e4f08b72e3114','pill'],
+    ['Pharmaceutical Solubilizing Surfactants','pharmaceutical-solubilizing-surfactants-market--7c999df6827a64e0ce6bc9ce','pill'],
+    ['Pharmaceutical Stability Chambers','pharmaceutical-stability-chambers-market--ba6c97e93473370ce5c02286','pill'],
+    ['Pharmaceutical Starch Excipients','pharmaceutical-starch-excipients-market--2aad2dab2a4f3964a19c0fac','flask'],
+    ['Pharmaceutical Sterile Filtration Membranes','pharmaceutical-sterile-filtration-membranes-market--ff1fecabb140f51e2832b75d','pill'],
+    ['Pharmaceutical Sterilization-in-Place Systems','pharmaceutical-sterilization-in-place-systems-market--024a219ae0a88dde504d942b','thermo'],
+    ['Pharmaceutical Sterilizing Grade Filter Cartridges','pharmaceutical-sterilizing-grade-filter-cartridges-market--0bce15f6a760f4b94ab41efd','syringe'],
+    ['Pharmaceutical Stick Pack Machines','pharmaceutical-stick-pack-machines-market--97544691a6b7db48fe73497d','gear'],
+    ['Pharmaceutical Strip Packaging Machines','pharmaceutical-strip-packaging-machines-market--c524bf2313512ef628be7c66','box'],
+    ['Pharmaceutical Syringe Plunger Insertion Machines','pharmaceutical-syringe-plunger-insertion-machines-market--05ab1130b0f42646c45d333e','syringe'],
+    ['Pharmaceutical Syrup Manufacturing Plants','pharmaceutical-syrup-manufacturing-plants-market--8a42e87f1313fc0e18e5a3dd','pill'],
+    ['Pharmaceutical Tablet Coating Machines','pharmaceutical-tablet-coating-machines-market--e291e097b4075a00d0b6b8c8','gear'],
+    ['Pharmaceutical Tablet Compression Machines','pharmaceutical-tablet-compression-machines-market--43ee3159a58af858d6609ff6','gear'],
+    ['Pharmaceutical Tablet Dedusters','pharmaceutical-tablet-dedusters-market--2958f1a621f64fa1d3f16dc6','pill'],
+    ['Pharmaceutical Tablet Disintegration Testers','pharmaceutical-tablet-disintegration-testers-market--b8a2f977d169727311020bf2','scan'],
+    ['Pharmaceutical Tablet Dissolution Testers','pharmaceutical-tablet-dissolution-testers-market--732d5391430e0798ccc24b80','scan'],
+    ['Pharmaceutical Tablet Friability Testers','pharmaceutical-tablet-friability-testers-market--59503fd910f7af8233cf5602','scan'],
+    ['Pharmaceutical Tablet Hardness Testers','pharmaceutical-tablet-hardness-testers-market--1f6a6722caafaaed34ba1235','scan'],
+    ['Pharmaceutical Tablet Inspection Machines','pharmaceutical-tablet-inspection-machines-market--544eb648a8e3aedb790a556d','scan'],
+    ['Pharmaceutical Tablet Metal Detectors','pharmaceutical-tablet-metal-detectors-market--352c7b53892d6699f707ca29','scan'],
+    ['Pharmaceutical Talc Excipients','pharmaceutical-talc-excipients-market--5aeeb43000e391440ddabf30','flask'],
+    ['Pharmaceutical Tamper-Evident Label Applicators','pharmaceutical-tamper-evident-label-applicators-market--e0988e512c81d4465152706d','box'],
+    ['Pharmaceutical Tangential Flow Filtration Systems','pharmaceutical-tangential-flow-filtration-systems-market--d7c190d30dd504bd44e34fd6','gear'],
+    ['Pharmaceutical Thermal Analyzers','pharmaceutical-thermal-analyzers-market--c83cd0c89ee172f9560e42bc','scan'],
+    ['Pharmaceutical Thermal Inkjet Coders','pharmaceutical-thermal-inkjet-coders-market--87838e590fbd02174b6d718e','thermo'],
+    ['Pharmaceutical Thermoforming Packaging Machines','pharmaceutical-thermoforming-packaging-machines-market--7d34d2e62d52af46948d4c46','box'],
+    ['Pharmaceutical TOC Analyzers','pharmaceutical-toc-analyzers-market--81a52abe991fc8bfeb6594c2','scan'],
+    ['Pharmaceutical Track-and-Trace Software','pharmaceutical-track-and-trace-software-market--a42a825190a0db4a5de41d39','cpu'],
+    ['Pharmaceutical Tube Filling and Sealing Machines','pharmaceutical-tube-filling-and-sealing-machines-market--d62e0e5cbf1dff9080faf7d4','gear'],
+    ['Pharmaceutical UHPLC Systems','pharmaceutical-uhplc-systems-market--f8af7b8f790de79d346227ce','scan'],
+    ['Pharmaceutical ULPA Filtration Systems','pharmaceutical-ulpa-filtration-systems-market--6e9f050006495b086641e58b','gear'],
+    ['Pharmaceutical UV-Visible Spectrophotometers','pharmaceutical-uv-visible-spectrophotometers-market--284b66092c69a016fbd58593','scan'],
+    ['Pharmaceutical V-Blenders','pharmaceutical-v-blenders-market--ab03f2811712e9639647eba5','gear'],
+    ['Pharmaceutical Vacuum Conveying Systems','pharmaceutical-vacuum-conveying-systems-market--ee9bb219bedc6e3f8195acd1','gear'],
+    ['Pharmaceutical Vaporized Hydrogen Peroxide Generators','pharmaceutical-vaporized-hydrogen-peroxide-generators-market--9cf19f9abfad985cbc6c0309','pill'],
+    ['Pharmaceutical Vial Capping Machines','pharmaceutical-vial-capping-machines-market--67e3986e99bd03c04ff7a2b4','syringe'],
+    ['Pharmaceutical Vial Filling Machines','pharmaceutical-vial-filling-machines-market--8c3ef0ff671e392d7ebe8672','syringe'],
+    ['Pharmaceutical Vibro Sifters','pharmaceutical-vibro-sifters-market--eddbd702e62092d3bcbf07d3','gear'],
+    ['Pharmaceutical Water Conductivity Analyzers','pharmaceutical-water-conductivity-analyzers-market--ca0449a4ca81907e47b87999','scan'],
+    ['Pharmaceutical Zeta Potential Analyzers','pharmaceutical-zeta-potential-analyzers-market--2fe655dce0cf86a20b960ac6','scan'],
+    ['Piperazine-Based Pharmaceutical Intermediates','piperazine-based-pharmaceutical-intermediates-market--12abd8cc348b0a768af5a5e0','flask'],
+    ['Piperidine-Based Pharmaceutical Intermediates','piperidine-based-pharmaceutical-intermediates-market--1f59b25e3617bdd15ae1c8e1','flask'],
+    ['Poloxamer Pharmaceutical Excipients','poloxamer-pharmaceutical-excipients-market--dd98ef2aa56a4246ba3e4d04','flask'],
+    ['Polyethylene Glycol Pharmaceutical Excipients','polyethylene-glycol-pharmaceutical-excipients-market--26b7d82390428a3e3348cec4','flask'],
+    ['Polymeric Nanoparticle Drug Delivery Systems','polymeric-nanoparticle-drug-delivery-systems-market--61640c17dad1c7a4b1150082','gear'],
+    ['Polyvinylpyrrolidone Pharmaceutical Excipients','polyvinylpyrrolidone-pharmaceutical-excipients-market--b3eecf5ee320bbec1d32350f','flask'],
+    ['Protected Amino Acid Building Blocks','protected-amino-acid-building-blocks-market--4f71e3ec6775829e27ec9ce3','flask'],
+    ['Proton Pump Inhibitor APIs','proton-pump-inhibitor-apis-market--2ff6a183542b2deb59485418','gear'],
+    ['Pulmonary Lipid-Based Drug Delivery Systems','pulmonary-lipid-based-drug-delivery-systems-market--9cd1328cc8833ddbe32894fd','gear'],
+    ['Pyridine-Based Pharmaceutical Intermediates','pyridine-based-pharmaceutical-intermediates-market--1cb444cd3cd4aebb140f4c1e','flask'],
+    ['Pyrimidine-Based Pharmaceutical Intermediates','pyrimidine-based-pharmaceutical-intermediates-market--7781f0b5dc28de0f143b4ba3','flask'],
+    ['Quercetin Botanical Extracts','quercetin-botanical-extracts-market--146acb207265ecc7b3fb4cf4','leaf'],
+    ['Quinoline-Based Pharmaceutical Intermediates','quinoline-based-pharmaceutical-intermediates-market--0275ec34e4f5c5a4b38f6cfd','flask'],
+    ['Ready-to-Administer Injectable Drug Products','ready-to-administer-injectable-drug-products-market--8983c9060135362544c72b89','syringe'],
+    ['Ready-to-Use Prefilled Syringe Drug Products','ready-to-use-prefilled-syringe-drug-products-market--f9dcd3e5c6d8914ec9c4ac91','syringe'],
+    ['Recombinant Coagulation Factor IX','recombinant-coagulation-factor-ix-market--695012c14c46e36f27b4ee22','dna'],
+    ['Recombinant Coagulation Factor VIII','recombinant-coagulation-factor-viii-market--b09f7083e9837bc19c167dc1','dna'],
+    ['Recombinant Erythropoietin','recombinant-erythropoietin-market--3e495b9e0407afd017c79991','dna'],
+    ['Recombinant Follicle-Stimulating Hormone','recombinant-follicle-stimulating-hormone-market--a2faa44949b8bcdbf5a4bc62','dna'],
+    ['Recombinant Granulocyte Colony-Stimulating Factors','recombinant-granulocyte-colony-stimulating-factors-market--1143b70af54f9753341978c5','dna'],
+    ['Recombinant Human Growth Hormone','recombinant-human-growth-hormone-market--6edfeba6c499bfde7ee4cef5','dna'],
+    ['Recombinant Human Insulin','recombinant-human-insulin-market--135558dfb2013ad7d3f633ed','dna'],
+    ['Recombinant Therapeutic Enzymes','recombinant-therapeutic-enzymes-market--523feafa9088ff738dee307f','dna'],
+    ['Recombinant Thrombolytic Proteins','recombinant-thrombolytic-proteins-market--1009616e37d168dcb7172f26','dna'],
+    ['Rectal Suppositories','rectal-suppositories-market--32061ad453f78cf5215b84cd','nozzle'],
+    ['Respiratory Therapeutics APIs','respiratory-therapeutics-apis-market--df958be2bf19e4288c043cd2','flask'],
+    ['Resveratrol Botanical Extracts','resveratrol-botanical-extracts-market--4edd2ffa2fcd738827d69b34','leaf'],
+    ['Saw Palmetto Extracts','saw-palmetto-extracts-market--45201e51fd0d1c14ac6da963','leaf'],
+    ['Self-Emulsifying Drug Delivery Systems','self-emulsifying-drug-delivery-systems-market--a0d37add5d924eaef968ce95','gear'],
+    ['Small Molecule API Contract Manufacturing','small-molecule-api-contract-manufacturing-market--21c9148b02d6b997d9432482','factory'],
+    ['Small-Volume Parenteral Drug Formulations','small-volume-parenteral-drug-formulations-market--1efea26c8ea04e71fd65da83','syringe'],
+    ['Sodium Starch Glycolate Excipients','sodium-starch-glycolate-excipients-market--7d0113dd9b5623ba7cde9965','flask'],
+    ['Soft Gelatin Capsules','soft-gelatin-capsules-market--2b25f9a72b4162a8e2dd7cb8','pill'],
+    ['Solid Lipid Nanoparticle Drug Delivery Systems','solid-lipid-nanoparticle-drug-delivery-systems-market--2c7c90c9e048ef10f7090d91','gear'],
+    ['Sorbitol Pharmaceutical Excipients','sorbitol-pharmaceutical-excipients-market--e8c543f9558e4449d6f6dc06','flask'],
+    ['Statin APIs','statin-apis-market--bc8319aa041a7c4cbbcc4f8f','flask'],
+    ['Sterile Injectable Contract Manufacturing','sterile-injectable-contract-manufacturing-market--7956c9078cd732dfbe36bf38','syringe'],
+    ['Stimuli-Responsive Drug Delivery Systems','stimuli-responsive-drug-delivery-systems-market--7609e60bb71cef5ce399e9e8','gear'],
+    ['Sublingual and Buccal Tablets','sublingual-and-buccal-tablets-market--c54f60fb6dfe6724294527f4','pill'],
+    ['Targeted Peptide Drug Delivery Systems','targeted-peptide-drug-delivery-systems-market--c029dc1e7fdb6a77e9d3504d','dna'],
+    ['Therapeutic Fusion Proteins','therapeutic-fusion-proteins-market--9a92a2d54eeef1aee281c091','dna'],
+    ['Therapeutic Interferons','therapeutic-interferons-market--f8a13b7bfb0228d71701e9b3','pill'],
+    ['Therapeutic Oligonucleotides','therapeutic-oligonucleotides-market--c660426682cc41f1b5c64ffe','dna'],
+    ['TNF-Alpha Inhibitor Biosimilars','tnf-alpha-inhibitor-biosimilars-market--35ac1381b0195b46990b4720','dna'],
+    ['Topical Pharmaceutical Creams','topical-pharmaceutical-creams-market--8043f6dcf753fe11dfd67ad2','pill'],
+    ['Topical Pharmaceutical Gels','topical-pharmaceutical-gels-market--8a5f6bbe3e7e03522dc150b0','pill'],
+    ['Transdermal Drug Patches','transdermal-drug-patches-market--c08d5c9a811186774e9be732','nozzle'],
+    ['Triazole-Based Pharmaceutical Intermediates','triazole-based-pharmaceutical-intermediates-market--b858e81b614e27c2fe5b9e20','flask'],
+    ['Vaginal Pharmaceutical Pessaries','vaginal-pharmaceutical-pessaries-market--1f5a782299b1a5f28ffa1e90','pill'],
+    ['Valerian Root Extracts','valerian-root-extracts-market--b1291e5ee5c83bb6cddff35f','leaf'],
+    ['Water for Injection','water-for-injection-market--4c235774beebbbb31a60cccf','droplet']
   ]
 };
 
@@ -746,6 +1125,10 @@ const P = {
   gear:'<circle cx="12" cy="12" r="3.2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M19.1 4.9 17 7M7 17l-2.1 2.1"/>',
   cookie:'<circle cx="12" cy="12" r="9"/><path d="M9 9h.01M15 10h.01M10 15h.01M15.5 14.5h.01"/>',
   bowl:'<path d="M3 11h18a9 9 0 0 1-18 0z"/><path d="M2 21h20"/><path d="M9 7c0-1.5 1.5-1.5 1.5-3M14 7c0-1.5 1.5-1.5 1.5-3"/>',
+  pill:'<path d="M10.5 3.5a4.95 4.95 0 0 1 7 7l-7 7a4.95 4.95 0 0 1-7-7z"/><path d="m7 7 7 7"/>',
+  syringe:'<path d="m18 2 4 4M20.5 4.5 14 11M7 13l4 4"/><path d="m13 7 4 4-7.5 7.5a2 2 0 0 1-1.4.6H5v-3.1a2 2 0 0 1 .6-1.4z"/><path d="m4 20-2 2"/>',
+  dna:'<path d="M7 2c0 4 10 6 10 10s-10 6-10 10"/><path d="M17 2c0 4-10 6-10 10s10 6 10 10"/><path d="M8 6h8M8 18h8M6.5 10h11M6.5 14h11"/>',
+  clip:'<rect x="5" y="4" width="14" height="18" rx="2"/><path d="M9 4a3 3 0 0 1 6 0"/><path d="m9 13 2 2 4-4"/>',
   arrow:'<path d="M5 12h14M13 6l6 6-6 6"/>'
 };
 const svg = n => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${P[n]}</svg>`;
@@ -755,11 +1138,14 @@ const META = {
   fire:{title:'Fire Ecosystem Industry Analysis',sub:'25 markets spanning detection, suppression, protection, training and emergency response.'},
   drone:{title:'Drone Ecosystem Industry Analysis',sub:'34 markets spanning platforms, components, software, services, geospatial analytics and counter-UAS.'},
   adhesive:{title:'Advanced Materials, Adhesives, Bonding, Thermal Management, and Industrial Solutions, & Ecosystem',sub:'120 markets spanning bonding chemistries, tapes and films, polymer foams, sealants, surface preparation and application equipment.'},
-  profoods:{title:'Food & Beverage Industry Analysis',sub:'75 markets spanning processed foods, food ingredients and food manufacturing technology.'}
+  profoods:{title:'Food & Beverage Industry Analysis',sub:'75 markets spanning processed foods, food ingredients and food manufacturing technology.'},
+  'healthcare-pharma':{title:'APIs & Specialty Chemicals, Formulation & Finished Dose, Pharmaceutical Manufacturing, Processing, Pharma Machinery, Packaging, and Packaging Machinery, Materials & Drug Delivery, Quality, and Compliance, and Digital/ Automation',sub:'368 markets spanning APIs and intermediates, finished dose formulation, manufacturing and packaging machinery, drug delivery, quality and compliance, and digital automation.'}
 };
 document.getElementById('yr').textContent = new Date().getFullYear();
 
-const ECOS = ['fire', 'drone', 'adhesive', 'profoods'];
+const ECOS = ['fire', 'drone', 'adhesive', 'profoods', 'healthcare-pharma'];
+// The healthcare path was asked for with an ampersand; both spellings work.
+const ALIAS = { 'healthcare&pharma': 'healthcare-pharma', 'healthcare': 'healthcare-pharma' };
 const grid = document.getElementById('grid'), q = document.getElementById('q'), empty = document.getElementById('empty');
 let current = 'fire';
 
@@ -787,7 +1173,9 @@ function setTab(t){
   document.getElementById('sDist').textContent = '30,000+';
   document.querySelectorAll('.tab').forEach(b => b.setAttribute('aria-selected', b.dataset.tab === t));
   document.getElementById('secTitle').textContent = META[t].title;
-  document.getElementById('heroTitle').textContent = META[t].title;
+  const ht = document.getElementById('heroTitle');
+  ht.textContent = META[t].title;
+  ht.classList.toggle('long', META[t].title.length > 120);
   document.getElementById('secSub').textContent = META[t].sub;
   setDemo(t === 'adhesive');
   render();
@@ -805,7 +1193,8 @@ function setDemo(on){
 // Each ecosystem lives at its own path (/fire, /drone) and has its own login.
 document.querySelectorAll('.tab').forEach(b => b.addEventListener('click', () => { location.href = '/' + b.dataset.tab; }));
 q.addEventListener('input', render);
-const eco = location.pathname.split('/')[1];
+const seg = decodeURIComponent(location.pathname.split('/')[1] || '');
+const eco = ALIAS[seg] || seg;
 if (ECOS.includes(eco)) {
   setTab(eco);
   const lo = document.getElementById('logout');
@@ -816,9 +1205,9 @@ if (ECOS.includes(eco)) {
 } else {
   document.body.classList.add('chooser');
   document.getElementById('heroTitle').textContent = "Coherent's Insight Vault";
-  document.getElementById('heroBlurb').textContent = document.getElementById('heroBlurb').textContent.replace('254 interactive', '700+ interactive');
+  document.getElementById('heroBlurb').textContent = document.getElementById('heroBlurb').textContent.replace('622 interactive', '700+ interactive');
   document.getElementById('sDash').textContent = '700+';
-  document.getElementById('sEco').textContent = '4';
+  document.getElementById('sEco').textContent = '5';
   document.getElementById('sCust').textContent = '60,000+';
   document.getElementById('sDist').textContent = '80,000+';
   document.querySelectorAll('.tab').forEach(b => b.setAttribute('aria-selected', 'false'));
