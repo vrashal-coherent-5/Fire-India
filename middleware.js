@@ -4,7 +4,7 @@
 // for the ecosystem the report belongs to.
 
 export const config = {
-  matcher: ['/', '/fire', '/fire/:path*', '/drone', '/drone/:path*', '/adhesive', '/adhesive/:path*', '/profoods', '/profoods/:path*', '/healthcare-pharma', '/healthcare-pharma/:path*', '/healthcare&pharma', '/healthcare&pharma/:path*', '/shared/:path*', '/api/:path*', '/auth/:path*', '/index.html'],
+  matcher: ['/', '/fire', '/fire/:path*', '/drone', '/drone/:path*', '/adhesive', '/adhesive/:path*', '/profoods', '/profoods/:path*', '/healthcare-pharma', '/healthcare-pharma/:path*', '/healthcare&pharma', '/healthcare&pharma/:path*', '/healthcare', '/healthcare/:path*', '/shared/:path*', '/api/:path*', '/auth/:path*', '/index.html'],
 };
 
 const IDS = {
