@@ -122,7 +122,6 @@
   .ico{width:48px;height:48px;border-radius:13px;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent-2);transition:.3s}
   .ico svg{width:24px;height:24px}
   .tile:hover .ico{background:linear-gradient(135deg,var(--accent-1),var(--accent-2));color:#fff;transform:rotate(-6deg) scale(1.05)}
-  .num{font-size:12px;font-weight:700;color:#a3b0c0;letter-spacing:.08em}
   .tile-top .right{display:flex;align-items:center;gap:8px}
   .cov{width:20px;height:20px;border-radius:6px;display:grid;place-items:center;font-size:11px;font-weight:800;letter-spacing:0}
   .cov.f{background:var(--accent-soft,#e6f7ef);color:var(--accent-2,#1f7a4d)}
@@ -1156,12 +1155,12 @@ let current = 'fire';
 function render(){
   const term = q.value.trim().toLowerCase();
   const full = FULL[current];
-  const items = DATA[current].map(([name,slug,icon],i)=>({name,slug,icon,i,f:!!(full && full.has(slug))})).filter(it => it.name.toLowerCase().includes(term));
+  const items = DATA[current].map(([name,slug,icon])=>({name,slug,icon,f:!!(full && full.has(slug))})).filter(it => it.name.toLowerCase().includes(term));
   // Markets with every module come first; the order inside each group is unchanged.
   if (full && full.size) items.sort((a,b) => (b.f - a.f));
-  grid.innerHTML = items.map(({name,slug,icon,i,f},k) => `
+  grid.innerHTML = items.map(({name,slug,icon,f},k) => `
     <a class="tile" href="/${current}/${slug}" target="_blank" rel="noopener" style="animation-delay:${k*25}ms" title="Open ${name} Industry Analysis">
-      <div class="tile-top"><span class="ico">${svg(icon)}</span><span class="right">${full && full.size ? `<span class="cov ${f ? 'f' : 'p'}" title="${f ? 'Full coverage: market analysis, customer intelligence, distributor intelligence, voice of B2B customers and the competitive quadrant' : 'Partial coverage: some modules are not published yet'}">${f ? 'F' : 'P'}</span>` : ''}<span class="num">${String(i+1).padStart(2,'0')}</span></span></div>
+      <div class="tile-top"><span class="ico">${svg(icon)}</span><span class="right">${full && full.size ? `<span class="cov ${f ? 'f' : 'p'}" title="${f ? 'Full coverage: market analysis, customer intelligence, distributor intelligence, voice of B2B customers and the competitive quadrant' : 'Partial coverage: some modules are not published yet'}">${f ? 'F' : 'P'}</span>` : ''}</span></div>
       <h4>${name}</h4>
       <div class="sub">Industry Analysis</div>
       <div class="cta"><span>Open report</span>${svg('arrow')}</div>
