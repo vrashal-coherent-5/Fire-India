@@ -95,25 +95,14 @@
   .tab.healthcare-pharma{--t1:var(--healthcare-1);--t2:var(--healthcare-2)}
 
   /* ---------- Product demo ---------- */
-  .vdemo{display:none;align-items:center;gap:16px;margin:0 0 22px;padding:16px 20px;border:1px solid var(--line);border-left:3px solid var(--accent-1);border-radius:14px;background:#fff}
+  .vdemo{display:none;align-items:center;gap:26px;margin:0 0 24px;padding:18px 22px;border:1px solid var(--line);border-left:3px solid var(--accent-1);border-radius:16px;background:#fff}
   body.healthcare-pharma .vdemo{display:flex}
-  .vd-ico{width:40px;height:40px;border-radius:11px;display:grid;place-items:center;flex:none;background:var(--accent-soft);color:var(--accent-2)}
-  .vd-ico svg{width:19px;height:19px}
-  .vd-txt{display:flex;flex-direction:column;gap:2px;min-width:0}
-  .vd-txt b{font-size:15px;color:var(--ink)}
-  .vd-txt span{font-size:13px;color:var(--muted)}
-  .vd-btn{margin-left:auto;flex:none;border:0;cursor:pointer;font:inherit;font-size:14px;font-weight:700;color:#fff;padding:11px 20px;border-radius:999px;background:linear-gradient(135deg,var(--accent-1),var(--accent-2));transition:transform .2s,box-shadow .2s}
-  .vd-btn:hover{transform:translateY(-1px);box-shadow:0 10px 24px -10px var(--accent-2)}
-  .vd-btn:focus-visible{outline:2px solid var(--accent-2);outline-offset:3px}
-  @media (max-width:620px){ .vdemo{flex-wrap:wrap} .vd-btn{margin-left:0;width:100%} }
-
-  .vmodal{position:fixed;inset:0;z-index:90;display:grid;place-items:center;padding:24px}
-  .vmodal[hidden]{display:none}
-  .vm-back{position:absolute;inset:0;background:rgba(8,16,32,.72);backdrop-filter:blur(3px)}
-  .vm-box{position:relative;width:min(1180px,100%);aspect-ratio:16/9;border-radius:16px;overflow:hidden;background:#060a17;box-shadow:0 40px 90px -30px rgba(4,10,24,.8)}
-  .vm-box iframe{width:100%;height:100%;border:0;display:block}
-  .vm-x{position:absolute;top:10px;right:10px;z-index:2;width:36px;height:36px;border:0;border-radius:50%;cursor:pointer;font-size:20px;line-height:1;color:#fff;background:rgba(10,16,32,.72)}
-  .vm-x:hover{background:rgba(10,16,32,.92)}
+  .vd-txt{display:flex;flex-direction:column;gap:5px;min-width:0}
+  .vd-txt b{font-size:17px;color:var(--ink)}
+  .vd-txt span{font-size:13.5px;line-height:1.55;color:var(--muted)}
+  .vd-player{flex:none;margin-left:auto;width:min(440px,46vw);aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#060a17;box-shadow:0 14px 34px -16px rgba(6,10,23,.55)}
+  .vd-player iframe{width:100%;height:100%;border:0;display:block}
+  @media (max-width:860px){ .vdemo{flex-direction:column;align-items:stretch} .vd-player{margin-left:0;width:100%} }
 
   /* ---------- Platform walkthrough ---------- */
   .demo{display:none;margin:44px 0 0}
@@ -309,18 +298,9 @@
   </div>
 
   <section class="vdemo" id="vdemo">
-    <span class="vd-ico" data-icon="play"></span>
-    <span class="vd-txt"><b>Product demo</b><span>A one-minute tour of the Insight Vault</span></span>
-    <button class="vd-btn" id="vdOpen" type="button">View Demo Video</button>
+    <span class="vd-txt"><b>Product demo</b><span>A one-minute tour of the Insight Vault &mdash; playing on mute. Use the player&rsquo;s own controls for sound or fullscreen.</span></span>
+    <div class="vd-player"><iframe id="vdFrame" title="Coherent Insight Vault product demo" allow="autoplay; fullscreen"></iframe></div>
   </section>
-
-  <div class="vmodal" id="vmodal" hidden>
-    <div class="vm-back" id="vmBack"></div>
-    <div class="vm-box" role="dialog" aria-modal="true" aria-label="Coherent Insight Vault product demo">
-      <button class="vm-x" id="vdClose" type="button" aria-label="Close the demo">&times;</button>
-      <iframe id="vdFrame" title="Coherent Insight Vault product demo" allow="autoplay; fullscreen"></iframe>
-    </div>
-  </div>
 
   <div class="grid" id="grid"></div>
   <div class="empty" id="empty">No markets match your search.</div>
@@ -1167,7 +1147,6 @@ const P = {
   syringe:'<path d="m18 2 4 4M20.5 4.5 14 11M7 13l4 4"/><path d="m13 7 4 4-7.5 7.5a2 2 0 0 1-1.4.6H5v-3.1a2 2 0 0 1 .6-1.4z"/><path d="m4 20-2 2"/>',
   dna:'<path d="M7 2c0 4 10 6 10 10s-10 6-10 10"/><path d="M17 2c0 4-10 6-10 10s10 6 10 10"/><path d="M8 6h8M8 18h8M6.5 10h11M6.5 14h11"/>',
   clip:'<rect x="5" y="4" width="14" height="18" rx="2"/><path d="M9 4a3 3 0 0 1 6 0"/><path d="m9 13 2 2 4-4"/>',
-  play:'<path d="M8 5.5v13l11-6.5z" fill="currentColor"/>',
   arrow:'<path d="M5 12h14M13 6l6 6-6 6"/>'
 };
 const svg = n => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${P[n]}</svg>`;
@@ -1251,7 +1230,7 @@ function setTab(t){
   ht.classList.toggle('long', META[t].title.length > 120);
   document.getElementById('secSub').textContent = META[t].sub;
   setDemo(t === 'adhesive');
-  if (t !== 'healthcare-pharma' && !vmodal.hidden) closeDemo();
+  setVideo(t === 'healthcare-pharma');
   render();
 }
 
@@ -1264,26 +1243,13 @@ function setDemo(on){
   if (!demoFrame.getAttribute('src')) demoFrame.src = '/platform-demo.html';
 }
 
-// The demo is 5MB of inlined frames, so it is only fetched when asked for, and
-// dropped again on close so its audio and timers stop with it.
-const vmodal = document.getElementById('vmodal');
+// The demo is 5MB of inlined frames, so it is only fetched on the one page that
+// shows it, and dropped again on the way out so its timers stop with it.
 const vdFrame = document.getElementById('vdFrame');
-function openDemo(){
-  if (!vdFrame.getAttribute('src')) vdFrame.src = '/pharma-demo.html';
-  vmodal.hidden = false;
-  document.body.style.overflow = 'hidden';
-  document.getElementById('vdClose').focus();
+function setVideo(on){
+  if (!on) { vdFrame.removeAttribute('src'); return; }
+  if (!vdFrame.getAttribute('src')) vdFrame.src = '/pharma-demo.html?auto=1';
 }
-function closeDemo(){
-  vmodal.hidden = true;
-  vdFrame.removeAttribute('src');
-  document.body.style.overflow = '';
-  document.getElementById('vdOpen').focus();
-}
-document.getElementById('vdOpen').addEventListener('click', openDemo);
-document.getElementById('vdClose').addEventListener('click', closeDemo);
-document.getElementById('vmBack').addEventListener('click', closeDemo);
-addEventListener('keydown', e => { if (e.key === 'Escape' && !vmodal.hidden) closeDemo(); });
 
 // Each ecosystem lives at its own path (/fire, /drone) and has its own login.
 document.querySelectorAll('.tab').forEach(b => b.addEventListener('click', () => { location.href = '/' + b.dataset.tab; }));

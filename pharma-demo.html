@@ -362,5 +362,27 @@ seek(0);requestAnimationFrame(frame);
 })();
 
 </script>
+<script>
+/* __autoplay__ — with ?auto=1 the demo starts on its own and loops. It starts
+   muted on purpose: a browser blocks sound that no one asked for, and the mute
+   button is still there for anyone who wants it. The player's own functions are
+   closed over inside its IIFE, so this drives the same controls a person would. */
+(function(){
+  if (!/[?&]auto=1/.test(location.search)) return;
+  var poster = document.getElementById('poster');
+  var mute = document.getElementById('bMute');
+  var muted = false, tries = 0;
+  var kick = setInterval(function(){
+    if (!muted) { mute.click(); muted = true; }
+    if (!poster.classList.contains('gone')) poster.click();
+    else clearInterval(kick);
+    if (++tries > 120) clearInterval(kick);   // ~24s: the frames never decoded
+  }, 200);
+  // The poster comes back at the end of the run, which is the cue to go again.
+  setInterval(function(){
+    if (muted && poster.classList.contains('gone') === false) poster.click();
+  }, 1500);
+})();
+</script>
 </body>
 </html>
