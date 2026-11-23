@@ -369,10 +369,43 @@ seek(0);requestAnimationFrame(frame);
    closed over inside its IIFE, so this drives the same controls a person would. */
 (function(){
   if (!/[?&]auto=1/.test(location.search)) return;
-  // No controls in auto mode: it plays by itself and has nothing to operate.
+  // No control bar in auto mode, but sound still needs a way in: a browser will
+  // not start audio on its own, so one click anywhere on the video turns it on.
   var css = document.createElement('style');
-  css.textContent = '#ctl{display:none!important}';
+  css.textContent = '#ctl{display:none!important}' +
+    '#snd{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);z-index:40;display:flex;align-items:center;gap:8px;' +
+    'padding:9px 16px;border-radius:999px;border:0;cursor:pointer;font:600 13px Inter,system-ui,sans-serif;color:#fff;' +
+    'background:rgba(10,16,32,.78);backdrop-filter:blur(6px);transition:opacity .25s,transform .25s}' +
+    '#snd:hover{background:rgba(10,16,32,.92)}' +
+    '#snd.off{opacity:0;pointer-events:none;transform:translateX(-50%) translateY(6px)}';
   document.head.appendChild(css);
+
+  var btn = document.createElement('button');
+  btn.id = 'snd';
+  btn.type = 'button';
+  document.body.appendChild(btn);
+  var label = function(on){
+    btn.innerHTML = (on
+      ? '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg> Sound on'
+      : '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="m16 9 5 6M21 9l-5 6"/></svg> Tap for sound');
+  };
+  label(false);
+
+  var soundOn = false;
+  function toggleSound(e){
+    if (e) { e.preventDefault(); e.stopPropagation(); }
+    // The click is what lets the audio context start, so the play toggle is
+    // bounced here: setPlaying() is where the player resumes it.
+    document.getElementById('bMute').click();
+    soundOn = !soundOn;
+    if (soundOn) { var p = document.getElementById('bPlay'); p.click(); p.click(); }
+    label(soundOn);
+    if (soundOn) setTimeout(function(){ btn.classList.add('off'); }, 1400);
+    else btn.classList.remove('off');
+  }
+  btn.addEventListener('click', toggleSound);
+  document.getElementById('stage').addEventListener('click', toggleSound);
+  addEventListener('mousemove', function(){ if (soundOn) btn.classList.remove('off'); clearTimeout(btn._t); btn._t = setTimeout(function(){ if (soundOn) btn.classList.add('off'); }, 1800); });
   var poster = document.getElementById('poster');
   var mute = document.getElementById('bMute');
   var muted = false, tries = 0;
