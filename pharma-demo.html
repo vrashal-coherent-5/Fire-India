@@ -369,6 +369,10 @@ seek(0);requestAnimationFrame(frame);
    closed over inside its IIFE, so this drives the same controls a person would. */
 (function(){
   if (!/[?&]auto=1/.test(location.search)) return;
+  // No controls in auto mode: it plays by itself and has nothing to operate.
+  var css = document.createElement('style');
+  css.textContent = '#ctl{display:none!important}';
+  document.head.appendChild(css);
   var poster = document.getElementById('poster');
   var mute = document.getElementById('bMute');
   var muted = false, tries = 0;
