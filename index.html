@@ -100,8 +100,14 @@
   .vd-txt{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:0;max-width:620px}
   .vd-txt b{font-size:17px;color:var(--ink)}
   .vd-txt span{font-size:13.5px;line-height:1.55;color:var(--muted)}
-  .vd-player{flex:none;width:min(880px,100%);aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#060a17;box-shadow:0 14px 34px -16px rgba(6,10,23,.55)}
-  .vd-player iframe{width:100%;height:100%;border:0;display:block}
+  .vd-player{position:relative;flex:none;width:min(880px,100%);aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#060a17;box-shadow:0 14px 34px -16px rgba(6,10,23,.55)}
+  .vd-player iframe,.vd-player video{width:100%;height:100%;border:0;display:block;object-fit:contain;background:#060a17}
+  .vd-player [hidden]{display:none}
+  /* A browser will not start audio on its own, so the video opens muted and one
+     click anywhere on it turns the voiceover on. */
+  .vd-snd{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);z-index:3;display:inline-flex;align-items:center;gap:8px;padding:9px 16px;border-radius:999px;border:0;cursor:pointer;font:600 13px inherit;color:#fff;background:rgba(10,16,32,.78);backdrop-filter:blur(6px);transition:opacity .25s,transform .25s}
+  .vd-snd:hover{background:rgba(10,16,32,.92)}
+  .vd-snd.off{opacity:0;pointer-events:none;transform:translateX(-50%) translateY(6px)}
 
 
   .toolbar{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin:44px 0 24px;flex-wrap:wrap}
@@ -289,7 +295,11 @@
 
   <section class="vdemo" id="vdemo">
     <span class="vd-txt"><b id="vdTitle">Product demo</b><span id="vdSub"></span></span>
-    <div class="vd-player"><iframe id="vdFrame" title="Coherent Insight Vault product demo" allow="autoplay; fullscreen"></iframe></div>
+    <div class="vd-player">
+      <iframe id="vdFrame" title="Coherent Insight Vault product demo" allow="autoplay; fullscreen" hidden></iframe>
+      <video id="vdVideo" title="Coherent Insight Vault product demo" playsinline muted loop hidden></video>
+      <button class="vd-snd off" id="vdSnd" type="button"></button>
+    </div>
   </section>
 
   <div class="grid" id="grid"></div>
@@ -1262,8 +1272,8 @@ function setTab(t){
 // out, which stops its timers with it. Both run 16:9, matching .vd-player.
 const DEMO = {
   adhesive: {
-    src: '/platform-demo.html',
-    sub: 'A guided walkthrough of the vault \u2014 taxonomy, market sizing, customers, distributors and the Coherent Quadrant.',
+    mp4: '/adhesive-demo.mp4',
+    sub: 'A guided tour of the vault with voiceover \u2014 click the video for sound.',
   },
   'healthcare-pharma': {
     src: '/pharma-demo.html?auto=1',
@@ -1271,13 +1281,47 @@ const DEMO = {
   },
 };
 const vdFrame = document.getElementById('vdFrame');
+const vdVideo = document.getElementById('vdVideo');
+const vdSnd = document.getElementById('vdSnd');
+const SND = {
+  on: '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg> Sound on',
+  off: '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="m16 9 5 6M21 9l-5 6"/></svg> Tap for sound',
+};
 let vdFor = null;
 function setVideo(t){
   const d = DEMO[t];
-  if (!d) { vdFrame.removeAttribute('src'); vdFor = null; return; }
-  if (vdFor !== t) { vdFrame.src = d.src; vdFor = t; }
-  document.getElementById('vdSub').textContent = d.sub;
+  if (vdFor !== t) {
+    // Dropping the source stops the download and the playback with it.
+    vdFrame.removeAttribute('src'); vdFrame.hidden = true;
+    vdVideo.pause(); vdVideo.removeAttribute('src'); vdVideo.load(); vdVideo.hidden = true;
+    vdSnd.hidden = true;
+    vdFor = d ? t : null;
+    if (d && d.mp4) {
+      vdVideo.src = d.mp4; vdVideo.hidden = false;
+      vdSnd.hidden = false; vdSnd.classList.remove('off'); vdSnd.innerHTML = SND.off;
+      vdVideo.play().catch(() => {});
+    } else if (d) {
+      vdFrame.src = d.src; vdFrame.hidden = false;
+    }
+  }
+  if (d) document.getElementById('vdSub').textContent = d.sub;
 }
+function vdToggleSound(e){
+  if (e) e.preventDefault();
+  vdVideo.muted = !vdVideo.muted;
+  vdVideo.play().catch(() => {});
+  vdSnd.innerHTML = vdVideo.muted ? SND.off : SND.on;
+  vdSnd.classList.toggle('off', !vdVideo.muted);
+}
+vdSnd.addEventListener('click', vdToggleSound);
+vdVideo.addEventListener('click', vdToggleSound);
+// With the sound on the chip fades out, and comes back on any pointer movement.
+vdVideo.parentElement.addEventListener('mousemove', () => {
+  if (vdVideo.muted || vdSnd.hidden) return;
+  vdSnd.classList.remove('off');
+  clearTimeout(vdSnd._t);
+  vdSnd._t = setTimeout(() => vdSnd.classList.add('off'), 1800);
+});
 
 // Each ecosystem lives at its own path (/fire, /drone) and has its own login.
 document.querySelectorAll('.tab').forEach(b => b.addEventListener('click', () => { location.href = '/' + b.dataset.tab; }));
