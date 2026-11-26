@@ -9,6 +9,8 @@
 @media (prefers-color-scheme:dark){:root{--bg:#0a0f18;--panel:#131a26;--ink:#e6ebf2;--muted:#95a2b6;--line:#253044;--accent:#3cbcaa;--accent-ink:#06121a;--frame:#000000;color-scheme:dark}}
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--ink);font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:20px 16px 36px}
+#lc4 b{font-size:13.5px;line-height:1.25}
+#lc4 span{font-size:12.5px}
 .top-title{width:min(100%,1280px);display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px;gap:12px;flex-wrap:wrap}
 .top-title h1{font-size:18px;font-weight:700}
 .top-title p{font-size:13px;color:var(--muted)}
@@ -80,9 +82,6 @@ body{background:var(--bg);color:var(--ink);font-family:Inter,"Segoe UI",system-u
 .lc .ic{width:58px;height:58px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex:none}
 .lc .ic .ico{width:26px;height:26px}
 .lc b{display:block;font-size:20px;color:#10306a;line-height:1.2}
-/* The adhesives ecosystem has a long name; it needs smaller type to fit its card. */
-#lc4 b{font-size:13.5px;line-height:1.25}
-#lc4 span{font-size:12.5px}
 .lc span{font-size:14.5px;color:#5d6878;line-height:1.5;display:block;margin-top:4px}
 .lc .go{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex:none;margin-left:auto}
 .lc.c1{background:linear-gradient(135deg,#123a73,#1d6aa8);border-bottom-color:#8cc63f;color:#fff}
@@ -138,6 +137,19 @@ body{background:var(--bg);color:var(--ink);font-family:Inter,"Segoe UI",system-u
 .hc span{font-size:14px;color:#7a8594;margin-top:6px}
 .hc.hide{display:none}
 
+.h-hero2{background:linear-gradient(115deg,#173a68 0%,#13305a 50%,#0d2142 100%);color:#fff;padding:52px 130px 120px}
+.h-hero2 .pill{font-size:13.5px;letter-spacing:.12em}
+.h-top{display:flex;gap:50px}
+.h-hero2 h1{font-size:54px;line-height:1.12;font-weight:800;margin:26px 0 0;letter-spacing:-.02em}
+.h-hero2 .h-stats{margin-top:66px}
+.h-hero2 .h-stats div{width:265px;height:118px;padding:22px 24px;transition:background .3s}
+.h-hero2 .h-stats div.hov{background:rgba(255,255,255,.14)}
+.h-hero2 .h-stats b{font-size:36px}
+.h-caps{display:grid;grid-template-columns:repeat(3,1fr);gap:34px 40px;margin-top:52px;padding-top:28px;border-top:1px solid rgba(255,255,255,.16)}
+.h-caps div{border-left:2px solid #e3a02c;padding:2px 0 4px 16px;transition:background .3s;border-radius:0 8px 8px 0}
+.h-caps div.hov{background:rgba(227,160,44,.12);box-shadow:none!important}
+.h-caps h5{font-size:14px;letter-spacing:.07em;font-weight:800;margin-bottom:8px}
+.h-caps p{font-size:14.5px;line-height:1.65;color:#c9d5e6}
 /* ===== dashboard ===== */
 .d-head{display:flex;align-items:center;padding:24px 22px 20px;background:#f4f7fb}
 .d-head .tt{flex:1;text-align:center;padding-right:180px}
@@ -151,10 +163,24 @@ body{background:var(--bg);color:var(--ink);font-family:Inter,"Segoe UI",system-u
 .d-kpis b{font-size:21px}
 .d-kpis em{display:block;font-style:normal;font-size:12px;color:#5d6878}
 .d-kpis .kh{grid-column:1/-1;font-size:15px;padding-bottom:10px;border-bottom:1px solid #e3e8ef;margin-bottom:4px}
-.d-tabs{margin:0 16px;background:#fff;border:1px solid #e3e8ef;border-radius:10px;padding:10px 16px;display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;box-shadow:0 2px 8px rgba(16,40,80,.05)}
-.d-tabs>b{font-size:15px;margin-right:6px}
-.d-tab{white-space:nowrap;display:flex;gap:8px;align-items:center;padding:9px 14px;border-radius:7px;font-size:15px;color:#1d2735;border:2px solid transparent;transition:background .3s,color .3s}
-.d-tab.on{background:#4fae9c;color:#fff;border-color:#2f8a79}
+.d-tabs{margin:6px 16px 0;background:#1f5f8f;border-radius:10px;padding:18px 20px 20px;display:flex;flex-wrap:wrap;gap:9px;align-items:center;box-shadow:0 6px 18px rgba(16,40,80,.14)}
+.d-tabs>b{flex-basis:100%;font-size:16px;color:#fff;margin-bottom:4px}
+.d-tab{white-space:nowrap;display:flex;gap:8px;align-items:center;padding:11px 13px;border-radius:5px;font-size:14.5px;color:#1f4f7a;background:#fff;border:1px solid #d6e4ee;transition:background .3s,color .3s}
+.d-tab .ico{color:#2a77a8;width:17px;height:17px}
+.d-tab.on{background:#a8dc8e;border-color:#a8dc8e;color:#14365a}
+.d-tab.on .ico{color:#14365a}
+.note{display:flex;align-items:center;gap:12px;background:#fff4c7;border:1px solid #efcf63;border-radius:8px;padding:15px 22px;font-size:16px;color:#7a3e00}
+.note b{color:#5a2c00}
+.note svg{width:22px;height:22px;flex:none}
+.lockv{color:#9aa4b2;margin-top:4px}
+.lockv .ico{width:17px;height:17px}
+.d-top{display:none;margin:0 16px 18px}
+.d-top.on{display:block}
+.yr{display:flex;gap:8px;margin:8px 0 12px}.yr span{padding:7px 13px;border-radius:5px;font-size:14px;background:#eef1f5}
+.yr span.f{background:#e3ecfb;color:#2563eb}.yr span.a{background:#dcf5d6;color:#1f7a2e}
+.yrb{background:#eef4fd;border-radius:6px;padding:12px;text-align:center;font-size:21px;font-weight:800;color:#1e3a8a}.yrb small{font-size:14px;font-weight:400;color:#2563eb}
+.hint{font-size:14px;font-style:italic;color:#3b4554;margin:-10px 0 18px}
+.chartfoot{text-align:center;font-size:16px;color:#1d2735;margin-top:14px}
 .pane{display:none;padding-bottom:40px}
 .pane.on{display:block;animation:fin .5s}
 @keyframes fin{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
@@ -357,13 +383,10 @@ td.p1{background:#f4f9e4!important}td.p2{background:#eef7e3!important}td.p3{back
 @keyframes rip{from{transform:scale(.3);opacity:1}to{transform:scale(1.6);opacity:0}}
 body.rec{padding:0;background:#000;overflow:hidden}body.rec .top-title,body.rec .bar,body.rec .controls,body.rec .chips{display:none}body.rec .player{width:100vw}body.rec .frame{position:fixed;inset:0;width:100vw;height:100vh;aspect-ratio:auto;border-radius:0;box-shadow:none}
 @media (prefers-reduced-motion:reduce){.pane.on,.ov.on .a1,.ov.on .a2,.ov.on .a3,.ov.on .a4{animation:none}}
-/* Embedded in the vault page. Drops the standalone page title and the mock
-   browser bar so only the recording shows, and lets the screens use the full
-   1600x900 stage. (The file's own #rec mode is not used: it stalls at 0:05.) */
+</style>
+<style>
 body{padding:0;min-height:0;background:transparent}
 .top-title,.bar,.controls,.chips{display:none}
-.chrome,.loadbar{display:none}
-.viewport{top:0}
 .player{width:100%}
 .frame{border-radius:0;box-shadow:none}
 </style>
@@ -379,7 +402,7 @@ body{padding:0;min-height:0;background:transparent}
       <div class="chrome">
         <div class="dots"><i></i><i></i><i></i></div>
         <div class="navbtn">‹ › ↻</div>
-        <div class="url"><svg viewBox="0 0 24 24" class="ico"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><span id="url">www.coherentmarketinsights.com/insights-vault</span></div>
+        <div class="url"><svg viewBox="0 0 24 24" class="ico"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><span id="url">coherentinsightvault.com/adhesive</span></div>
       </div>
       <div class="loadbar" id="loadbar"></div>
       <div class="viewport" id="viewport">
@@ -406,6 +429,7 @@ body{padding:0;min-height:0;background:transparent}
   <div class="chips" id="chips"></div>
 </div>
 
+<script>window.VO={"intro": 10.829, "Ecosystem Intelligence Hub": 13.589, "Five layers of intelligence": 12.391, "Find any market in seconds": 6.134, "Taxonomy": 9.552, "Market segmentation": 6.274, "Market size and growth": 12.062, "Segment-level forecasts": 9.664, "Customer database": 7.976, "Procurement intelligence": 7.719, "Distributor database": 6.558, "Clear inclusion rules": 5.767, "Buyer survey": 9.07, "Who we spoke to": 6.103, "Answers with takeaways": 5.325, "Coherent Quadrant": 9.681, "Ten scoring parameters": 4.632, "Quadrant positioning": 5.514, "Top 20 companies": 4.751, "All 163 assessed companies": 4.634, "Evidence behind every score": 4.656, "outro": 6.595};</script>
 <script>
 /* ---------------- icons ---------------- */
 const IC={
@@ -477,30 +501,36 @@ document.querySelector('#landing .scroller').innerHTML=`
 <footer class="l-foot"><span>© Coherent Market Insights</span><span>Privacy · Terms · Contact</span></footer>`;
 
 /* ---------------- HUB ---------------- */
-const MARKETS=['One-Component Epoxy Adhesives','Two-Component Epoxy Adhesives','Structural Acrylic Adhesives','Anaerobic Adhesives','Cyanoacrylate Adhesives','Polyurethane Adhesives','Two-Component Polyurethane Adhesives','Silicone Adhesives & Sealants','Hot Melt Adhesives','Pressure-Sensitive Adhesive Tapes','Double-Sided Foam Tapes','Polymer Foams','MS Polymer Sealants','Water-Based Adhesives','UV-Curable Adhesives','Conductive Adhesives','Surface Primers & Activators','Adhesive Dispensing Equipment','Hot Melt Application Systems','Structural Bonding Films'];
+const MARKETS=['One-Component Epoxy Adhesives','Two-Component Epoxy Adhesives','Structural Acrylic Adhesives','Anaerobic Adhesives','Cyanoacrylate Adhesives','Polyurethane Adhesives','Two-Component Polyurethane Adhesives','Silicone Adhesives & Sealants','Hot Melt Adhesives','Pressure-Sensitive Adhesive Tapes','Thermal Interface Materials','Thermally Conductive Adhesives','Gap Filler Pads','Polymer Foams','MS Polymer Sealants','UV-Curable Adhesives','Conductive Adhesives','Surface Primers & Activators','Adhesive Dispensing Equipment','Structural Bonding Films'];
+const CAPS=[['DEMAND ANALYSIS','Demand/consumption in terms of value and volume for a product offering broken down by type, material/chemistry, technology, application, end use, and countries'],
+['DISTRIBUTION INTELLIGENCE','A global database of more than 400+ distributors for a given product offering.'],
+['CUSTOMER INTELLIGENCE','A complete database of more than 250+ customers sourcing a particular product worldwide, along with additional procurement intelligence across type, use case, grade, along with contact details of key stakeholder'],
+['VOICE OF B2B CUSTOMERS','A survey of B2B buyers on their procurement and qualifying criteria, product feedback, unmet needs, and anticipated future demand, and planned investments'],
+['SUPPLIER INTELLIGENCE','A positioning matrix of every products manufacturer across four quadrants based on products or technologies’ credibility and business credibility, along with detailed competitive intelligence around each player.']];
+const HUBT='Advanced Materials, Adhesives, Bonding, Thermal Management, and Industrial Solutions, & Ecosystem';
 document.querySelector('#hub .scroller').innerHTML=`
 <div class="h-head">${logo(38)}<div class="r"><span>Industry Intelligence Reports</span><span class="live"><i></i>All reports live</span><span class="outbtn">Log out</span></div></div>
-<section class="h-hero gridbg">
- <div><div class="pill">ECOSYSTEM INTELLIGENCE HUB</div>
- <h1>Adhesives and Bonding<br>Industry Analysis</h1>
- <p>One gateway to 179 interactive market reports — customer landscapes, distributor networks, competitive quadrants and survey insights across the fire safety, drone and adhesives &amp; bonding value chains.</p></div>
- <div class="h-stats">
-  <div><b class="cnt" data-to="120">0</b><span>Interactive reports</span></div>
-  <div><b class="cnt" data-to="1">0</b><span>Industry ecosystem</span></div>
-  <div><b class="cnt" data-to="20000" data-suf="+">0</b><span>Customer profiles mapped</span></div>
-  <div><b class="cnt" data-to="30000" data-suf="+">0</b><span>Distributors profiled</span></div>
- </div>
+<section class="h-hero2 gridbg">
+ <div class="h-top"><div><div class="pill">ECOSYSTEM INTELLIGENCE HUB</div>
+  <h1>Advanced Materials,<br>Adhesives, Bonding,<br>Thermal Management, and<br>Industrial Solutions, &amp;<br>Ecosystem</h1></div>
+  <div class="h-stats">
+   <div id="hs1"><b class="cnt" data-to="500" data-suf="+">0</b><span>Interactive reports</span></div>
+   <div id="hs2"><b class="cnt" data-to="1">0</b><span>Industry ecosystem</span></div>
+   <div id="hs3"><b class="cnt" data-to="20000" data-suf="+">0</b><span>Customer profiles mapped</span></div>
+   <div id="hs4"><b class="cnt" data-to="30000" data-suf="+">0</b><span>Distributors profiled</span></div>
+  </div></div>
+ <div class="h-caps" id="h-caps">${CAPS.map((c,i)=>`<div id="cap${i+1}"><h5>${c[0]}</h5><p>${c[1]}</p></div>`).join('')}</div>
 </section>
-<div class="h-band" id="h-band"><div><div class="ic">${ico('drop')}</div><div><b>Adhesives and Bonding Industry Analysis</b><span>Bonding chemistries, foams, sealants &amp; application equipment</span></div><em>120</em></div></div>
+<div class="h-band" id="h-band"><div><div class="ic">${ico('drop')}</div><div><b>${HUBT}</b><span>Bonding chemistries, foams, sealants &amp; application equipment</span></div><em>500+</em></div></div>
 <section class="h-sec" id="h-sec">
- <h2>Adhesives and Bonding Industry Analysis</h2>
- <p>120 markets spanning bonding chemistries, tapes and films, polymer foams, sealants, surface preparation and application equipment.</p>
+ <h2 style="font-size:28px;line-height:1.3">${HUBT}</h2>
+ <p>Markets spanning bonding chemistries, tapes and films, polymer foams, sealants, thermal management materials, surface preparation and application equipment.</p>
  <div class="h-search" id="h-search">${ico('search')}<span class="q" id="h-q"></span><i class="caret"></i></div>
  <div class="h-grid" id="h-grid">${MARKETS.map((m,i)=>`<div class="hc" data-n="${m.toLowerCase()}"><div class="t"><div class="ic">${ico('drop')}</div><span class="n">${String(i+1).padStart(2,'0')}</span></div><b>${m}</b><span>Industry Analysis</span></div>`).join('')}</div>
 </section>`;
 
 /* ---------------- DASHBOARD ---------------- */
-const TABS=[['tax','Taxonomy','list'],['ma','Market Analysis','bars'],['com','Coherent Opportunity Matrix','target'],['ci','Customer Intelligence','users'],['di','Distributor Intelligence','building'],['voc','Voice of Customer - B2B','chart'],['b2c','Voice of Customer - B2C','cart'],['vq','Vendor Intelligence (Coherent Quadrant)','grid']];
+const TABS=[['tax','Taxonomy','list'],['ma','Market Analysis','bars'],['ci','Customer Intelligence','users'],['di','Distributor Intelligence','building'],['voc','Voice of Customer - B2B','chart'],['b2c','Voice of Customer - B2C','cart'],['vq','Vendor Intelligence (Coherent Quadrant)','grid']];
 const ph=n=>`<div class="d-ph"><span class="sq on">${ico('layers')}</span><span class="sq">${ico('grid4')}</span><span class="d-sub">${n}</span><span class="d-ins">${ico('bulb')} Insights</span></div>`;
 const country=`<div class="d-country">${ico('globe')}<b>Country</b><span class="p on">Global</span><span class="p">Europe</span></div>`;
 const MKT='Global Two-Component Epoxy Adhesives Market';
@@ -516,21 +546,25 @@ const paneMA=`<div class="ma">
  <div class="box qf"><h5>${ico('bolt','ico','color:#f59e0b')} QUICK FILTERS <span style="margin-left:auto;color:#2563eb">${ico('save')}</span></h5>
   <div class="g"><span>${ico('globe')}Top Markets</span><span>${ico('trend')}Growth Leaders</span><span>${ico('target')}Emerging Markets</span><span>${ico('bars')}Full Comparison</span></div></div>
  <div class="box">
-  <div class="fl">DATA TYPE</div><div class="tog"><span class="on">Value</span><span id="ma-vol">Volume</span></div>
-  <div class="fl">VIEW MODE</div><div class="sel">Segment Mode <span>⌄</span></div>
-  <div class="fl">GEOGRAPHY SELECTION</div><div class="sel">1 selected <span>⌄</span></div>
-  <div class="geo">${ico('pin','ico','width:14px;height:14px;vertical-align:-2px')} Selected (1) <span style="float:right">Clear All</span><br><em>Global ×</em></div>
+  <div class="fl">DATA TYPE</div><div class="tog"><span id="ma-val" class="on">Value</span><span id="ma-vol">Volume</span></div>
+  <div class="fl">VIEW MODE</div><div class="sel" id="ma-mode"><span>Segment Mode</span> <span>⌄</span></div>
+  <div class="fl">GEOGRAPHY SELECTION</div><div class="sel" id="ma-geo"><span id="geo-n">1 selected</span> <span>⌄</span></div>
+  <div style="font-size:14.5px;margin:-12px 0 10px" id="geo-t">1 geography selected</div>
+  <div class="geo">${ico('pin','ico','width:14px;height:14px;vertical-align:-2px')} <span id="geo-s">Selected (1)</span> <span style="float:right">Clear All</span><br><span id="geo-chips"><em>Global ×</em></span></div>
   <div class="fl" style="margin-top:22px">SEGMENT SELECTION (MULTI-TYPE)</div><div style="font-size:15px;margin-bottom:8px">Step 1: Select Segment Type</div><div class="sel">By Hardener Type <span>⌄</span></div>
-  <div style="font-size:15px;margin-bottom:8px">Step 2: Select Segments</div><div class="sel" style="font-size:15px">Amine, Polyamide, Anhydride, Other <span>⌄</span></div>
+  <div style="font-size:15px;margin-bottom:8px">Step 2: Select Segment from By Hardener Type</div><div class="sel" style="font-size:16px">Select sub-segment 1 <span>⌄</span></div>
+  <div class="hint">💡 Select segments from different types for cross-type comparison.</div>
+  <div style="font-size:17px" id="ma-yr">Year Range</div><div class="yr"><span>Historical</span><span class="f">Forecast</span><span class="a">All Years</span></div>
+  <div class="yrb">2021 - 2026 <small>(6 years)</small></div>
  </div>
 </div>
-<div class="d-panel" style="margin:0">
+<div class="d-panel" style="margin:0;align-self:start">
  <div class="d-ph"><span class="sq on">${ico('layers')}</span><span class="sq">${ico('grid4')}</span>
   <span class="d-sub2 on" id="ct-bar" style="margin-left:24px">Grouped Bar Chart</span><span class="d-sub2" id="ct-line">Line Chart</span><span class="d-sub2">Heatmap</span><span class="d-sub2">Table</span><span class="d-sub2">Waterfall</span>
   <span class="d-ins">${ico('bulb')} Insights</span></div>
- <div class="chart-wrap" id="chart-wrap"><h3 id="ma-title">Comparative Analysis - Grouped Bars</h3>
+ <div class="chart-wrap" id="chart-wrap"><div class="note" style="margin-bottom:22px"><svg viewBox="0 0 24 24"><path d="M12 3l10 18H2z" fill="#e8730c"/><path d="M12 10v5M12 17.5v.5" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg><span><b>NOTE:</b> Data presented is dummy, and simply for representation. Kindly subscribe to this platform for real world data.</span></div><h3 id="ma-title">Comparative Analysis - Grouped Bars</h3>
   <svg id="ma-svg" viewBox="0 0 1100 520" width="1100" height="520"></svg>
-  <div class="legend" id="ma-leg"></div>
+  <div class="legend" id="ma-leg"></div><div class="chartfoot" id="ma-foot"></div>
   <div class="tip" id="tip"></div>
  </div>
 </div></div>`;
@@ -650,11 +684,12 @@ ${ALL.map(r=>`<tr class="allr" data-s="${(r.join(' ')).toLowerCase()}"><td>${r[0
 
 document.querySelector('#dash .scroller').innerHTML=`
 <div class="d-head">${logo(30)}<div class="tt"><h1>${MKT}</h1><p>Customer Intelligence, Distributor Intelligence, Vendor Intelligence, Voice of Customer - B2B, Future Outlook</p></div></div>
-<div class="d-kpis" id="kpis"><div class="kh"><b style="font-size:15px">Market Size</b> for <b style="font-size:15px">Global</b> | <b style="font-size:15px">By Hardener Type</b></div>
- <div class="k"><i style="background:#e3ecfb;color:#2563eb">${ico('dollar')}</i><div><small>MARKET SIZE 2021</small><b>$ 1.4 Billion</b></div></div>
- <div class="k"><i style="background:#dff5e6;color:#16a34a">${ico('cal')}</i><div><small>MARKET SIZE 2032</small><b>$ 2.9 Billion</b></div></div>
- <div class="k" id="kpi-cagr"><i style="background:#f1e6fd;color:#9333ea">${ico('trend')}</i><div><small>CAGR (2026-2032)</small><b>6.91%</b></div></div>
- <div class="k"><i style="background:#fdeedd;color:#ea580c">${ico('pulse')}</i><div><small>ABSOLUTE GROWTH (2021-2032)</small><b>$ 1.5 Billion</b><em>+108.3% increase</em></div></div></div>
+<div class="d-top" id="kpis"><div class="note" id="note-top"><svg viewBox="0 0 24 24"><path d="M12 3l10 18H2z" fill="#e8730c"/><path d="M12 10v5M12 17.5v.5" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg><span><b>NOTE:</b> Data presented is dummy, and simply for representation. Kindly subscribe to this platform for real world data.</span></div>
+<div class="d-kpis on" style="margin:14px 0 0"><div class="kh"><b style="font-size:15px" id="kh-t">Market Size</b> for <b style="font-size:15px">Global</b> | <b style="font-size:15px">By Hardener Type</b></div>
+ <div class="k" id="kpi-1"><i style="background:#e3ecfb;color:#2563eb">${ico('dollar')}</i><div><small class="kl">MARKET SIZE 2021</small><div class="lockv">${ico('lock')}</div></div></div>
+ <div class="k"><i style="background:#dff5e6;color:#16a34a">${ico('cal')}</i><div><small class="kl">MARKET SIZE 2032</small><div class="lockv">${ico('lock')}</div></div></div>
+ <div class="k" id="kpi-cagr"><i style="background:#f1e6fd;color:#9333ea">${ico('trend')}</i><div><small>CAGR (2026-2032)</small><div class="lockv">${ico('lock')}</div></div></div>
+ <div class="k"><i style="background:#fdeedd;color:#ea580c">${ico('pulse')}</i><div><small>ABSOLUTE GROWTH (2021-2032)</small><div class="lockv">${ico('lock')}</div></div></div></div></div>
 <div class="d-tabs"><b>Chart View</b>${TABS.map(t=>`<span class="d-tab" data-tab="${t[0]}">${ico(t[2])}${t[1]}</span>`).join('')}</div>
 <div class="pane" data-pane="tax">${paneTax}</div>
 <div class="pane" data-pane="ma">${paneMA}</div>
@@ -664,28 +699,39 @@ document.querySelector('#dash .scroller').innerHTML=`
 <div class="pane" data-pane="vq">${paneVQ}</div>`;
 
 /* overlays */
-document.getElementById('ov-intro').innerHTML=`<div class="a1">${logo(54)}</div><h2 class="a2">Coherent Insights Vault</h2><p class="a3">Platform walkthrough — from the vault to vendor quadrants</p>
-<div class="row a4"><span>Insights Vault</span><span>Industry Hub</span><span>Taxonomy</span><span>Market Analysis</span><span>Customer Intelligence</span><span>Distributor Intelligence</span><span>Voice of Customer</span><span>Coherent Quadrant</span></div>`;
-document.getElementById('ov-outro').innerHTML=`<div class="a1">${logo(54)}</div><h2 class="a2">One platform. Every layer of the market.</h2><p class="a3">25,000+ reports · 20,000+ customer profiles · 30,000+ distributors · 183 vendors scored</p>
-<div class="row a4"><span>Market sizing to 2032</span><span>Procurement intelligence</span><span>Distributor networks</span><span>Buyer surveys</span><span>Coherent Quadrant</span></div>`;
+document.getElementById('ov-intro').innerHTML=`<div class="a1">${logo(54)}</div><h2 class="a2">Coherent Insights Vault</h2><p class="a3">Advanced Materials, Adhesives, Bonding, Thermal Management &amp; Industrial Solutions</p>
+<div class="row a4"><span>Ecosystem Hub</span><span>Taxonomy</span><span>Market Analysis</span><span>Customer Intelligence</span><span>Distributor Intelligence</span><span>Voice of Customer</span><span>Coherent Quadrant</span></div>`;
+document.getElementById('ov-outro').innerHTML=`<div class="a1">${logo(54)}</div><h2 class="a2">One platform. Every layer of the market.</h2><p class="a3">500+ interactive reports · 20,000+ customer profiles · 30,000+ distributors</p>
+<div class="row a4"><span>Demand analysis</span><span>Distribution intelligence</span><span>Customer intelligence</span><span>Voice of B2B customers</span><span>Supplier intelligence</span></div>`;
 
 /* ---------------- charts ---------------- */
-const YRS=[...Array(12)].map((_,i)=>2021+i);
-const SER=[{n:'Amine',c:'#52b69a',v:615,g:.072},{n:'Polyamide',c:'#34a0a4',v:375,g:.070},{n:'Anhydride',c:'#1a759f',v:250,g:.066},{n:'Other Hardeners',c:'#184e77',v:160,g:.062}].map(s=>({...s,d:YRS.map((_,i)=>s.v*Math.pow(1+s.g,i))}));
-let maMode='bar';
-const CX0=90,CY0=40,CW=990,CHH=400,YMAX=1400;
-const yv=v=>CY0+CHH-v/YMAX*CHH;
-function axes(){let s='';for(let v=0;v<=1250;v+=250){s+=`<line x1="${CX0}" x2="${CX0+CW}" y1="${yv(v)}" y2="${yv(v)}" stroke="#e5e9ef" stroke-dasharray="4 4"/><text x="${CX0-10}" y="${yv(v)+5}" text-anchor="end" font-size="14" fill="#5d6878">${v?v.toFixed(1):'0.000'}</text>`}
+const YRS=[2021,2022,2023,2024,2025,2026];
+const grow=(v,g)=>YRS.map((_,i)=>v*Math.pow(1+g,i));
+const DATA={value:{seg:[{n:'Amine',c:'#52b69a',d:grow(615,.071)},{n:'Polyamide',c:'#34a0a4',d:grow(375,.071)}],geo:[{n:'North America',c:'#52b69a',d:grow(330,.07)},{n:'Europe',c:'#34a0a4',d:grow(298,.069)}],max:1000,step:250,ax:'Market Value (USD Million)'},
+ volume:{seg:[{n:'Amine',c:'#52b69a',d:grow(78.5,.072)},{n:'Polyamide',c:'#34a0a4',d:grow(48,.072)}],geo:[{n:'North America',c:'#52b69a',d:grow(42,.07)},{n:'Europe',c:'#34a0a4',d:grow(38.5,.07)}],max:120,step:30,ax:'Market Volume (Units)'}};
+let maMode='bar',maType='value',maGeo=false;
+const D_=()=>{const d=DATA[maType];if(maGeo&&maType==='volume')return {...d,max:60,step:15};return d};
+const SER_=()=>maGeo?DATA[maType].geo:DATA[maType].seg;
+const SER=DATA.value.seg;
+const CX0=90,CY0=40,CW=990,CHH=400;
+const yv=v=>CY0+CHH-v/D_().max*CHH;
+const fmtT=v=>v===0?'0.000':v>=1000?(v/1000).toFixed(1)+'K':v.toFixed(1);
+function axes(){const d=D_();let s='';for(let v=0;v<=d.max+.001;v+=d.step){s+=`<line x1="${CX0}" x2="${CX0+CW}" y1="${yv(v)}" y2="${yv(v)}" stroke="#e5e9ef" stroke-dasharray="4 4"/><text x="${CX0-10}" y="${yv(v)+5}" text-anchor="end" font-size="14" fill="#5d6878">${fmtT(v)}</text>`}
  s+=`<line x1="${CX0}" x2="${CX0}" y1="${CY0}" y2="${CY0+CHH}" stroke="#333"/><line x1="${CX0}" x2="${CX0+CW}" y1="${CY0+CHH}" y2="${CY0+CHH}" stroke="#333"/>`;
- s+=`<text transform="translate(30 ${CY0+CHH/2}) rotate(-90)" text-anchor="middle" font-size="17" fill="#5d6878">Market Value (USD Million)</text><text x="${CX0+CW/2}" y="${CY0+CHH+56}" text-anchor="middle" font-size="17" fill="#5d6878">Year</text>`;
- const gw=CW/12;YRS.forEach((y,i)=>s+=`<text x="${CX0+gw*i+gw/2}" y="${CY0+CHH+24}" text-anchor="middle" font-size="14" fill="#3b4554">${y}</text>`);return s}
-function drawMA(p){const svg=document.getElementById('ma-svg');let s=axes();const gw=CW/12;
- if(maMode==='bar'){const bw=(gw-16)/4;YRS.forEach((y,i)=>SER.forEach((se,k)=>{const v=se.d[i]*p;s+=`<rect ${i==5&&k==0?'id="bar-hit"':''} x="${CX0+gw*i+8+k*bw}" y="${yv(v)}" width="${bw-2}" height="${CY0+CHH-yv(v)}" fill="${se.c}" rx="1.5"/>`}))}
- else{SER.forEach(se=>{const pts=se.d.map((v,i)=>`${CX0+gw*i+gw/2},${yv(v)}`).join(' ');s+=`<polyline points="${pts}" fill="none" stroke="${se.c}" stroke-width="3.5" pathLength="1" stroke-dasharray="1" stroke-dashoffset="${1-p}"/>`;se.d.forEach((v,i)=>{if(i/11<=p+.001)s+=`<circle cx="${CX0+gw*i+gw/2}" cy="${yv(v)}" r="4.5" fill="#fff" stroke="${se.c}" stroke-width="2.5"/>`})})}
+ s+=`<text transform="translate(30 ${CY0+CHH/2}) rotate(-90)" text-anchor="middle" font-size="17" fill="#5d6878">${d.ax}</text><text x="${CX0+CW/2}" y="${CY0+CHH+56}" text-anchor="middle" font-size="17" fill="#5d6878">Year</text>`;
+ const gw=CW/6;YRS.forEach((y,i)=>s+=`<text x="${CX0+gw*i+gw/2}" y="${CY0+CHH+24}" text-anchor="middle" font-size="14" fill="#3b4554">${y}</text>`);return s}
+function drawMA(p){const svg=document.getElementById('ma-svg');let s=axes();const gw=CW/6,ser=SER_();
+ if(maMode==='bar'){const bw=(gw-40)/2;YRS.forEach((y,i)=>ser.forEach((se,k)=>{const v=se.d[i]*p;s+=`<rect ${i==5&&k==0?'id="bar-hit"':''} x="${CX0+gw*i+20+k*bw}" y="${yv(v)}" width="${bw-4}" height="${CY0+CHH-yv(v)}" fill="${se.c}"/>`}))}
+ else{ser.forEach(se=>{const pts=se.d.map((v,i)=>`${CX0+gw*i+gw/2},${yv(v)}`).join(' ');s+=`<polyline points="${pts}" fill="none" stroke="${se.c}" stroke-width="3.5" pathLength="1" stroke-dasharray="1" stroke-dashoffset="${1-p}"/>`;se.d.forEach((v,i)=>{if(i/5<=p+.001)s+=`<circle cx="${CX0+gw*i+gw/2}" cy="${yv(v)}" r="4.5" fill="#fff" stroke="${se.c}" stroke-width="2.5"/>`})})}
  svg.innerHTML=s;
  document.getElementById('ma-title').textContent=maMode==='bar'?'Comparative Analysis - Grouped Bars':'Trend Analysis - Line Chart';
- document.getElementById('ma-leg').innerHTML=SER.map(se=>`<span><i style="background:${se.c}"></i>${se.n}</span>`).join('');
- document.getElementById('ct-bar').classList.toggle('on',maMode==='bar');document.getElementById('ct-line').classList.toggle('on',maMode==='line');}
+ document.getElementById('ma-leg').innerHTML=(maGeo?[...ser].reverse():ser).map(se=>`<span><i style="background:${se.c};border-radius:3px"></i>${se.n}</span>`).join('');
+ document.getElementById('ma-foot').textContent=maGeo?'Comparing 2 geographies from 2021 to 2026':'';
+ document.getElementById('ct-bar').classList.toggle('on',maMode==='bar');document.getElementById('ct-line').classList.toggle('on',maMode==='line');
+ const vol=maType==='volume';$('#ma-val').classList.toggle('on',!vol);$('#ma-vol').classList.toggle('on',vol);
+ $('#kh-t').textContent=vol?'Market Volume':'Market Size';document.querySelectorAll('.kl').forEach((e,i)=>e.textContent=(vol?'MARKET VOLUME ':'MARKET SIZE ')+(i?2032:2021));
+ $('#ma-mode span').textContent=maGeo?'Geography Mode':'Segment Mode';$('#geo-n').textContent=maGeo?'2 selected':'1 selected';$('#geo-t').textContent=maGeo?'2 geographies selected':'1 geography selected';
+ $('#geo-s').textContent=maGeo?'Selected (2)':'Selected (1)';$('#geo-chips').innerHTML=maGeo?'<em>North America ×</em> <em>Europe ×</em>':'<em>Global ×</em>';}
 
 const D1=[['LOCTITE',36,'#52b69a'],['3M Scotch Weld',24,'#1a759f'],['Huntsman Araldite',19,'#76c893'],['Sika',11,'#168aad'],['Others',10,'#1e4e79']];
 const D2=[['ISO 9001',48,'#52b69a'],['IATF 16949',29,'#1a759f'],['AS9100',16,'#76c893'],['Others',7,'#1e4e79']];
@@ -721,7 +767,7 @@ function setCur(x,y){cx=x;cy=y;cur.style.transform=`translate(${x-4}px,${y-3}px)
 function el(sel){return typeof sel==='string'?document.querySelector(sel):sel}
 function center(e,dx=0,dy=0){const r=e.getBoundingClientRect(),s=stage.getBoundingClientRect();return{x:(r.left+r.width/2-s.left)/scale+dx,y:(r.top+r.height/2-s.top)/scale+dy}}
 async function moveTo(sel,ms=900,dx=0,dy=0){const t=center(el(sel),dx,dy),a={x:cx,y:cy};await tween(ms,p=>setCur(a.x+(t.x-a.x)*p,a.y+(t.y-a.y)*p))}
-async function click(){cur.classList.add('press');const r=document.createElement('div');r.className='rip';r.style.left=cx+'px';r.style.top=cy+'px';stage.appendChild(r);r.addEventListener('animationend',()=>r.remove());clickLog.push(clock);await sleep(180);cur.classList.remove('press');await sleep(120)}
+async function click(){cur.classList.add('press');const r=document.createElement('div');r.className='rip';r.style.left=cx+'px';r.style.top=cy+'px';stage.appendChild(r);r.addEventListener('animationend',()=>r.remove());clickLog.push(clock);sfx('click');await sleep(180);cur.classList.remove('press');await sleep(120)}
 function hov(sel,on=true){el(sel).classList.toggle('hov',on)}
 function clearHov(){document.querySelectorAll('.hov').forEach(e=>e.classList.remove('hov'))}
 
@@ -736,124 +782,125 @@ function setH(x){hx=x;$('#ci-ts .tinner').style.transform=`translateX(${-x}px)`}
 async function hScroll(x,ms){const w=$('#ci-ts'),max=$('#ci-ts .tinner').scrollWidth-w.clientWidth;x=Math.max(0,Math.min(max,x));const a=hx;await tween(ms,p=>setH(a+(x-a)*p))}
 
 function show(id,url){document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('on',s.id===id));if(url)setURL(url)}
-function setURL(u){$('#url').textContent='www.coherentmarketinsights.com/'+u;const lb=$('#loadbar');lb.style.transition='none';lb.style.width='0';lb.style.opacity=1;void lb.offsetWidth;lb.style.transition='width .7s ease, opacity .4s .7s';lb.style.width='100%';lb.style.opacity=0}
-function caption(k,t,s){const c=$('#cap');c.classList.remove('on');sleep(180).catch(()=>{}).then(()=>{$('#capk').textContent=k;$('#capt').textContent=t;$('#caps').textContent=s;c.classList.add('on')})}
+function setURL(u){$('#url').textContent='coherentinsightvault.com/'+u;const lb=$('#loadbar');lb.style.transition='none';lb.style.width='0';lb.style.opacity=1;void lb.offsetWidth;lb.style.transition='width .7s ease, opacity .4s .7s';lb.style.width='100%';lb.style.opacity=0}
+let voEnd=0;window.VO=window.VO||{};window.voLog=[];window.sfxLog=[];
+function sfx(n){sfxLog.push([n,clock])}
+async function say(key){if(clock<voEnd)await sleep(voEnd-clock+300);const d=VO[key];if(d){voLog.push([key,clock]);voEnd=clock+d*1000}}
+async function caption(k,t,s){await say(t);const c=$('#cap');c.classList.remove('on');await sleep(200);$('#capk').textContent=k;$('#capt').textContent=t;$('#caps').textContent=s;c.classList.add('on')}
 function capOff(){$('#cap').classList.remove('on')}
 function ov(id,on){$('#ov-'+id).classList.toggle('on',on)}
 function cursorOn(on){cur.classList.toggle('on',on)}
 async function countUp(root,ms=1600){const els=[...document.querySelectorAll(root+' .cnt')];await tween(ms,p=>els.forEach(e=>e.textContent=Math.round(+e.dataset.to*p).toLocaleString('en-US')+(p>=1?(e.dataset.suf||''):'')))}
 function setCounts(root,full){document.querySelectorAll(root+' .cnt').forEach(e=>e.textContent=full?(+e.dataset.to).toLocaleString('en-US')+(e.dataset.suf||''):'0')}
-const DURL='insights-vault/adhesives-and-bonding/two-component-epoxy-adhesives';
-function setTab(t){document.querySelectorAll('.d-tab').forEach(e=>e.classList.toggle('on',e.dataset.tab===t));document.querySelectorAll('.pane').forEach(e=>e.classList.toggle('on',e.dataset.pane===t));$('#kpis').classList.toggle('on',t==='ma');
+const DURL='adhesive/global-two-component-epoxy-adhesives-market--ba407a365504698f156412c6';
+function setTab(t){document.querySelectorAll('.d-tab').forEach(e=>e.classList.toggle('on',e.dataset.tab===t));document.querySelectorAll('.pane').forEach(e=>e.classList.toggle('on',e.dataset.pane===t));$('#kpis').classList.toggle('on',t==='ma');maType='value';maGeo=false;
  maMode='bar';drawMA(1);$('#tip').classList.remove('on');setH(0);donut('d1',D1,1);donut('d2',D2,1);document.querySelectorAll('.dot').forEach(d=>d.classList.add('show'));$('#ar-row').classList.remove('open');setPD('Hardener Chemistry Breadth');
  $('#all-in').textContent='Brand, company or HQ…';$('#all-in').classList.remove('focus');document.querySelectorAll('.allr').forEach(r=>r.style.display='');$('#all-n').textContent='163 companies';
- document.getElementById('vt1').classList.add('on');setURL(DURL+'#'+t)}
+ document.getElementById('vt1').classList.add('on');setURL(DURL)}
 const tab=t=>`.d-tab[data-tab="${t}"]`;
-async function goTab(t){await moveTo(tab(t),900);hov(tab(t));await sleep(200);await click();hov(tab(t),false);setTab(t);setScroll('dash',0)}
+async function goTab(t){await moveTo(tab(t),900);hov(tab(t));await sleep(200);await click();hov(tab(t),false);setTab(t);sfx('whoosh');setScroll('dash',0)}
 function hubFilter(q){q=q.toLowerCase();document.querySelectorAll('.hc').forEach(c=>c.classList.toggle('hide',!c.dataset.n.includes(q)))}
 
 /* ---------------- chapters ---------------- */
 const CH=[
-{n:'Intro',d:5000,run:async()=>{show('landing','insights-vault');setScroll('landing',0);setCounts('#landing',false);capOff();cursorOn(false);ov('intro',true);await sleep(4300);ov('intro',false);await sleep(500)}},
+{n:'Intro',d:9000,run:async()=>{show('hub','adhesive');setScroll('hub',0);setCounts('#hub',false);capOff();cursorOn(false);ov('intro',true);sfx('chime');await sleep(600);await say('intro');await sleep(voEnd-clock+200);ov('intro',false);sfx('whoosh');await sleep(600)}},
 
-{n:'Insights Vault',d:17000,run:async()=>{show('landing','insights-vault');setScroll('landing',0);setCounts('#landing',false);setCur(1250,620);cursorOn(true);
- caption('01 · INSIGHTS VAULT','Coherent Insights Vault','The gateway to 25,000+ reports across 43 industries, with 425+ dedicated analysts.');
- await sleep(400);await countUp('#landing',1800);
- await moveTo('#l-login',900);hov('#l-login');await sleep(700);hov('#l-login',false);
- caption('01 · INSIGHTS VAULT','Choose your vault','Complete access, or dedicated vaults for Drone, Fire and Adhesives & Bonding.');
- await scrollTo('landing',470,1300);
- for(const id of ['#lc1','#lc2','#lc3']){await moveTo(id,700);hov(id);await sleep(450);hov(id,false)}
- caption('01 · INSIGHTS VAULT','How it works','From spotting disruption early to turning it into revenue — four steps, one platform.');
- await scrollToEl('#l-how',70,1400);await sleep(2200);
- await scrollTo('landing',470,1200);await moveTo('#lc4',800);hov('#lc4');await sleep(300);await click();hov('#lc4',false);await sleep(300)}},
-
-{n:'Industry Hub',d:12000,run:async()=>{show('hub','insights-vault/adhesives-and-bonding');setScroll('hub',0);setCounts('#hub',false);$('#h-q').textContent='';$('#h-search').classList.remove('focus');hubFilter('');cursorOn(true);
- caption('02 · INDUSTRY HUB','Adhesives & Bonding ecosystem hub','120 interactive reports, 20,000+ customer profiles and 30,000+ distributors mapped.');
- await countUp('#hub',1600);await sleep(700);
- await moveTo('#h-band',900);hov('#h-band');await sleep(600);hov('#h-band',false);
+{n:'Front Page',d:36000,run:async()=>{show('hub','adhesive');setScroll('hub',0);setCounts('#hub',false);$('#h-q').textContent='';$('#h-search').classList.remove('focus');hubFilter('');setCur(1250,560);cursorOn(true);
+ await caption('01 · FRONT PAGE','Ecosystem Intelligence Hub','500+ interactive reports, 20,000+ customer profiles and 30,000+ distributors in one ecosystem.');
+ sfx('rise');await countUp('#hub',1800);
+ for(const id of ['#hs1','#hs2','#hs3','#hs4']){await moveTo(id,650);hov(id);await sleep(650);hov(id,false)}
+ await scrollToEl('#h-caps',150,2200);
+ await caption('01 · FRONT PAGE','Five layers of intelligence','Demand analysis, distribution, customers, voice of B2B customers and suppliers.');
+ for(const id of ['#cap1','#cap2','#cap3','#cap4','#cap5']){await moveTo(id,650,-60,-20);hov(id);await sleep(1300);hov(id,false)}
+ await scrollToEl('#h-band',60,1200);await moveTo('#h-band',700);hov('#h-band');await sleep(700);hov('#h-band',false);
  await scrollToEl('#h-sec',30,1300);
- caption('02 · INDUSTRY HUB','Find any market in seconds','Live search across all 120 market reports in the ecosystem.');
+ await caption('01 · FRONT PAGE','Find any market in seconds','Live search across every market report in the ecosystem.');
  await moveTo('#h-search',800);await click();$('#h-search').classList.add('focus');
- for(const ch of 'two-component'){$('#h-q').textContent+=ch;hubFilter($('#h-q').textContent);await sleep(105)}
+ for(const ch of 'two-component'){$('#h-q').textContent+=ch;sfx('key');hubFilter($('#h-q').textContent);await sleep(120)}
  await sleep(700);const card=[...document.querySelectorAll('.hc')].find(c=>c.dataset.n.startsWith('two-component epoxy'));
  await moveTo(card,900);hov(card);await sleep(450);await click();hov(card,false);await sleep(300)}},
 
-{n:'Taxonomy',d:12000,run:async()=>{show('dash');setTab('tax');setScroll('dash',0);cursorOn(true);
- caption('03 · REPORT DASHBOARD','Taxonomy','Global Two-Component Epoxy Adhesives Market · Revenue, USD Mn, 2021–2032. Every view in one tab bar.');
- await moveTo(tab('tax'),900);hov(tab('tax'));await sleep(600);hov(tab('tax'),false);await sleep(1200);
- caption('03 · TAXONOMY','Market segmentation','Hardener type, cure speed, packaging format, end-use industry and region.');
- await scrollTo('dash',420,1500);await sleep(1200);await scrollTo('dash',1050,1600);await sleep(1200);await scrollTo('dash',99999,1500);await sleep(900)}},
+{n:'Taxonomy',d:16000,run:async()=>{show('dash');sfx('whoosh');setTab('tax');setScroll('dash',0);cursorOn(true);
+ await caption('02 · REPORT DASHBOARD','Taxonomy','Global Two-Component Epoxy Adhesives Market · Revenue, USD Mn, 2021–2032.');
+ await moveTo(tab('tax'),900);hov(tab('tax'));await sleep(800);hov(tab('tax'),false);await moveTo('.d-pad h2',900);await sleep(900);
+ await scrollTo('dash',420,1700);
+ await caption('02 · TAXONOMY','Market segmentation','Hardener type, cure speed, packaging format, end-use industry and region.');
+ await scrollTo('dash',1050,2200);await sleep(600);await scrollTo('dash',99999,2000);await sleep(500)}},
 
-{n:'Market Analysis',d:16000,run:async()=>{show('dash');setTab('tax');setScroll('dash',0);cursorOn(true);
- caption('04 · MARKET ANALYSIS','Market size and growth','$1.4B in 2021 to $2.9B by 2032 — a 6.91% CAGR over 2026–2032.');
+{n:'Market Analysis',d:24000,run:async()=>{show('dash');setTab('tax');setScroll('dash',0);cursorOn(true);
  await goTab('ma');drawMA(0);
- await moveTo('#kpi-cagr',800);hov('#kpi-cagr');await sleep(700);hov('#kpi-cagr',false);
- await tween(1800,drawMA);await sleep(500);
- await scrollTo('dash',230,1000);
- caption('04 · MARKET ANALYSIS','Segment-level forecasts','Compare hardener types year by year — value or volume, any geography.');
- const b=$('#bar-hit');await moveTo(b,800);const t=$('#tip'),c=center(b),w=center($('#chart-wrap'));const wr=$('#chart-wrap').getBoundingClientRect(),sr=stage.getBoundingClientRect();
- t.innerHTML=`<b>Amine · 2026</b><br>USD ${SER[0].d[5].toFixed(1)} Mn`;t.style.left=(c.x-((wr.left-sr.left)/scale)+18)+'px';t.style.top=(c.y-((wr.top-sr.top)/scale)-60)+'px';t.classList.add('on');
- await sleep(1400);t.classList.remove('on');
- await moveTo('#ma-vol',700);hov('#ma-vol');await sleep(600);hov('#ma-vol',false);
- await moveTo('#ct-line',800);await click();maMode='line';await tween(1800,drawMA);await sleep(900);
- await moveTo('#ct-bar',800);await click();maMode='bar';drawMA(1);await sleep(600)}},
+ await caption('03 · DEMAND ANALYSIS','Market size and growth','Market size, CAGR and absolute growth for every segment, in value or volume.');
+ await moveTo('#note-top',800);hov('#note-top');await sleep(800);hov('#note-top',false);
+ await moveTo('#kpi-1',700);await sleep(400);await moveTo('#kpi-cagr',700);await sleep(400);
+ await scrollTo('dash',330,1100);sfx('rise');await tween(1800,drawMA);await sleep(400);
+ await caption('03 · DEMAND ANALYSIS','Segment-level forecasts','Switch to volume, or compare regions in geography mode, year by year.');
+ await moveTo('#ma-vol',800);await click();maType='volume';sfx('rise');await tween(1300,drawMA);await sleep(500);
+ await moveTo('#ma-mode',800);await click();maGeo=true;$('#ma-mode span').textContent='Geography Mode';await sleep(400);
+ await moveTo('#ma-geo',700);await click();sfx('pop');await tween(1300,drawMA);await sleep(500);
+ await scrollTo('dash',560,1100);await moveTo('#ma-leg',800);await sleep(700);
+ await moveTo('.yrb',800);hov('.yrb');await sleep(800);hov('.yrb',false);
+ await moveTo('#ct-line',800);await click();maMode='line';sfx('rise');await tween(1600,drawMA);await sleep(700);
+ await moveTo('#ct-bar',700);await click();maMode='bar';drawMA(1);await sleep(500)}},
 
-{n:'Customer Intelligence',d:15500,run:async()=>{show('dash');setTab('ma');setScroll('dash',0);cursorOn(true);
- caption('05 · CUSTOMER INTELLIGENCE','Customer database','237 verified existing and potential buyers, organised by proposition tier.');
- await goTab('ci');await moveTo('#ci-props .prop',800);await sleep(600);
- await scrollToEl('#ci-db',20,1300);await sleep(800);
- await moveTo('#ci-r1 td',700,-40);await sleep(500);
- caption('05 · CUSTOMER INTELLIGENCE','Procurement intelligence','What each buyer procures — hardener type, cure speed and packaging format.');
- await hScroll(1800,2000);await sleep(600);await hScroll(99999,1800);await moveTo('#ci-pg',700);await sleep(1400);
- await scrollTo('dash',(S.dash||0)+320,1200);await sleep(500)}},
+{n:'Customer Intelligence',d:18000,run:async()=>{show('dash');setTab('ma');setScroll('dash',0);cursorOn(true);
+ await goTab('ci');
+ await caption('04 · CUSTOMER INTELLIGENCE','Customer database','237 verified existing and potential buyers, organised by proposition tier.');
+ await moveTo('#ci-props .prop',800);await sleep(700);
+ await scrollToEl('#ci-db',20,1400);await sleep(600);
+ await moveTo('#ci-r1 td',700,-40);await sleep(400);await hScroll(1800,2600);
+ await caption('04 · CUSTOMER INTELLIGENCE','Procurement intelligence','What each buyer procures — hardener type, cure speed and packaging format.');
+ await hScroll(99999,2000);await moveTo('#ci-pg',700);await sleep(900);
+ await scrollTo('dash',(S.dash||0)+320,1500);await sleep(400)}},
 
-{n:'Distributor Intelligence',d:11800,run:async()=>{show('dash');setTab('ci');setScroll('dash',0);cursorOn(true);
- caption('06 · DISTRIBUTOR INTELLIGENCE','Distributor database','392 distributors across 51 headquarter countries, with 21 fields each.');
- await goTab('di');await sleep(500);await moveTo('#di-incl',700);await sleep(600);
- await scrollToEl('#di-def',20,1300);
- caption('06 · DISTRIBUTOR INTELLIGENCE','Clear inclusion rules','Market definition and distributor criteria are spelled out before the data.');
- await sleep(2200);
- await scrollToEl('#di-table',30,1200);await moveTo('#di-r1 td:nth-child(2)',700);await sleep(600);await moveTo('#di-r2 td:nth-child(7)',700);await sleep(900)}},
+{n:'Distributor Intelligence',d:15000,run:async()=>{show('dash');setTab('ci');setScroll('dash',0);cursorOn(true);
+ await goTab('di');
+ await caption('05 · DISTRIBUTION INTELLIGENCE','Distributor database','392 distributors across 51 headquarter countries, with 21 fields each.');
+ await moveTo('#di-incl',800);await sleep(900);
+ await scrollToEl('#di-def',20,1500);
+ await caption('05 · DISTRIBUTION INTELLIGENCE','Clear inclusion rules','Market and distributor definitions are spelled out before the data.');
+ await sleep(1200);
+ await scrollToEl('#di-table',30,1400);await moveTo('#di-r1 td:nth-child(2)',700);await sleep(700);await moveTo('#di-r2 td:nth-child(7)',800);await sleep(600)}},
 
-{n:'Voice of Customer',d:18500,run:async()=>{show('dash');setTab('di');setScroll('dash',0);cursorOn(true);
- caption('07 · VOICE OF CUSTOMER (B2B)','Buyer survey','140 respondents · 4 sections · 21 questions across five buyer industries.');
- await goTab('voc');donut('d1',D1,0);donut('d2',D2,0);await sleep(900);
- await scrollToEl('#v-buy',30,1200);await moveTo('#v-aero',700);hov('#v-aero');await sleep(500);hov('#v-aero',false);
- await scrollToEl('#v-org',30,1200);
- caption('07 · VOICE OF CUSTOMER (B2B)','Who we spoke to','Procurement managers, materials engineers and plant production leads.');
- await sleep(1500);
- await scrollToEl('#v-sec',30,1200);await moveTo('#vt2',600);hov('#vt2');await sleep(400);hov('#vt2',false);await moveTo('#vt1',600);
- await scrollToEl('#q1',30,1100);await tween(1600,p=>donut('d1',D1,p));
- caption('07 · VOICE OF CUSTOMER (B2B)','Answers with takeaways','Every question is charted and paired with an analyst takeaway.');
- await sleep(1500);await scrollToEl('#q2',30,1200);await tween(1400,p=>donut('d2',D2,p));await sleep(800)}},
+{n:'Voice of Customer',d:22000,run:async()=>{show('dash');setTab('di');setScroll('dash',0);cursorOn(true);
+ await goTab('voc');donut('d1',D1,0);donut('d2',D2,0);
+ await caption('06 · VOICE OF B2B CUSTOMERS','Buyer survey','140 respondents · 4 sections · 21 questions across five buyer industries.');
+ await sleep(600);await scrollToEl('#v-buy',30,1400);await moveTo('#v-aero',700);hov('#v-aero');await sleep(700);hov('#v-aero',false);
+ await scrollToEl('#v-org',30,1400);
+ await caption('06 · VOICE OF B2B CUSTOMERS','Who we spoke to','Procurement managers, materials engineers and plant production leads.');
+ await sleep(800);
+ await scrollToEl('#v-sec',30,1300);await moveTo('#vt2',600);hov('#vt2');await sleep(500);hov('#vt2',false);await moveTo('#vt1',600);
+ await scrollToEl('#q1',30,1200);
+ await caption('06 · VOICE OF B2B CUSTOMERS','Answers with takeaways','Every question is charted and paired with an analyst takeaway.');
+ sfx('rise');await tween(1800,p=>donut('d1',D1,p));await sleep(1200);
+ await scrollToEl('#q2',30,1300);sfx('rise');await tween(1600,p=>donut('d2',D2,p));await sleep(600)}},
 
-{n:'Coherent Quadrant',d:33500,run:async()=>{show('dash');setTab('voc');setScroll('dash',0);cursorOn(true);
- caption('08 · VENDOR INTELLIGENCE','Coherent Quadrant','183 manufacturers scored on product capability (X) and business capability (Y).');
- await goTab('vq');await sleep(1000);
- await scrollToEl('#vq-params',30,1300);
- caption('08 · VENDOR INTELLIGENCE','Ten scoring parameters','Five product parameters and five business parameters define every score.');
- await sleep(1800);
+{n:'Coherent Quadrant',d:45000,run:async()=>{show('dash');setTab('voc');setScroll('dash',0);cursorOn(true);
+ await goTab('vq');
+ await caption('07 · SUPPLIER INTELLIGENCE','Coherent Quadrant','183 manufacturers scored on product capability (X) and business capability (Y).');
+ await moveTo('.vb h2',900);await sleep(1000);
+ await scrollToEl('#vq-params',30,1400);
+ await caption('07 · SUPPLIER INTELLIGENCE','Ten scoring parameters','Five product parameters and five business parameters define every score.');
+ await moveTo('#vq-params .plist div:nth-child(2)',800);await sleep(800);
  document.querySelectorAll('.dot').forEach(d=>d.classList.remove('show'));
- await scrollToEl('#vq-quad',20,1300);
- caption('08 · VENDOR INTELLIGENCE','Quadrant positioning','Leaders, Challengers, Trailblazers and Evolving Players at a glance.');
- for(const d of document.querySelectorAll('.dot')){d.classList.add('show');await sleep(90)}
- await moveTo('#dot-ar i',800);await sleep(800);
- await scrollToEl('#vq-mean',30,1300);await sleep(1800);
- await scrollToEl('#vq-top',20,1300);
- caption('08 · VENDOR INTELLIGENCE','Top 20 companies','Click any score to open its parameter-level breakdown.');
- await sleep(500);await moveTo('#ar-x b',800);await click();$('#ar-row').classList.add('open');await sleep(2200);
- await scrollToEl('#vq-all',30,1400);
- caption('08 · VENDOR INTELLIGENCE','All 163 assessed companies','Search by brand, company or headquarters and filter by quadrant.');
+ await scrollToEl('#vq-quad',20,1400);
+ await caption('07 · SUPPLIER INTELLIGENCE','Quadrant positioning','Leaders, Challengers, Trailblazers and Evolving Players at a glance.');
+ for(const d of document.querySelectorAll('.dot')){d.classList.add('show');sfx('pop');await sleep(110)}
+ await moveTo('#dot-ar i',800);await sleep(700);
+ await scrollToEl('#vq-mean',30,1400);await sleep(900);
+ await scrollToEl('#vq-top',20,1400);
+ await caption('07 · SUPPLIER INTELLIGENCE','Top 20 companies','Click any score to open its parameter-level breakdown.');
+ await moveTo('#ar-x b',900);await click();$('#ar-row').classList.add('open');sfx('open');await sleep(1800);
+ await scrollToEl('#vq-all',30,1500);
+ await caption('07 · SUPPLIER INTELLIGENCE','All 163 assessed companies','Search by brand, company or headquarters and filter by quadrant.');
  await moveTo('#all-in',700);await click();const ai=$('#all-in');ai.classList.add('focus');ai.textContent='';
- for(const ch of 'France'){ai.textContent+=ch;await sleep(115)}
- document.querySelectorAll('.allr').forEach(r=>r.style.display=r.dataset.s.includes('france')?'':'none');$('#all-n').textContent='2 companies';await sleep(1200);
- await scrollToEl('#vq-pd',20,1400);
- caption('08 · VENDOR INTELLIGENCE','Evidence behind every score','Each parameter shows its scoring rationale and supporting points.');
- await sleep(1300);
- await moveTo('#pd-xl-in [data-p="Cure Speed Portfolio"]',800);await click();setPD('Cure Speed Portfolio');await sleep(2200);
- await scrollToEl('#pd-y',30,1300);await sleep(2000)}},
+ for(const ch of 'France'){ai.textContent+=ch;sfx('key');await sleep(130)}
+ document.querySelectorAll('.allr').forEach(r=>r.style.display=r.dataset.s.includes('france')?'':'none');$('#all-n').textContent='2 companies';await sleep(1000);
+ await scrollToEl('#vq-pd',20,1500);
+ await caption('07 · SUPPLIER INTELLIGENCE','Evidence behind every score','Each parameter shows its scoring rationale and supporting points.');
+ await moveTo('#pd-xl-in [data-p="Cure Speed Portfolio"]',900);await click();setPD('Cure Speed Portfolio');sfx('open');await sleep(1800);
+ await scrollToEl('#pd-y',30,1500);await sleep(800)}},
 
-{n:'Outro',d:6500,run:async()=>{capOff();cursorOn(false);ov('outro',true);await sleep(6200)}}
+{n:'Outro',d:9000,run:async()=>{capOff();cursorOn(false);ov('outro',true);sfx('chime');await sleep(500);await say('outro');await sleep(voEnd-clock+1800)}}
 ];
 
 /* ---------------- player ---------------- */
@@ -865,11 +912,11 @@ const fmt=ms=>{const s=Math.floor(ms/1000);return Math.floor(s/60)+':'+String(s%
 function drawProgress(){const segs=bar.children;let el=0;for(let i=0;i<CH.length;i++){let f=i<curCh?1:i>curCh?0:Math.min(1,(clock-chStart)/CH[i].d);segs[i].firstChild.style.width=(f*100)+'%';if(i<curCh)el+=CH[i].d;else if(i===curCh)el+=f*CH[i].d}
  [...chips.children].forEach((c,i)=>c.classList.toggle('on',i===curCh));$('#time').textContent=fmt(el)+' / '+fmt(TOTAL)}
 let ended=false;
-async function playFrom(i){gen++;const ws=waiters;waiters=[];ws.forEach(w=>w.res());const my=gen;ended=false;
+async function playFrom(i){gen++;const ws=waiters;waiters=[];ws.forEach(w=>w.res());const my=gen;ended=false;voEnd=0;
  document.querySelectorAll('.ov').forEach(o=>o.classList.remove('on'));clearHov();$('#tip').classList.remove('on');
  if(!playing){playing=true;updBtn()}
  for(let k=i;k<CH.length;k++){curCh=k;chStart=clock;clearHov();
-  try{await CH[k].run();const rem=CH[k].d-(clock-chStart);if(rem>0)await sleep(rem)}catch(e){if(e instanceof Abort)return;console.error(e);return}
+  try{await CH[k].run();if(clock<voEnd)await sleep(voEnd-clock+500);const rem=CH[k].d-(clock-chStart);if(rem>0)await sleep(rem)}catch(e){if(e instanceof Abort)return;console.error(e);return}
   if(my!==gen)return}
  ended=true;playing=false;updBtn();$('#play').textContent='↺ Replay'}
 function updBtn(){$('#play').textContent=playing?'❚❚ Pause':'▶ Play'}

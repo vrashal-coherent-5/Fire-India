@@ -96,19 +96,13 @@
 
   /* ---------- Product demo ---------- */
   .vdemo{display:none;flex-direction:column;align-items:center;text-align:center;gap:14px;margin:0 0 24px;padding:22px;border:1px solid var(--line);border-top:3px solid var(--accent-1);border-radius:16px;background:#fff}
-  body.healthcare-pharma .vdemo{display:flex}
+  body.adhesive .vdemo,body.healthcare-pharma .vdemo{display:flex}
   .vd-txt{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:0;max-width:620px}
   .vd-txt b{font-size:17px;color:var(--ink)}
   .vd-txt span{font-size:13.5px;line-height:1.55;color:var(--muted)}
   .vd-player{flex:none;width:min(880px,100%);aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#060a17;box-shadow:0 14px 34px -16px rgba(6,10,23,.55)}
   .vd-player iframe{width:100%;height:100%;border:0;display:block}
 
-
-  /* ---------- Platform walkthrough ---------- */
-  .demo{display:none;margin:44px 0 0}
-  body.adhesive .demo{display:block}
-  body.chooser .demo{display:none}
-  .demo iframe{display:block;width:100%;aspect-ratio:16/9;border:0;border-radius:20px;background:#fff;box-shadow:0 20px 50px -20px rgba(15,31,51,.25)}
 
   .toolbar{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin:44px 0 24px;flex-wrap:wrap}
   .toolbar h2{font-size:26px;font-weight:800;letter-spacing:-.01em}
@@ -282,10 +276,6 @@
     </div>
   </div>
 
-  <section class="demo" id="demo">
-    <iframe id="demoFrame" title="Coherent Insights Vault platform walkthrough" loading="lazy"></iframe>
-  </section>
-
   <div class="toolbar">
     <div>
       <h2 id="secTitle">Fire Ecosystem Industry Analysis</h2>
@@ -298,7 +288,7 @@
   </div>
 
   <section class="vdemo" id="vdemo">
-    <span class="vd-txt"><b>Product demo</b><span>A one-minute tour of the Insight Vault &mdash; click the video for sound.</span></span>
+    <span class="vd-txt"><b id="vdTitle">Product demo</b><span id="vdSub"></span></span>
     <div class="vd-player"><iframe id="vdFrame" title="Coherent Insight Vault product demo" allow="autoplay; fullscreen"></iframe></div>
   </section>
 
@@ -1263,26 +1253,30 @@ function setTab(t){
   ht.textContent = META[t].title;
   ht.classList.toggle('long', META[t].title.length > 120);
   document.getElementById('secSub').textContent = META[t].sub;
-  setDemo(t === 'adhesive');
-  setVideo(t === 'healthcare-pharma');
+  setVideo(t);
   render();
 }
 
-// The walkthrough only plays on the adhesive page, so it is loaded on demand.
-// Its embedded copy shows the 16:9 recording alone, so the iframe needs no
-// measuring: the aspect-ratio above matches the stage exactly.
-const demoFrame = document.getElementById('demoFrame');
-function setDemo(on){
-  if (!on) { demoFrame.removeAttribute('src'); return; }
-  if (!demoFrame.getAttribute('src')) demoFrame.src = '/platform-demo.html';
-}
-
-// The demo is 5MB of inlined frames, so it is only fetched on the one page that
-// shows it, and dropped again on the way out so its timers stop with it.
+// Two ecosystems carry a demo. Both are heavy (the pharma one is 5MB of inlined
+// frames), so each is fetched only on its own page and dropped again on the way
+// out, which stops its timers with it. Both run 16:9, matching .vd-player.
+const DEMO = {
+  adhesive: {
+    src: '/platform-demo.html',
+    sub: 'A guided walkthrough of the vault \u2014 taxonomy, market sizing, customers, distributors and the Coherent Quadrant.',
+  },
+  'healthcare-pharma': {
+    src: '/pharma-demo.html?auto=1',
+    sub: 'A one-minute tour of the Insight Vault \u2014 click the video for sound.',
+  },
+};
 const vdFrame = document.getElementById('vdFrame');
-function setVideo(on){
-  if (!on) { vdFrame.removeAttribute('src'); return; }
-  if (!vdFrame.getAttribute('src')) vdFrame.src = '/pharma-demo.html?auto=1';
+let vdFor = null;
+function setVideo(t){
+  const d = DEMO[t];
+  if (!d) { vdFrame.removeAttribute('src'); vdFor = null; return; }
+  if (vdFor !== t) { vdFrame.src = d.src; vdFor = t; }
+  document.getElementById('vdSub').textContent = d.sub;
 }
 
 // Each ecosystem lives at its own path (/fire, /drone) and has its own login.
